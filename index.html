@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>虎機魚機 AI 競賽</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ========== DESIGN SYSTEM ========== */
+:root {
+  --bg: #0a0a2e;
+  --bg2: #12123a;
+  --gold: #ffd700;
+  --cyan: #00d4ff;
+  --green: #00ff88;
+  --magenta: #ff006e;
+  --orange: #ff8c00;
+  --silver: #c0c0c0;
+  --bronze: #cd7f32;
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+  --glass-strong: rgba(255,255,255,0.1);
+  --text: #f0f0f0;
+  --text-dim: rgba(255,255,255,0.55);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+/* ========== BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(255,215,0,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 20%, rgba(0,212,255,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 85%, rgba(255,0,110,0.03) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========== PROGRESS BAR ========== */
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
+  background: linear-gradient(90deg, var(--gold), var(--cyan), var(--magenta));
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 12px rgba(255,215,0,0.4);
+}
+
+/* ========== SLIDE CONTAINER ========== */
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem 4rem;
+  opacity: 0;
+  transform: translateY(24px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.slide.active {
+  opacity: 1; transform: translateY(0); pointer-events: auto;
+}
+
+.slide-inner {
+  width: 100%; max-width: 1100px;
+  display: flex; flex-direction: column;
+  gap: 2rem;
+}
+
+/* ========== TYPOGRAPHY ========== */
+.slide-tag {
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); opacity: 0.8;
+}
+.slide-title {
+  font-size: 2.2rem; font-weight: 900; line-height: 1.3;
+}
+.slide-subtitle {
+  font-size: 1rem; color: var(--text-dim); line-height: 1.6; max-width: 700px;
+}
+.highlight { color: var(--gold); font-weight: 700; }
+.highlight-cyan { color: var(--cyan); font-weight: 700; }
+.highlight-green { color: var(--green); font-weight: 700; }
+.highlight-magenta { color: var(--magenta); font-weight: 700; }
+
+/* ========== GLASS CARD ========== */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.card-icon {
+  font-size: 2rem; margin-bottom: 0.75rem;
+}
+.card-label {
+  font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem;
+}
+.card-desc {
+  font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;
+}
+
+/* ========== FLOW DIAGRAM ========== */
+.flow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.6rem; flex-wrap: wrap;
+}
+.flow-node {
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1.4rem;
+  font-weight: 600; font-size: 0.95rem;
+  white-space: nowrap;
+  position: relative;
+}
+.flow-node.accent { border-color: var(--gold); color: var(--gold); }
+.flow-node.cyan { border-color: var(--cyan); color: var(--cyan); }
+.flow-node.green { border-color: var(--green); }
+.flow-arrow {
+  font-size: 1.3rem; color: var(--gold); opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* ========== GRID LAYOUTS ========== */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+
+/* ========== ANIMATIONS ========== */
+.slide.active .anim { animation: fadeUp 0.6s ease both; }
+.slide.active .anim:nth-child(1) { animation-delay: 0.05s; }
+.slide.active .anim:nth-child(2) { animation-delay: 0.12s; }
+.slide.active .anim:nth-child(3) { animation-delay: 0.19s; }
+.slide.active .anim:nth-child(4) { animation-delay: 0.26s; }
+.slide.active .anim:nth-child(5) { animation-delay: 0.33s; }
+.slide.active .anim:nth-child(6) { animation-delay: 0.40s; }
+.slide.active .anim:nth-child(7) { animation-delay: 0.47s; }
+.slide.active .anim:nth-child(8) { animation-delay: 0.54s; }
+.slide.active .anim:nth-child(9) { animation-delay: 0.61s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ========== NAVIGATION ========== */
+.nav-dots {
+  position: fixed; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 99;
+}
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); cursor: pointer;
+  transition: all 0.3s;
+  border: none; outline: none;
+}
+.nav-dot.active { background: var(--gold); transform: scale(1.4); box-shadow: 0 0 8px rgba(255,215,0,0.5); }
+.nav-dot:hover { background: rgba(255,255,255,0.5); }
+
+.nav-arrow {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-size: 1.6rem; color: rgba(255,255,255,0.25); cursor: pointer;
+  padding: 1rem; z-index: 99; transition: color 0.3s;
+  background: none; border: none; outline: none;
+  user-select: none;
+}
+.nav-arrow:hover { color: var(--gold); }
+.nav-prev { left: 0.8rem; }
+.nav-next { right: 0.8rem; }
+
+.page-num {
+  position: fixed; bottom: 1.2rem; right: 2rem;
+  font-size: 0.75rem; color: var(--text-dim); z-index: 99;
+}
+
+/* ============================================================
+   SLIDE-SPECIFIC STYLES
+   ============================================================ */
+
+/* --- COVER --- */
+.cover-title {
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  font-weight: 900; line-height: 1.15;
+  background: linear-gradient(135deg, var(--gold) 0%, #ffaa00 40%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cover-sub {
+  font-size: 1.15rem; color: var(--text-dim); margin-top: 0.4rem; font-weight: 300;
+}
+.cover-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.25);
+  border-radius: 99px; padding: 0.5rem 1.2rem;
+  font-size: 0.85rem; color: var(--gold); font-weight: 500;
+  margin-top: 1.5rem;
+}
+.cover-hint {
+  font-size: 0.75rem; color: var(--text-dim); margin-top: 2.5rem;
+  animation: pulse 2s infinite;
+}
+
+/* --- DONUT CHART --- */
+.donut-wrap { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; justify-content: center; }
+.donut {
+  width: 200px; height: 200px; border-radius: 50%;
+  background: conic-gradient(
+    var(--gold) 0% 30%,
+    var(--cyan) 30% 60%,
+    var(--green) 60% 80%,
+    var(--magenta) 80% 100%
+  );
+  position: relative; flex-shrink: 0;
+}
+.donut::after {
+  content: ''; position: absolute;
+  inset: 28%; background: var(--bg); border-radius: 50%;
+}
+.donut-center {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; font-weight: 700; text-align: center;
+  z-index: 1; line-height: 1.4;
+}
+.legend { display: flex; flex-direction: column; gap: 0.75rem; }
+.legend-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; }
+.legend-swatch {
+  width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
+}
+.legend-pct { font-weight: 700; min-width: 36px; }
+
+/* --- SCORE DETAIL BARS --- */
+.score-bars { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
+.score-bar-row {
+  display: grid; grid-template-columns: 140px 1fr 50px; gap: 1rem; align-items: center;
+  font-size: 0.85rem;
+}
+.score-bar-track {
+  height: 8px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden;
+}
+.score-bar-fill {
+  height: 100%; border-radius: 99px;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slide.active .score-bar-fill { transform: scaleX(1); }
+.score-bar-pct { font-weight: 700; text-align: right; }
+
+/* --- TIMELINE --- */
+.timeline {
+  position: relative; display: flex; align-items: flex-start;
+  padding: 2.5rem 0 0;
+}
+.timeline-track {
+  position: absolute; top: 2.5rem; left: 0; right: 0; height: 4px;
+  background: rgba(255,255,255,0.1); border-radius: 2px;
+}
+.timeline-fill {
+  position: absolute; top: 2.5rem; left: 0; height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+}
+.timeline-seg {
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; text-align: center;
+}
+.timeline-dot {
+  width: 16px; height: 16px; border-radius: 50%; border: 3px solid;
+  background: var(--bg); position: relative; z-index: 1;
+  margin-bottom: 0.75rem;
+}
+.timeline-dot.gold { border-color: var(--gold); }
+.timeline-dot.cyan { border-color: var(--cyan); }
+.timeline-phase {
+  font-size: 0.8rem; font-weight: 700; margin-bottom: 0.25rem;
+}
+.timeline-desc {
+  font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; max-width: 130px;
+}
+.timeline-spacer {
+  flex: 1; position: relative;
+}
+
+/* --- PRIZE TIERS --- */
+.prize-row {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+}
+.prize-card {
+  text-align: center; padding: 1.5rem 1.8rem; min-width: 140px;
+}
+.prize-icon { font-size: 2.2rem; margin-bottom: 0.4rem; }
+.prize-rank { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+.prize-amount { font-size: 1.5rem; font-weight: 900; }
+.prize-card.gold { border-color: rgba(255,215,0,0.35); }
+.prize-card.gold .prize-amount { color: var(--gold); }
+.prize-card.silver { border-color: rgba(192,192,192,0.3); }
+.prize-card.silver .prize-amount { color: var(--silver); }
+.prize-card.bronze { border-color: rgba(205,127,50,0.3); }
+.prize-card.bronze .prize-amount { color: var(--bronze); }
+.prize-extra {
+  font-size: 0.85rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem;
+}
+
+/* --- CONVERGENCE DIAGRAM --- */
+.converge {
+  display: flex; align-items: center; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+}
+.converge-inputs { display: flex; flex-direction: column; gap: 0.8rem; }
+.converge-merge {
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  color: var(--gold); font-size: 1.5rem;
+}
+.converge-merge span { font-size: 0.7rem; opacity: 0.6; letter-spacing: 2px; }
+.converge-outputs { display: flex; flex-direction: column; gap: 0.8rem; }
+
+/* --- CHECKLIST --- */
+.checklist { display: flex; flex-direction: column; gap: 0.6rem; }
+.check-item {
+  display: flex; align-items: center; gap: 0.8rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1.2rem; font-size: 0.9rem;
+}
+.check-icon {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; flex-shrink: 0;
+}
+.check-icon.ok { background: rgba(0,255,136,0.15); color: var(--green); }
+.check-icon.no { background: rgba(255,0,110,0.15); color: var(--magenta); }
+
+/* --- LAYER ARCH --- */
+.layer-arch { display: flex; flex-direction: column; gap: 0; align-items: center; }
+.layer {
+  width: 90%; max-width: 600px; text-align: center;
+  padding: 1.2rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
+  position: relative;
+}
+.layer-connector {
+  width: 2px; height: 28px; background: rgba(255,255,255,0.15); position: relative;
+}
+.layer-connector::after {
+  content: ''; position: absolute; bottom: -3px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-top: 6px solid rgba(255,255,255,0.15);
+}
+.layer.top { background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.25); }
+.layer.mid { background: rgba(255,215,0,0.08); border-color: rgba(255,215,0,0.25); }
+.layer.bot { background: rgba(0,255,136,0.08); border-color: rgba(0,255,136,0.25); }
+.layer-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
+.layer-detail { font-size: 0.8rem; color: var(--text-dim); }
+
+/* --- TRACK SPLIT --- */
+.track-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.track-card { text-align: center; padding: 2rem 1.5rem; }
+.track-card .track-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+.track-card .track-name { font-size: 1.3rem; font-weight: 900; }
+.track-tiger { border-color: rgba(255,140,0,0.3); background: rgba(255,140,0,0.05); }
+.track-fish { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.05); }
+
+/* --- CTA --- */
+.cta-box {
+  text-align: center; padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,212,255,0.08));
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: var(--radius);
+}
+.cta-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.5rem; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .slide { padding: 2rem 1.5rem; }
+  .slide-title { font-size: 1.6rem; }
+  .cover-title { font-size: 2.2rem; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .donut-wrap { flex-direction: column; gap: 1.5rem; }
+  .converge { flex-direction: column; }
+  .track-split { grid-template-columns: 1fr; }
+  .score-bar-row { grid-template-columns: 100px 1fr 40px; font-size: 0.78rem; }
+  .nav-arrow { display: none; }
+  .timeline { flex-wrap: wrap; gap: 0.5rem; }
+  .flow { gap: 0.4rem; }
+  .flow-node { padding: 0.6rem 1rem; font-size: 0.82rem; }
+  .layer { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress" id="progress" style="width: 0%"></div>
+
+<!-- ===================== SLIDES ===================== -->
+<div class="deck" id="deck">
+
+<!-- ===== SLIDE 0: COVER ===== -->
+<section class="slide active" data-slide="0">
+  <div class="slide-inner" style="align-items: center; text-align: center; gap: 0.5rem;">
+    <div class="anim cover-badge">IGS 商用事業處</div>
+    <h1 class="anim cover-title" style="animation-delay:0.1s">虎機魚機<br>AI 競賽</h1>
+    <p class="anim cover-sub" style="animation-delay:0.2s">以 AI 顛覆傳統製程 &middot; 點燃創新火花</p>
+    <p class="anim cover-sub" style="animation-delay:0.3s; font-size:0.9rem; margin-top:0.5rem;">
+      <span class="highlight">製程重塑</span> &nbsp;&bull;&nbsp;
+      <span class="highlight-cyan">效率提升</span> &nbsp;&bull;&nbsp;
+      <span class="highlight-green">品質突破</span>
+    </p>
+    <p class="anim cover-hint" style="animation-delay:0.5s">按 &rarr; 或點擊右側開始瀏覽</p>
+  </div>
+</section>
+
+<!-- ===== SLIDE 1: ORIGIN ===== -->
+<section class="slide" data-slide="1">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">ORIGIN</span>
+      <h2 class="anim slide-title">緣起與願景</h2>
+    </div>
+
+    <!-- Flow: 陳總 → 分享會 → 競賽 -->
+    <div class="anim flow" style="margin: 0.5rem 0;">
+      <div class="flow-node accent">陳總倡議</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">商用事業處<br>AI 應用分享會</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node cyan">競賽啟動</div>
+    </div>
+
+    <p class="anim slide-subtitle">
+      藉由實戰競賽，驗證新技術與新思維如何有效<span class="highlight">縮短開發時程</span>及<span class="highlight-cyan">提升遊戲品質</span>，建立可推廣的優化方案。
+    </p>
+
+    <!-- 三大目標 -->
+    <div class="anim grid-3">
+      <div class="card anim" style="border-left: 3px solid var(--gold);">
+        <div class="card-icon">&#9881;</div>
+        <div class="card-label" style="color:var(--gold)">製程重塑</div>
+        <div class="card-desc">顛覆傳統老虎機與捕魚機的開發製程想像</div>
+      </div>
+      <div class="card anim" style="border-left: 3px solid var(--cyan);">
+        <div class="card-icon">&#9889;</div>
+        <div class="card-label" style="color:var(--cyan)">效率提升</div>
+        <div class="card-desc">以 AI 加速開發生命週期，縮短各環節耗時</div>
+      </div>
+      <div class="card anim" style="border-left: 3px solid var(--green);">
+        <div class="card-icon">&#9733;</div>
+        <div class="card-label" style="color:var(--green)">品質突破</div>
+        <div class="card-desc">產出具實戰商用價值的高品質成品</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 2: THREE APPROACHES ===== -->
+<section class="slide" data-slide="2">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">APPROACH</span>
+      <h2 class="anim slide-title">多元切入面向</h2>
+      <p class="anim slide-subtitle">鼓勵參賽隊伍以多元視角切入，三大方向皆受歡迎</p>
+    </div>
+
+    <div class="anim converge">
+      <!-- Inputs -->
+      <div class="converge-inputs">
+        <div class="flow-node anim" style="border-color: var(--gold); min-width: 180px;">
+          <span style="color:var(--gold)">&#9670;</span>&ensp;前端創意展演
+        </div>
+        <div class="flow-node anim" style="border-color: var(--cyan); min-width: 180px;">
+          <span style="color:var(--cyan)">&#9670;</span>&ensp;AI 技術整合
+        </div>
+        <div class="flow-node anim" style="border-color: var(--green); min-width: 180px;">
+          <span style="color:var(--green)">&#9670;</span>&ensp;製程痛點突破
+        </div>
+      </div>
+
+      <!-- Merge Arrow -->
+      <div class="converge-merge anim">
+        <span>CONVERGE</span>
+        <div style="font-size:2rem;">&rArr;</div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="converge-outputs">
+        <div class="flow-node anim" style="border-color: var(--gold); background:rgba(255,215,0,0.08); font-weight:800;">
+          &#9201; 縮短開發時程
+        </div>
+        <div class="flow-node anim" style="border-color: var(--cyan); background:rgba(0,212,255,0.08); font-weight:800;">
+          &#9733; 提升遊戲品質
+        </div>
+      </div>
+    </div>
+
+    <p class="anim" style="font-size:0.82rem; color:var(--text-dim); text-align:center; margin-top:0.5rem;">
+      無論聚焦哪個面向，最終目標皆為透過專案實戰，建立<span class="highlight">可推廣的優化方案</span>
+    </p>
+  </div>
+</section>
+
+<!-- ===== SLIDE 3: SCORING DIMENSIONS ===== -->
+<section class="slide" data-slide="3">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">SCORING</span>
+      <h2 class="anim slide-title">四大評分維度</h2>
+    </div>
+
+    <div class="anim donut-wrap">
+      <!-- Donut Chart -->
+      <div style="position:relative;">
+        <div class="donut"></div>
+        <div class="donut-center">四大<br>維度</div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:var(--gold)"></span>
+          <span class="legend-pct" style="color:var(--gold)">30%</span>
+          <span>優化效益</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:var(--cyan)"></span>
+          <span class="legend-pct" style="color:var(--cyan)">30%</span>
+          <span>AI 與新技術應用</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:var(--green)"></span>
+          <span class="legend-pct" style="color:var(--green)">20%</span>
+          <span>方案共用性與落地</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:var(--magenta)"></span>
+          <span class="legend-pct" style="color:var(--magenta)">20%</span>
+          <span>產品完整度與實證</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail bars -->
+    <div class="anim score-bars">
+      <div class="score-bar-row">
+        <span style="color:var(--gold)">優化效益</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:100%; background:var(--gold);"></div></div>
+        <span class="score-bar-pct" style="color:var(--gold)">30%</span>
+      </div>
+      <div class="score-bar-row">
+        <span style="color:var(--cyan)">AI 技術應用</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:100%; background:var(--cyan);"></div></div>
+        <span class="score-bar-pct" style="color:var(--cyan)">30%</span>
+      </div>
+      <div class="score-bar-row">
+        <span style="color:var(--green)">方案共用與落地</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:66%; background:var(--green);"></div></div>
+        <span class="score-bar-pct" style="color:var(--green)">20%</span>
+      </div>
+      <div class="score-bar-row">
+        <span style="color:var(--magenta)">產品完整度</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:66%; background:var(--magenta);"></div></div>
+        <span class="score-bar-pct" style="color:var(--magenta)">20%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 4: SCORING DETAIL ===== -->
+<section class="slide" data-slide="4">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">SCORING DETAIL</span>
+      <h2 class="anim slide-title">各維度評分重點</h2>
+    </div>
+
+    <div class="anim grid-2">
+      <div class="card anim" style="border-top: 3px solid var(--gold);">
+        <div class="card-label" style="color:var(--gold);">&#9670; 優化效益 (30%)</div>
+        <div class="card-desc">以<strong>客觀數據</strong>證明新工具或流程確實解決<strong>部門開發痛點</strong>，帶來顯著的時間縮短或品質躍升</div>
+      </div>
+      <div class="card anim" style="border-top: 3px solid var(--cyan);">
+        <div class="card-label" style="color:var(--cyan);">&#9670; AI 與新技術應用 (30%)</div>
+        <div class="card-desc">工具覆蓋<strong>多個開發生命週期</strong>，展現<strong>跨職能串聯</strong>的高效工作流，非單一職能孤島應用</div>
+      </div>
+      <div class="card anim" style="border-top: 3px solid var(--green);">
+        <div class="card-label" style="color:var(--green);">&#9670; 方案共用性與落地 (20%)</div>
+        <div class="card-desc">優化成果能<strong>複製至事業處其他專案</strong>，具備推廣價值與落地可行性</div>
+      </div>
+      <div class="card anim" style="border-top: 3px solid var(--magenta);">
+        <div class="card-label" style="color:var(--magenta);">&#9670; 產品完整度與實證 (20%)</div>
+        <div class="card-desc">產出成品具備<strong>穩定性與高標準品質</strong>，有實戰商用價值</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 5: EXPERT PANEL ===== -->
+<section class="slide" data-slide="5">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">JUDGES</span>
+      <h2 class="anim slide-title">三方專家聯合評審</h2>
+      <p class="anim slide-subtitle">不同視角的專家把關，確保獲獎作品具備指標性意義</p>
+    </div>
+
+    <div class="anim grid-3">
+      <div class="card anim" style="border-top: 3px solid var(--gold); text-align:center;">
+        <div class="card-icon">&#128188;</div>
+        <div class="card-label" style="color:var(--gold)">高階主管</div>
+        <div class="card-desc">
+          <strong>商業潛力</strong><br>
+          優化方案在全事業處<br>落地的可行性與價值
+        </div>
+      </div>
+      <div class="card anim" style="border-top: 3px solid var(--cyan); text-align:center;">
+        <div class="card-icon">&#127918;</div>
+        <div class="card-label" style="color:var(--cyan)">產品開發專家</div>
+        <div class="card-desc">
+          <strong>製作人視角</strong><br>
+          製程完整度、跨職能協作<br>遊戲性與品質
+        </div>
+      </div>
+      <div class="card anim" style="border-top: 3px solid var(--green); text-align:center;">
+        <div class="card-icon">&#128187;</div>
+        <div class="card-label" style="color:var(--green)">技術專家</div>
+        <div class="card-desc">
+          <strong>技術深度</strong><br>
+          AI 架構穩定性<br>創新突破程度
+        </div>
+      </div>
+    </div>
+
+    <!-- Convergence -->
+    <div class="anim" style="text-align:center;">
+      <div style="color:var(--text-dim); font-size:1.2rem; margin-bottom:0.3rem;">&#9660; &ensp; &#9660; &ensp; &#9660;</div>
+      <div class="flow-node accent" style="display:inline-block; font-size:1rem; padding:0.7rem 2rem;">
+        &#9733; 聯合評審決議
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 6: GROUPS & PRIZES ===== -->
+<section class="slide" data-slide="6">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">TRACKS &amp; PRIZES</span>
+      <h2 class="anim slide-title">競賽組別與獎勵</h2>
+    </div>
+
+    <!-- Two Tracks -->
+    <div class="anim track-split">
+      <div class="card track-card track-tiger anim">
+        <div class="track-icon">&#127920;</div>
+        <div class="track-name" style="color:var(--orange)">老虎機組</div>
+      </div>
+      <div class="card track-card track-fish anim">
+        <div class="track-icon">&#127907;</div>
+        <div class="track-name" style="color:var(--cyan)">捕魚機組</div>
+      </div>
+    </div>
+
+    <!-- Prize Tiers -->
+    <div class="anim prize-row">
+      <div class="card prize-card gold anim">
+        <div class="prize-icon">&#127942;</div>
+        <div class="prize-rank">金賞</div>
+        <div class="prize-amount">NT$ 50,000</div>
+      </div>
+      <div class="card prize-card silver anim">
+        <div class="prize-icon">&#129352;</div>
+        <div class="prize-rank">銀賞</div>
+        <div class="prize-amount">NT$ 30,000</div>
+      </div>
+      <div class="card prize-card bronze anim">
+        <div class="prize-icon">&#129353;</div>
+        <div class="prize-rank">銅賞</div>
+        <div class="prize-amount">NT$ 20,000</div>
+      </div>
+    </div>
+    <p class="anim prize-extra">視參賽隊伍數量增設 <span class="highlight">創意獎</span>、<span class="highlight">佳作獎</span> NT$5,000</p>
+  </div>
+</section>
+
+<!-- ===== SLIDE 7: TIMELINE ===== -->
+<section class="slide" data-slide="7">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">TIMELINE</span>
+      <h2 class="anim slide-title">賽程時間軸 &mdash; 總計 3.5 個月</h2>
+      <p class="anim slide-subtitle">特別拉長賽程，避免擠壓原有專案時程，給予充裕的研發與優化時間</p>
+    </div>
+
+    <!-- Timeline Visual -->
+    <div class="anim" style="padding: 0 1rem;">
+      <div class="timeline" style="justify-content: space-between;">
+        <div class="timeline-fill" style="width: 100%;"></div>
+
+        <!-- Start -->
+        <div class="timeline-seg anim" style="min-width: 80px;">
+          <div class="timeline-dot gold"></div>
+          <div class="timeline-phase" style="color:var(--gold)">啟動</div>
+          <div class="timeline-desc">Week 1</div>
+        </div>
+
+        <!-- Phase 1 -->
+        <div class="timeline-spacer">
+          <div style="position:absolute; top: 30px; left:50%; transform:translateX(-50%); text-align:center;">
+            <div style="font-size:0.72rem; color:var(--gold); font-weight:700;">規劃期</div>
+            <div style="font-size:0.65rem; color:var(--text-dim);">1.5 個月</div>
+          </div>
+        </div>
+
+        <!-- CP1 -->
+        <div class="timeline-seg anim" style="min-width: 110px;">
+          <div class="timeline-dot gold" style="background:var(--gold);"></div>
+          <div class="timeline-phase" style="color:var(--gold)">Checkpoint 1</div>
+          <div class="timeline-desc">Week 6<br>提出規劃藍圖</div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="timeline-spacer">
+          <div style="position:absolute; top: 30px; left:50%; transform:translateX(-50%); text-align:center;">
+            <div style="font-size:0.72rem; color:var(--cyan); font-weight:700;">開發期</div>
+            <div style="font-size:0.65rem; color:var(--text-dim);">2 個月</div>
+          </div>
+        </div>
+
+        <!-- CP2 -->
+        <div class="timeline-seg anim" style="min-width: 110px;">
+          <div class="timeline-dot cyan" style="background:var(--cyan);"></div>
+          <div class="timeline-phase" style="color:var(--cyan)">Checkpoint 2</div>
+          <div class="timeline-desc">Week 14<br>最終成果發表會</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase detail cards -->
+    <div class="anim grid-2" style="margin-top: 0.5rem;">
+      <div class="card anim" style="border-left: 3px solid var(--gold);">
+        <div class="card-label" style="color:var(--gold);">Phase 1 &mdash; 規劃期 (Week 1-6)</div>
+        <div class="card-desc">團隊組建、研究 AI 工具、制定方案藍圖，<br>於 CP1 提出規劃報告</div>
+      </div>
+      <div class="card anim" style="border-left: 3px solid var(--cyan);">
+        <div class="card-label" style="color:var(--cyan);">Phase 2 &mdash; 開發期 (Week 7-14)</div>
+        <div class="card-desc">將新方法實質落實於開發環節，<br>於 CP2 進行成果發表</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 8: SUPPORT ===== -->
+<section class="slide" data-slide="8">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">SUPPORT</span>
+      <h2 class="anim slide-title">參賽與支援機制</h2>
+    </div>
+
+    <!-- Layer Architecture -->
+    <div class="anim layer-arch">
+      <div class="layer top anim">
+        <div class="layer-title" style="color:var(--cyan);">各部門參賽團隊</div>
+        <div class="layer-detail">鼓勵各部門至少指派一隊主力參加（不限報名組數）<br>打破部門藩籬 &bull; 跨職能合作</div>
+      </div>
+      <div class="layer-connector anim"></div>
+      <div class="layer mid anim">
+        <div class="layer-title" style="color:var(--gold);">跨職能協作模式</div>
+        <div class="layer-detail">企劃 &bull; 美術 &bull; 程式 &bull; QA &bull; 音效 &bull; PM &hellip;<br>團隊成員 + AI 工具協作完成</div>
+      </div>
+      <div class="layer-connector anim"></div>
+      <div class="layer bot anim">
+        <div class="layer-title" style="color:var(--green);">RD7 AI 組 &mdash; 技術後盾</div>
+        <div class="layer-detail">提供專業 AI 諮詢與技術支援<br>協助團隊克服技術障礙</div>
+      </div>
+    </div>
+
+    <div class="anim" style="text-align:center; margin-top:1rem;">
+      <div class="flow-node accent" style="display:inline-block; font-size:0.85rem;">
+        &#128161; 有任何 AI 技術問題，隨時向 RD7 AI 組尋求協助
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 9: COMPLIANCE ===== -->
+<section class="slide" data-slide="9">
+  <div class="slide-inner">
+    <div>
+      <span class="anim slide-tag">COMPLIANCE</span>
+      <h2 class="anim slide-title">防弊與合規驗證</h2>
+      <p class="anim slide-subtitle">確保成果真實性與公正性</p>
+    </div>
+
+    <!-- Required deliverables -->
+    <div style="margin-bottom: 0.5rem;">
+      <div class="anim" style="font-size:0.9rem; font-weight:700; margin-bottom:0.8rem; color:var(--green);">
+        &#9989; 成果發表必須涵蓋
+      </div>
+      <div class="checklist">
+        <div class="check-item anim">
+          <div class="check-icon ok">&#10003;</div>
+          <span><strong>工具清單</strong> &mdash; 完整列出使用的 AI 工具與新技術</span>
+        </div>
+        <div class="check-item anim">
+          <div class="check-icon ok">&#10003;</div>
+          <span><strong>應用環節軌跡紀錄</strong> &mdash; 記錄 AI 在各開發階段的使用過程</span>
+        </div>
+        <div class="check-item anim">
+          <div class="check-icon ok">&#10003;</div>
+          <span><strong>Before / After 成效對比</strong> &mdash; 以數據呈現導入前後差異</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prohibition -->
+    <div>
+      <div class="anim" style="font-size:0.9rem; font-weight:700; margin-bottom:0.8rem; color:var(--magenta);">
+        &#128683; 禁止事項
+      </div>
+      <div class="checklist">
+        <div class="check-item anim" style="border-color: rgba(255,0,110,0.2);">
+          <div class="check-icon no">&#10007;</div>
+          <span><strong>嚴禁外部代工</strong> &mdash; 核心 AI 開發產出不得委由外部人員完成</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="anim flow" style="margin-top:1rem;">
+      <div class="flow-node" style="border-color:var(--green);">工具清單</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node" style="border-color:var(--green);">軌跡紀錄</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node" style="border-color:var(--green);">B/A 對比</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node accent" style="font-weight:800;">&#10003; 驗證通過</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 10: CTA ===== -->
+<section class="slide" data-slide="10">
+  <div class="slide-inner" style="align-items: center; justify-content: center;">
+    <div class="anim cta-box">
+      <div class="cta-title anim" style="background: linear-gradient(135deg, var(--gold), var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">
+        以 AI 重塑製程，用創新贏得比賽
+      </div>
+      <p class="anim" style="color:var(--text-dim); margin-bottom: 1.5rem; font-size:0.95rem;">
+        組隊報名、打破藩籬、挑戰自我
+      </p>
+
+      <div class="anim grid-3" style="max-width:600px; margin:0 auto; gap:1rem;">
+        <div class="card anim" style="text-align:center; padding:1rem;">
+          <div style="font-size:1.5rem;">&#128640;</div>
+          <div style="font-weight:700; font-size:0.85rem; margin-top:0.3rem;">Step 1</div>
+          <div style="font-size:0.78rem; color:var(--text-dim);">組建跨職能團隊</div>
+        </div>
+        <div class="card anim" style="text-align:center; padding:1rem;">
+          <div style="font-size:1.5rem;">&#128736;</div>
+          <div style="font-weight:700; font-size:0.85rem; margin-top:0.3rem;">Step 2</div>
+          <div style="font-size:0.78rem; color:var(--text-dim);">探索 AI 工具與方案</div>
+        </div>
+        <div class="card anim" style="text-align:center; padding:1rem;">
+          <div style="font-size:1.5rem;">&#127942;</div>
+          <div style="font-weight:700; font-size:0.85rem; margin-top:0.3rem;">Step 3</div>
+          <div style="font-size:0.78rem; color:var(--text-dim);">實戰驗證贏得獎項</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="anim" style="text-align:center; font-size:0.8rem; color:var(--text-dim); margin-top:1rem;">
+      技術支援：RD7 AI 組 &ensp;|&ensp; 總賽程 3.5 個月 &ensp;|&ensp; 不限報名組數
+    </p>
+  </div>
+</section>
+
+</div>
+<!-- ===================== END SLIDES ===================== -->
+
+<!-- Navigation -->
+<button class="nav-arrow nav-prev" id="prevBtn" aria-label="Previous">&#10094;</button>
+<button class="nav-arrow nav-next" id="nextBtn" aria-label="Next">&#10095;</button>
+<div class="nav-dots" id="navDots"></div>
+<div class="page-num" id="pageNum"></div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progress = document.getElementById('progress');
+  const navDots = document.getElementById('navDots');
+  const pageNum = document.getElementById('pageNum');
+  let current = 0;
+
+  // Build nav dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    navDots.appendChild(dot);
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
+    slides[current].classList.remove('active');
+    navDots.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    navDots.children[current].classList.add('active');
+    progress.style.width = (current / (total - 1) * 100) + '%';
+    pageNum.textContent = (current + 1) + ' / ' + total;
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  document.getElementById('nextBtn').addEventListener('click', next);
+  document.getElementById('prevBtn').addEventListener('click', prev);
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    else if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? next() : prev(); }
+  });
+
+  // Init
+  goTo(0);
+})();
+</script>
+</body>
+</html>
