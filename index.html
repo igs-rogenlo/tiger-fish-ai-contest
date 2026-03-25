@@ -3,906 +3,728 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>虎機魚機 AI 競賽</title>
+<title>虎機魚機 AI 競賽 — 參賽策略簡報</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
-/* ========== DESIGN SYSTEM ========== */
 :root {
-  --bg: #0a0a2e;
-  --bg2: #12123a;
-  --gold: #ffd700;
-  --cyan: #00d4ff;
-  --green: #00ff88;
-  --magenta: #ff006e;
-  --orange: #ff8c00;
-  --silver: #c0c0c0;
-  --bronze: #cd7f32;
-  --glass: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.12);
+  --bg: #0a0a2e; --bg2: #12123a;
+  --gold: #ffd700; --cyan: #00d4ff; --green: #00ff88; --magenta: #ff006e;
+  --orange: #ff8c00; --purple: #a855f7;
+  --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.12);
   --glass-strong: rgba(255,255,255,0.1);
-  --text: #f0f0f0;
-  --text-dim: rgba(255,255,255,0.55);
-  --radius: 16px;
-  --radius-sm: 10px;
+  --text: #f0f0f0; --text-dim: rgba(255,255,255,0.55);
+  --radius: 16px; --radius-sm: 10px;
 }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC','PingFang TC',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100vh;width:100vw;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 50%,rgba(255,215,0,.04) 0%,transparent 60%),radial-gradient(ellipse at 85% 20%,rgba(0,212,255,.04) 0%,transparent 60%),radial-gradient(ellipse at 50% 85%,rgba(168,85,247,.04) 0%,transparent 60%);pointer-events:none;z-index:0}
 
-/* ========== BASE ========== */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* Progress */
+.progress{position:fixed;top:0;left:0;height:3px;z-index:100;background:linear-gradient(90deg,var(--gold),var(--cyan),var(--purple));transition:width .4s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(255,215,0,.4)}
 
-body {
-  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  -webkit-font-smoothing: antialiased;
-}
+/* Slide system */
+.deck{position:relative;width:100vw;height:100vh;z-index:1}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:3rem 4rem;opacity:0;transform:translateY(24px);pointer-events:none;transition:opacity .5s ease,transform .5s ease;overflow-y:auto}
+.slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
+.slide-inner{width:100%;max-width:1100px;display:flex;flex-direction:column;gap:1.5rem}
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 15% 50%, rgba(255,215,0,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 85% 20%, rgba(0,212,255,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 85%, rgba(255,0,110,0.03) 0%, transparent 60%);
-  pointer-events: none;
-  z-index: 0;
-}
+/* Typography */
+.tag{font-size:.7rem;font-weight:500;letter-spacing:3px;color:var(--gold);opacity:.8}
+h2{font-size:2rem;font-weight:900;line-height:1.3}
+.sub{font-size:.92rem;color:var(--text-dim);line-height:1.7;max-width:750px}
+.hl{color:var(--gold);font-weight:700}
+.hl-c{color:var(--cyan);font-weight:700}
+.hl-g{color:var(--green);font-weight:700}
+.hl-m{color:var(--magenta);font-weight:700}
+.hl-p{color:var(--purple);font-weight:700}
+.label{font-size:.78rem;font-weight:600;letter-spacing:1px;margin-bottom:.4rem}
 
-/* ========== PROGRESS BAR ========== */
-.progress {
-  position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
-  background: linear-gradient(90deg, var(--gold), var(--cyan), var(--magenta));
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 12px rgba(255,215,0,0.4);
-}
+/* Cards */
+.card{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:1.3rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.card-icon{font-size:1.8rem;margin-bottom:.5rem}
+.card-title{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+.card-desc{font-size:.8rem;color:var(--text-dim);line-height:1.6}
 
-/* ========== SLIDE CONTAINER ========== */
-.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+/* Grids */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem}
 
-.slide {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  padding: 3rem 4rem;
-  opacity: 0;
-  transform: translateY(24px);
-  pointer-events: none;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.slide.active {
-  opacity: 1; transform: translateY(0); pointer-events: auto;
-}
+/* Flow */
+.flow{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+.fn{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:.7rem 1.2rem;font-weight:600;font-size:.85rem;white-space:nowrap;text-align:center}
+.fa{font-size:1.2rem;color:var(--gold);opacity:.7;flex-shrink:0}
 
-.slide-inner {
-  width: 100%; max-width: 1100px;
-  display: flex; flex-direction: column;
-  gap: 2rem;
-}
+/* Human checkpoint badge */
+.hc{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:99px;padding:.35rem .9rem;font-size:.78rem;font-weight:600;color:var(--gold)}
+.hc::before{content:'';display:inline-block;width:8px;height:8px;background:var(--gold);border-radius:50%}
 
-/* ========== TYPOGRAPHY ========== */
-.slide-tag {
-  font-size: 0.75rem; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--gold); opacity: 0.8;
-}
-.slide-title {
-  font-size: 2.2rem; font-weight: 900; line-height: 1.3;
-}
-.slide-subtitle {
-  font-size: 1rem; color: var(--text-dim); line-height: 1.6; max-width: 700px;
-}
-.highlight { color: var(--gold); font-weight: 700; }
-.highlight-cyan { color: var(--cyan); font-weight: 700; }
-.highlight-green { color: var(--green); font-weight: 700; }
-.highlight-magenta { color: var(--magenta); font-weight: 700; }
+/* Layers */
+.layers{display:flex;flex-direction:column;align-items:center;gap:0}
+.layer{width:90%;max-width:650px;text-align:center;padding:1.1rem;border-radius:var(--radius-sm);border:1px solid var(--glass-border);position:relative}
+.lc{width:2px;height:24px;background:rgba(255,255,255,.15);position:relative}
+.lc::after{content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid rgba(255,255,255,.15)}
+.layer.l1{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.25)}
+.layer.l2{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.25)}
+.layer.l3{background:rgba(255,215,0,.08);border-color:rgba(255,215,0,.25)}
+.layer.l4{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.25)}
 
-/* ========== GLASS CARD ========== */
-.card {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-}
-.card-icon {
-  font-size: 2rem; margin-bottom: 0.75rem;
-}
-.card-label {
-  font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem;
-}
-.card-desc {
-  font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;
-}
+/* Pipeline (horizontal steps with checkpoints) */
+.pipe{display:flex;align-items:stretch;gap:0;width:100%;flex-wrap:wrap;justify-content:center}
+.pipe-step{display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:.8rem .6rem;flex:1;min-width:100px;max-width:160px;position:relative}
+.pipe-step .step-box{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);border-radius:var(--radius-sm);padding:.6rem .5rem;width:100%;text-align:center;font-size:.78rem;font-weight:600;color:var(--cyan)}
+.pipe-step .step-box.ai{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.25);color:var(--cyan)}
+.pipe-step .step-box.human{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.35);color:var(--gold)}
+.pipe-step .step-label{font-size:.65rem;color:var(--text-dim);text-align:center}
+.pipe-arrow{display:flex;align-items:center;font-size:1rem;color:rgba(255,255,255,.2);padding:0 .1rem;align-self:center}
 
-/* ========== FLOW DIAGRAM ========== */
-.flow {
-  display: flex; align-items: center; justify-content: center;
-  gap: 0.6rem; flex-wrap: wrap;
-}
-.flow-node {
-  background: var(--glass-strong);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  padding: 0.8rem 1.4rem;
-  font-weight: 600; font-size: 0.95rem;
-  white-space: nowrap;
-  position: relative;
-}
-.flow-node.accent { border-color: var(--gold); color: var(--gold); }
-.flow-node.cyan { border-color: var(--cyan); color: var(--cyan); }
-.flow-node.green { border-color: var(--green); }
-.flow-arrow {
-  font-size: 1.3rem; color: var(--gold); opacity: 0.7;
-  flex-shrink: 0;
-}
+/* Seed node */
+.seed-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem}
+.seed{text-align:center;padding:1rem .8rem}
+.seed-icon{font-size:1.6rem;margin-bottom:.3rem}
+.seed-role{font-size:.82rem;font-weight:700;margin-bottom:.2rem}
+.seed-skill{font-size:.68rem;color:var(--text-dim);line-height:1.5}
 
-/* ========== GRID LAYOUTS ========== */
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+/* Big arrow down */
+.arrow-down{text-align:center;font-size:1.5rem;color:rgba(255,255,255,.2);padding:.3rem 0}
 
-/* ========== ANIMATIONS ========== */
-.slide.active .anim { animation: fadeUp 0.6s ease both; }
-.slide.active .anim:nth-child(1) { animation-delay: 0.05s; }
-.slide.active .anim:nth-child(2) { animation-delay: 0.12s; }
-.slide.active .anim:nth-child(3) { animation-delay: 0.19s; }
-.slide.active .anim:nth-child(4) { animation-delay: 0.26s; }
-.slide.active .anim:nth-child(5) { animation-delay: 0.33s; }
-.slide.active .anim:nth-child(6) { animation-delay: 0.40s; }
-.slide.active .anim:nth-child(7) { animation-delay: 0.47s; }
-.slide.active .anim:nth-child(8) { animation-delay: 0.54s; }
-.slide.active .anim:nth-child(9) { animation-delay: 0.61s; }
+/* Check list */
+.cl{display:flex;flex-direction:column;gap:.5rem}
+.ci{display:flex;align-items:center;gap:.7rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:.7rem 1rem;font-size:.85rem}
+.ci-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+.ci-ok{background:rgba(0,255,136,.15);color:var(--green)}
+.ci-hc{background:rgba(255,215,0,.15);color:var(--gold)}
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Scoring map */
+.score-map{display:flex;flex-direction:column;gap:.7rem}
+.sm-row{display:grid;grid-template-columns:150px 1fr;gap:1rem;align-items:start;font-size:.85rem}
+.sm-pct{font-weight:700;display:flex;align-items:center;gap:.5rem}
+.sm-bar{height:6px;border-radius:3px;margin-top:.3rem}
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
+/* Animations */
+.slide.active .an{animation:fadeUp .6s ease both}
+.slide.active .an:nth-child(1){animation-delay:.05s}
+.slide.active .an:nth-child(2){animation-delay:.1s}
+.slide.active .an:nth-child(3){animation-delay:.15s}
+.slide.active .an:nth-child(4){animation-delay:.2s}
+.slide.active .an:nth-child(5){animation-delay:.25s}
+.slide.active .an:nth-child(6){animation-delay:.3s}
+.slide.active .an:nth-child(7){animation-delay:.35s}
+.slide.active .an:nth-child(8){animation-delay:.4s}
+.slide.active .an:nth-child(9){animation-delay:.45s}
+.slide.active .an:nth-child(10){animation-delay:.5s}
+.slide.active .an:nth-child(11){animation-delay:.55s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 
-/* ========== NAVIGATION ========== */
-.nav-dots {
-  position: fixed; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 8px; z-index: 99;
-}
-.nav-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255,255,255,0.2); cursor: pointer;
-  transition: all 0.3s;
-  border: none; outline: none;
-}
-.nav-dot.active { background: var(--gold); transform: scale(1.4); box-shadow: 0 0 8px rgba(255,215,0,0.5); }
-.nav-dot:hover { background: rgba(255,255,255,0.5); }
+/* Nav */
+.nav-dots{position:fixed;bottom:1.6rem;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:99}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s;border:none;outline:none}
+.nav-dot.active{background:var(--gold);transform:scale(1.4);box-shadow:0 0 8px rgba(255,215,0,.5)}
+.nav-dot:hover{background:rgba(255,255,255,.5)}
+.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);font-size:1.4rem;color:rgba(255,255,255,.25);cursor:pointer;padding:1rem;z-index:99;transition:color .3s;background:none;border:none;outline:none;user-select:none}
+.nav-arrow:hover{color:var(--gold)}
+.nav-prev{left:.6rem}.nav-next{right:.6rem}
+.page-num{position:fixed;bottom:1rem;right:1.5rem;font-size:.7rem;color:var(--text-dim);z-index:99}
 
-.nav-arrow {
-  position: fixed; top: 50%; transform: translateY(-50%);
-  font-size: 1.6rem; color: rgba(255,255,255,0.25); cursor: pointer;
-  padding: 1rem; z-index: 99; transition: color 0.3s;
-  background: none; border: none; outline: none;
-  user-select: none;
-}
-.nav-arrow:hover { color: var(--gold); }
-.nav-prev { left: 0.8rem; }
-.nav-next { right: 0.8rem; }
+/* Cover */
+.cover-title{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:900;line-height:1.15;background:linear-gradient(135deg,var(--gold) 0%,#ffaa00 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cover-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:99px;padding:.4rem 1rem;font-size:.8rem;color:var(--gold);font-weight:500}
 
-.page-num {
-  position: fixed; bottom: 1.2rem; right: 2rem;
-  font-size: 0.75rem; color: var(--text-dim); z-index: 99;
-}
+/* Master agent hub */
+.hub{position:relative;display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;padding:1rem 0}
+.hub-center{background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(0,212,255,.15));border:2px solid rgba(168,85,247,.4);border-radius:var(--radius);padding:1.5rem 2rem;text-align:center;z-index:1;position:relative}
+.hub-center .hub-title{font-size:1.1rem;font-weight:900;margin-bottom:.2rem}
+.hub-center .hub-sub{font-size:.75rem;color:var(--text-dim)}
+.hub-spokes{display:flex;flex-direction:column;gap:.6rem}
+.hub-spoke{display:flex;align-items:center;gap:.6rem}
+.hub-spoke .spoke-line{width:40px;height:2px;background:linear-gradient(90deg,rgba(168,85,247,.4),rgba(255,255,255,.1))}
+.hub-spoke .spoke-node{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:.5rem .8rem;font-size:.78rem;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:.4rem}
+.hub-spoke .spoke-hc{width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0}
 
-/* ============================================================
-   SLIDE-SPECIFIC STYLES
-   ============================================================ */
-
-/* --- COVER --- */
-.cover-title {
-  font-size: clamp(2.5rem, 5vw, 4.2rem);
-  font-weight: 900; line-height: 1.15;
-  background: linear-gradient(135deg, var(--gold) 0%, #ffaa00 40%, var(--cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.cover-sub {
-  font-size: 1.15rem; color: var(--text-dim); margin-top: 0.4rem; font-weight: 300;
-}
-.cover-badge {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.25);
-  border-radius: 99px; padding: 0.5rem 1.2rem;
-  font-size: 0.85rem; color: var(--gold); font-weight: 500;
-  margin-top: 1.5rem;
-}
-.cover-hint {
-  font-size: 0.75rem; color: var(--text-dim); margin-top: 2.5rem;
-  animation: pulse 2s infinite;
-}
-
-/* --- DONUT CHART --- */
-.donut-wrap { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; justify-content: center; }
-.donut {
-  width: 200px; height: 200px; border-radius: 50%;
-  background: conic-gradient(
-    var(--gold) 0% 30%,
-    var(--cyan) 30% 60%,
-    var(--green) 60% 80%,
-    var(--magenta) 80% 100%
-  );
-  position: relative; flex-shrink: 0;
-}
-.donut::after {
-  content: ''; position: absolute;
-  inset: 28%; background: var(--bg); border-radius: 50%;
-}
-.donut-center {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.9rem; font-weight: 700; text-align: center;
-  z-index: 1; line-height: 1.4;
-}
-.legend { display: flex; flex-direction: column; gap: 0.75rem; }
-.legend-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; }
-.legend-swatch {
-  width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
-}
-.legend-pct { font-weight: 700; min-width: 36px; }
-
-/* --- SCORE DETAIL BARS --- */
-.score-bars { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
-.score-bar-row {
-  display: grid; grid-template-columns: 140px 1fr 50px; gap: 1rem; align-items: center;
-  font-size: 0.85rem;
-}
-.score-bar-track {
-  height: 8px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden;
-}
-.score-bar-fill {
-  height: 100%; border-radius: 99px;
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.slide.active .score-bar-fill { transform: scaleX(1); }
-.score-bar-pct { font-weight: 700; text-align: right; }
-
-/* --- TIMELINE --- */
-.timeline {
-  position: relative; display: flex; align-items: flex-start;
-  padding: 2.5rem 0 0;
-}
-.timeline-track {
-  position: absolute; top: 2.5rem; left: 0; right: 0; height: 4px;
-  background: rgba(255,255,255,0.1); border-radius: 2px;
-}
-.timeline-fill {
-  position: absolute; top: 2.5rem; left: 0; height: 4px; border-radius: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--cyan));
-}
-.timeline-seg {
-  display: flex; flex-direction: column; align-items: center;
-  position: relative; text-align: center;
-}
-.timeline-dot {
-  width: 16px; height: 16px; border-radius: 50%; border: 3px solid;
-  background: var(--bg); position: relative; z-index: 1;
-  margin-bottom: 0.75rem;
-}
-.timeline-dot.gold { border-color: var(--gold); }
-.timeline-dot.cyan { border-color: var(--cyan); }
-.timeline-phase {
-  font-size: 0.8rem; font-weight: 700; margin-bottom: 0.25rem;
-}
-.timeline-desc {
-  font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; max-width: 130px;
-}
-.timeline-spacer {
-  flex: 1; position: relative;
-}
-
-/* --- PRIZE TIERS --- */
-.prize-row {
-  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-}
-.prize-card {
-  text-align: center; padding: 1.5rem 1.8rem; min-width: 140px;
-}
-.prize-icon { font-size: 2.2rem; margin-bottom: 0.4rem; }
-.prize-rank { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
-.prize-amount { font-size: 1.5rem; font-weight: 900; }
-.prize-card.gold { border-color: rgba(255,215,0,0.35); }
-.prize-card.gold .prize-amount { color: var(--gold); }
-.prize-card.silver { border-color: rgba(192,192,192,0.3); }
-.prize-card.silver .prize-amount { color: var(--silver); }
-.prize-card.bronze { border-color: rgba(205,127,50,0.3); }
-.prize-card.bronze .prize-amount { color: var(--bronze); }
-.prize-extra {
-  font-size: 0.85rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem;
-}
-
-/* --- CONVERGENCE DIAGRAM --- */
-.converge {
-  display: flex; align-items: center; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
-}
-.converge-inputs { display: flex; flex-direction: column; gap: 0.8rem; }
-.converge-merge {
-  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
-  color: var(--gold); font-size: 1.5rem;
-}
-.converge-merge span { font-size: 0.7rem; opacity: 0.6; letter-spacing: 2px; }
-.converge-outputs { display: flex; flex-direction: column; gap: 0.8rem; }
-
-/* --- CHECKLIST --- */
-.checklist { display: flex; flex-direction: column; gap: 0.6rem; }
-.check-item {
-  display: flex; align-items: center; gap: 0.8rem;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  padding: 0.8rem 1.2rem; font-size: 0.9rem;
-}
-.check-icon {
-  width: 24px; height: 24px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; flex-shrink: 0;
-}
-.check-icon.ok { background: rgba(0,255,136,0.15); color: var(--green); }
-.check-icon.no { background: rgba(255,0,110,0.15); color: var(--magenta); }
-
-/* --- LAYER ARCH --- */
-.layer-arch { display: flex; flex-direction: column; gap: 0; align-items: center; }
-.layer {
-  width: 90%; max-width: 600px; text-align: center;
-  padding: 1.2rem; border-radius: var(--radius-sm);
-  border: 1px solid var(--glass-border);
-  position: relative;
-}
-.layer-connector {
-  width: 2px; height: 28px; background: rgba(255,255,255,0.15); position: relative;
-}
-.layer-connector::after {
-  content: ''; position: absolute; bottom: -3px; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 5px solid transparent; border-right: 5px solid transparent;
-  border-top: 6px solid rgba(255,255,255,0.15);
-}
-.layer.top { background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.25); }
-.layer.mid { background: rgba(255,215,0,0.08); border-color: rgba(255,215,0,0.25); }
-.layer.bot { background: rgba(0,255,136,0.08); border-color: rgba(0,255,136,0.25); }
-.layer-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
-.layer-detail { font-size: 0.8rem; color: var(--text-dim); }
-
-/* --- TRACK SPLIT --- */
-.track-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.track-card { text-align: center; padding: 2rem 1.5rem; }
-.track-card .track-icon { font-size: 3rem; margin-bottom: 0.5rem; }
-.track-card .track-name { font-size: 1.3rem; font-weight: 900; }
-.track-tiger { border-color: rgba(255,140,0,0.3); background: rgba(255,140,0,0.05); }
-.track-fish { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.05); }
-
-/* --- CTA --- */
-.cta-box {
-  text-align: center; padding: 2.5rem;
-  background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,212,255,0.08));
-  border: 1px solid rgba(255,215,0,0.2);
-  border-radius: var(--radius);
-}
-.cta-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.5rem; }
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 768px) {
-  .slide { padding: 2rem 1.5rem; }
-  .slide-title { font-size: 1.6rem; }
-  .cover-title { font-size: 2.2rem; }
-  .grid-3 { grid-template-columns: 1fr; }
-  .grid-2 { grid-template-columns: 1fr; }
-  .donut-wrap { flex-direction: column; gap: 1.5rem; }
-  .converge { flex-direction: column; }
-  .track-split { grid-template-columns: 1fr; }
-  .score-bar-row { grid-template-columns: 100px 1fr 40px; font-size: 0.78rem; }
-  .nav-arrow { display: none; }
-  .timeline { flex-wrap: wrap; gap: 0.5rem; }
-  .flow { gap: 0.4rem; }
-  .flow-node { padding: 0.6rem 1rem; font-size: 0.82rem; }
-  .layer { width: 100%; }
+/* Responsive */
+@media(max-width:768px){
+  .slide{padding:2rem 1.2rem}
+  h2{font-size:1.5rem}
+  .cover-title{font-size:2rem}
+  .g2,.g3,.g4,.g5{grid-template-columns:1fr}
+  .hub{flex-direction:column}
+  .hub-spoke .spoke-line{width:20px}
+  .nav-arrow{display:none}
+  .pipe{gap:.3rem}
+  .pipe-step{min-width:80px;padding:.5rem .3rem}
+  .seed-grid{grid-template-columns:repeat(3,1fr)}
+  .sm-row{grid-template-columns:1fr;gap:.3rem}
 }
 </style>
 </head>
 <body>
+<div class="progress" id="progress" style="width:0%"></div>
 
-<!-- Progress Bar -->
-<div class="progress" id="progress" style="width: 0%"></div>
-
-<!-- ===================== SLIDES ===================== -->
 <div class="deck" id="deck">
 
-<!-- ===== SLIDE 0: COVER ===== -->
+<!-- ===== 0: COVER ===== -->
 <section class="slide active" data-slide="0">
-  <div class="slide-inner" style="align-items: center; text-align: center; gap: 0.5rem;">
-    <div class="anim cover-badge">IGS 商用事業處</div>
-    <h1 class="anim cover-title" style="animation-delay:0.1s">虎機魚機<br>AI 競賽</h1>
-    <p class="anim cover-sub" style="animation-delay:0.2s">以 AI 顛覆傳統製程 &middot; 點燃創新火花</p>
-    <p class="anim cover-sub" style="animation-delay:0.3s; font-size:0.9rem; margin-top:0.5rem;">
-      <span class="highlight">製程重塑</span> &nbsp;&bull;&nbsp;
-      <span class="highlight-cyan">效率提升</span> &nbsp;&bull;&nbsp;
-      <span class="highlight-green">品質突破</span>
+  <div class="slide-inner" style="align-items:center;text-align:center;gap:.8rem">
+    <div class="an cover-badge">虎機魚機 AI 競賽 &mdash; 參賽策略</div>
+    <h1 class="an cover-title">種子 &times; Skill &times; Agent<br>人機協作戰略</h1>
+    <p class="an sub" style="text-align:center;max-width:600px">
+      從各職種選拔 <span class="hl">AI 種子</span>，實戰培育 <span class="hl-c">Skill 建置</span>能力，<br>
+      以 <span class="hl-p">Master Agent</span> 統一整合，每一步都有<span class="hl">人工檢核</span>把關
     </p>
-    <p class="anim cover-hint" style="animation-delay:0.5s">按 &rarr; 或點擊右側開始瀏覽</p>
+    <div class="an flow" style="margin-top:1rem">
+      <div class="fn" style="border-color:var(--green);color:var(--green)">種子選拔</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn" style="border-color:var(--cyan);color:var(--cyan)">實作培育</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn" style="border-color:var(--orange);color:var(--orange)">Skill 建置</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn" style="border-color:var(--purple);color:var(--purple)">Agent 整合</div>
+    </div>
+    <p class="an" style="font-size:.72rem;color:var(--text-dim);margin-top:1.5rem;animation:pulse 2s infinite">按 &rarr; 或點擊右側開始瀏覽</p>
   </div>
 </section>
 
-<!-- ===== SLIDE 1: ORIGIN ===== -->
+<!-- ===== 1: STRATEGY OVERVIEW ===== -->
 <section class="slide" data-slide="1">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">ORIGIN</span>
-      <h2 class="anim slide-title">緣起與願景</h2>
+      <span class="an tag">STRATEGY</span>
+      <h2 class="an">核心策略：四階段推進</h2>
+      <p class="an sub">不只是用 AI 工具，而是建立一套<span class="hl">可複製、可推廣</span>的人機協作製程</p>
     </div>
-
-    <!-- Flow: 陳總 → 分享會 → 競賽 -->
-    <div class="anim flow" style="margin: 0.5rem 0;">
-      <div class="flow-node accent">陳總倡議</div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node">商用事業處<br>AI 應用分享會</div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node cyan">競賽啟動</div>
+    <div class="an g4">
+      <div class="card an" style="border-top:3px solid var(--green)">
+        <div class="card-icon">&#127793;</div>
+        <div class="card-title" style="color:var(--green)">Phase 1 &mdash; 選種</div>
+        <div class="card-desc">各職種選拔一名 AI 種子，成為該領域的 AI 先鋒</div>
+      </div>
+      <div class="card an" style="border-top:3px solid var(--cyan)">
+        <div class="card-icon">&#127891;</div>
+        <div class="card-title" style="color:var(--cyan)">Phase 2 &mdash; 培育</div>
+        <div class="card-desc">實作教育，手把手帶種子建置專屬 Skill</div>
+      </div>
+      <div class="card an" style="border-top:3px solid var(--orange)">
+        <div class="card-icon">&#128736;</div>
+        <div class="card-title" style="color:var(--orange)">Phase 3 &mdash; 建置</div>
+        <div class="card-desc">每個 Skill 內嵌人工檢核點，確保產出品質</div>
+      </div>
+      <div class="card an" style="border-top:3px solid var(--purple)">
+        <div class="card-icon">&#129302;</div>
+        <div class="card-title" style="color:var(--purple)">Phase 4 &mdash; 整合</div>
+        <div class="card-desc">Master Agent 串聯所有職種 Agent，統一入口</div>
+      </div>
     </div>
-
-    <p class="anim slide-subtitle">
-      藉由實戰競賽，驗證新技術與新思維如何有效<span class="highlight">縮短開發時程</span>及<span class="highlight-cyan">提升遊戲品質</span>，建立可推廣的優化方案。
-    </p>
-
-    <!-- 三大目標 -->
-    <div class="anim grid-3">
-      <div class="card anim" style="border-left: 3px solid var(--gold);">
-        <div class="card-icon">&#9881;</div>
-        <div class="card-label" style="color:var(--gold)">製程重塑</div>
-        <div class="card-desc">顛覆傳統老虎機與捕魚機的開發製程想像</div>
-      </div>
-      <div class="card anim" style="border-left: 3px solid var(--cyan);">
-        <div class="card-icon">&#9889;</div>
-        <div class="card-label" style="color:var(--cyan)">效率提升</div>
-        <div class="card-desc">以 AI 加速開發生命週期，縮短各環節耗時</div>
-      </div>
-      <div class="card anim" style="border-left: 3px solid var(--green);">
-        <div class="card-icon">&#9733;</div>
-        <div class="card-label" style="color:var(--green)">品質突破</div>
-        <div class="card-desc">產出具實戰商用價值的高品質成品</div>
-      </div>
+    <div class="an" style="text-align:center;margin-top:.5rem">
+      <div class="hc" style="font-size:.85rem">&#128161; 關鍵差異化：每個 Skill 都安插人工檢核，AI 不是黑箱</div>
     </div>
   </div>
 </section>
 
-<!-- ===== SLIDE 2: THREE APPROACHES ===== -->
+<!-- ===== 2: SEED SELECTION ===== -->
 <section class="slide" data-slide="2">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">APPROACH</span>
-      <h2 class="anim slide-title">多元切入面向</h2>
-      <p class="anim slide-subtitle">鼓勵參賽隊伍以多元視角切入，三大方向皆受歡迎</p>
+      <span class="an tag">SEEDS</span>
+      <h2 class="an">種子選拔 &mdash; 各職種 AI 先鋒</h2>
+      <p class="an sub">每個職種選出一名對 AI 有熱情的成員，成為該領域的種子教官</p>
     </div>
 
-    <div class="anim converge">
-      <!-- Inputs -->
-      <div class="converge-inputs">
-        <div class="flow-node anim" style="border-color: var(--gold); min-width: 180px;">
-          <span style="color:var(--gold)">&#9670;</span>&ensp;前端創意展演
-        </div>
-        <div class="flow-node anim" style="border-color: var(--cyan); min-width: 180px;">
-          <span style="color:var(--cyan)">&#9670;</span>&ensp;AI 技術整合
-        </div>
-        <div class="flow-node anim" style="border-color: var(--green); min-width: 180px;">
-          <span style="color:var(--green)">&#9670;</span>&ensp;製程痛點突破
-        </div>
-      </div>
-
-      <!-- Merge Arrow -->
-      <div class="converge-merge anim">
-        <span>CONVERGE</span>
-        <div style="font-size:2rem;">&rArr;</div>
-      </div>
-
-      <!-- Outputs -->
-      <div class="converge-outputs">
-        <div class="flow-node anim" style="border-color: var(--gold); background:rgba(255,215,0,0.08); font-weight:800;">
-          &#9201; 縮短開發時程
-        </div>
-        <div class="flow-node anim" style="border-color: var(--cyan); background:rgba(0,212,255,0.08); font-weight:800;">
-          &#9733; 提升遊戲品質
-        </div>
+    <!-- Seed org chart -->
+    <div class="an" style="text-align:center;margin-bottom:.3rem">
+      <div class="fn" style="border-color:var(--purple);color:var(--purple);display:inline-block;padding:.7rem 2rem;font-size:1rem">
+        &#127919; 我 &mdash; 統籌 &amp; Agent 架構師
       </div>
     </div>
-
-    <p class="anim" style="font-size:0.82rem; color:var(--text-dim); text-align:center; margin-top:0.5rem;">
-      無論聚焦哪個面向，最終目標皆為透過專案實戰，建立<span class="highlight">可推廣的優化方案</span>
-    </p>
+    <div class="arrow-down an">&#9660; &ensp; &#9660; &ensp; &#9660; &ensp; &#9660; &ensp; &#9660; &ensp; &#9660;</div>
+    <div class="an seed-grid">
+      <div class="card seed an" style="border-top:3px solid var(--green)">
+        <div class="seed-icon">&#128203;</div>
+        <div class="seed-role" style="color:var(--green)">企劃種子</div>
+        <div class="seed-skill">遊戲機制設計<br>數值平衡規劃</div>
+      </div>
+      <div class="card seed an" style="border-top:3px solid var(--cyan)">
+        <div class="seed-icon">&#127912;</div>
+        <div class="seed-role" style="color:var(--cyan)">美術種子</div>
+        <div class="seed-skill">圖像生成與修圖<br>UI/風格一致性</div>
+      </div>
+      <div class="card seed an" style="border-top:3px solid var(--orange)">
+        <div class="seed-icon">&#128187;</div>
+        <div class="seed-role" style="color:var(--orange)">程式種子</div>
+        <div class="seed-skill">程式碼生成<br>效能分析與優化</div>
+      </div>
+      <div class="card seed an" style="border-top:3px solid var(--magenta)">
+        <div class="seed-icon">&#128270;</div>
+        <div class="seed-role" style="color:var(--magenta)">QA 種子</div>
+        <div class="seed-skill">測試案例生成<br>自動化驗證</div>
+      </div>
+      <div class="card seed an" style="border-top:3px solid var(--gold)">
+        <div class="seed-icon">&#127925;</div>
+        <div class="seed-role" style="color:var(--gold)">音效種子</div>
+        <div class="seed-skill">音效 / 配樂生成<br>音質調校</div>
+      </div>
+      <div class="card seed an" style="border-top:3px solid #8b5cf6">
+        <div class="seed-icon">&#127916;</div>
+        <div class="seed-role" style="color:#8b5cf6">動畫種子</div>
+        <div class="seed-skill">動畫輔助生成<br>動作流暢度調校</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ===== SLIDE 3: SCORING DIMENSIONS ===== -->
+<!-- ===== 3: TRAINING ===== -->
 <section class="slide" data-slide="3">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">SCORING</span>
-      <h2 class="anim slide-title">四大評分維度</h2>
+      <span class="an tag">TRAINING</span>
+      <h2 class="an">實作培育流程</h2>
+      <p class="an sub">不是上課聽講，是<span class="hl">邊做邊學</span> &mdash; 直接在真實專案中建置 Skill</p>
     </div>
 
-    <div class="anim donut-wrap">
-      <!-- Donut Chart -->
-      <div style="position:relative;">
-        <div class="donut"></div>
-        <div class="donut-center">四大<br>維度</div>
-      </div>
+    <div class="an flow" style="margin:.5rem 0">
+      <div class="fn an" style="border-color:var(--green);color:var(--green)">&#9312; 認識工具</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--cyan);color:var(--cyan)">&#9313; 實作演練</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--orange);color:var(--orange)">&#9314; Skill 撰寫</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--gold);color:var(--gold)">&#9315; 檢核點設計</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--purple);color:var(--purple)">&#9316; 上線驗收</div>
+    </div>
 
-      <!-- Legend -->
-      <div class="legend">
-        <div class="legend-item">
-          <span class="legend-swatch" style="background:var(--gold)"></span>
-          <span class="legend-pct" style="color:var(--gold)">30%</span>
-          <span>優化效益</span>
+    <div class="an g2" style="margin-top:.5rem">
+      <div class="card an">
+        <div class="card-title" style="color:var(--green)">&#127793; 統籌帶教模式</div>
+        <div class="card-desc">
+          我先示範完整 Skill 建置流程，再帶每位種子用他們的真實工作場景實作。<br>
+          <strong>產出：</strong>每位種子至少完成 1 個可用 Skill
         </div>
-        <div class="legend-item">
-          <span class="legend-swatch" style="background:var(--cyan)"></span>
-          <span class="legend-pct" style="color:var(--cyan)">30%</span>
-          <span>AI 與新技術應用</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-swatch" style="background:var(--green)"></span>
-          <span class="legend-pct" style="color:var(--green)">20%</span>
-          <span>方案共用性與落地</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-swatch" style="background:var(--magenta)"></span>
-          <span class="legend-pct" style="color:var(--magenta)">20%</span>
-          <span>產品完整度與實證</span>
+      </div>
+      <div class="card an">
+        <div class="card-title" style="color:var(--gold)">&#128161; 核心原則：人工檢核優先</div>
+        <div class="card-desc">
+          教學過程同步教導如何在 Skill 中<strong>設計檢核點</strong>。<br>
+          種子不只學會用 AI，更學會<strong>管控 AI 產出品質</strong>
         </div>
       </div>
     </div>
 
-    <!-- Detail bars -->
-    <div class="anim score-bars">
-      <div class="score-bar-row">
-        <span style="color:var(--gold)">優化效益</span>
-        <div class="score-bar-track"><div class="score-bar-fill" style="width:100%; background:var(--gold);"></div></div>
-        <span class="score-bar-pct" style="color:var(--gold)">30%</span>
-      </div>
-      <div class="score-bar-row">
-        <span style="color:var(--cyan)">AI 技術應用</span>
-        <div class="score-bar-track"><div class="score-bar-fill" style="width:100%; background:var(--cyan);"></div></div>
-        <span class="score-bar-pct" style="color:var(--cyan)">30%</span>
-      </div>
-      <div class="score-bar-row">
-        <span style="color:var(--green)">方案共用與落地</span>
-        <div class="score-bar-track"><div class="score-bar-fill" style="width:66%; background:var(--green);"></div></div>
-        <span class="score-bar-pct" style="color:var(--green)">20%</span>
-      </div>
-      <div class="score-bar-row">
-        <span style="color:var(--magenta)">產品完整度</span>
-        <div class="score-bar-track"><div class="score-bar-fill" style="width:66%; background:var(--magenta);"></div></div>
-        <span class="score-bar-pct" style="color:var(--magenta)">20%</span>
+    <div class="an card" style="border-left:3px solid var(--cyan);margin-top:.3rem">
+      <div class="card-desc" style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;text-align:center">
+        <div><strong style="color:var(--cyan);font-size:1.3rem">1 on 1</strong><br><span style="font-size:.75rem">統籌對接每位種子</span></div>
+        <div><strong style="color:var(--cyan);font-size:1.3rem">Learning by Doing</strong><br><span style="font-size:.75rem">用真實專案邊做邊學</span></div>
+        <div><strong style="color:var(--cyan);font-size:1.3rem">Skill + 檢核</strong><br><span style="font-size:.75rem">每個 Skill 必含人工關卡</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== SLIDE 4: SCORING DETAIL ===== -->
+<!-- ===== 4: SKILL ARCHITECTURE ===== -->
 <section class="slide" data-slide="4">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">SCORING DETAIL</span>
-      <h2 class="anim slide-title">各維度評分重點</h2>
+      <span class="an tag">SKILL DESIGN</span>
+      <h2 class="an">Skill 建置架構 &mdash; 以美術為例</h2>
+      <p class="an sub">每個 Skill 是一條<span class="hl-c">自動化流水線</span>，但關鍵節點都有<span class="hl">人工品質閘門</span></p>
     </div>
 
-    <div class="anim grid-2">
-      <div class="card anim" style="border-top: 3px solid var(--gold);">
-        <div class="card-label" style="color:var(--gold);">&#9670; 優化效益 (30%)</div>
-        <div class="card-desc">以<strong>客觀數據</strong>證明新工具或流程確實解決<strong>部門開發痛點</strong>，帶來顯著的時間縮短或品質躍升</div>
+    <!-- Pipeline example -->
+    <div class="an pipe">
+      <div class="pipe-step an">
+        <div class="step-box ai">&#128172; 需求輸入</div>
+        <div class="step-label">描述風格需求</div>
       </div>
-      <div class="card anim" style="border-top: 3px solid var(--cyan);">
-        <div class="card-label" style="color:var(--cyan);">&#9670; AI 與新技術應用 (30%)</div>
-        <div class="card-desc">工具覆蓋<strong>多個開發生命週期</strong>，展現<strong>跨職能串聯</strong>的高效工作流，非單一職能孤島應用</div>
+      <div class="pipe-arrow">&rarr;</div>
+      <div class="pipe-step an">
+        <div class="step-box ai">&#129302; AI 初稿生成</div>
+        <div class="step-label">Midjourney / SD</div>
       </div>
-      <div class="card anim" style="border-top: 3px solid var(--green);">
-        <div class="card-label" style="color:var(--green);">&#9670; 方案共用性與落地 (20%)</div>
-        <div class="card-desc">優化成果能<strong>複製至事業處其他專案</strong>，具備推廣價值與落地可行性</div>
+      <div class="pipe-arrow">&rarr;</div>
+      <div class="pipe-step an">
+        <div class="step-box human">&#128064; 美術種子審核</div>
+        <div class="step-label">風格 &bull; 品質檢核</div>
       </div>
-      <div class="card anim" style="border-top: 3px solid var(--magenta);">
-        <div class="card-label" style="color:var(--magenta);">&#9670; 產品完整度與實證 (20%)</div>
-        <div class="card-desc">產出成品具備<strong>穩定性與高標準品質</strong>，有實戰商用價值</div>
+      <div class="pipe-arrow">&rarr;</div>
+      <div class="pipe-step an">
+        <div class="step-box ai">&#128736; AI 精修</div>
+        <div class="step-label">根據反饋調整</div>
+      </div>
+      <div class="pipe-arrow">&rarr;</div>
+      <div class="pipe-step an">
+        <div class="step-box human">&#128064; 最終確認</div>
+        <div class="step-label">一致性 &bull; 可用性</div>
+      </div>
+      <div class="pipe-arrow">&rarr;</div>
+      <div class="pipe-step an">
+        <div class="step-box" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.25);color:var(--green)">&#9989; 產出</div>
+        <div class="step-label">可用素材</div>
       </div>
     </div>
+
+    <div class="an" style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:.3rem">
+      <div class="hc">&#128064; = 人工檢核點 (種子把關)</div>
+      <div style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);border-radius:99px;padding:.35rem .9rem;font-size:.78rem;font-weight:600;color:var(--cyan)">
+        <span style="display:inline-block;width:8px;height:8px;background:var(--cyan);border-radius:50%"></span>
+        &#129302; = AI 自動處理
+      </div>
+    </div>
+
+    <p class="an sub" style="text-align:center;font-size:.82rem;margin-top:.3rem">
+      <span class="hl">關鍵設計：</span>AI 產出永遠不會直接進入下游，必須經過種子人工確認<br>
+      退回時 AI 根據反饋自動修正，形成<span class="hl-c">人機迭代迴圈</span>
+    </p>
   </div>
 </section>
 
-<!-- ===== SLIDE 5: EXPERT PANEL ===== -->
+<!-- ===== 5: HUMAN CHECKPOINT DEEP DIVE ===== -->
 <section class="slide" data-slide="5">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">JUDGES</span>
-      <h2 class="anim slide-title">三方專家聯合評審</h2>
-      <p class="anim slide-subtitle">不同視角的專家把關，確保獲獎作品具備指標性意義</p>
+      <span class="an tag">KEY DIFFERENTIATOR</span>
+      <h2 class="an">人工檢核設計 &mdash; 核心競爭力</h2>
+      <p class="an sub">每個 Skill 的檢核點不是形式化簽核，而是<span class="hl">領域專家的品質閘門</span></p>
     </div>
 
-    <div class="anim grid-3">
-      <div class="card anim" style="border-top: 3px solid var(--gold); text-align:center;">
-        <div class="card-icon">&#128188;</div>
-        <div class="card-label" style="color:var(--gold)">高階主管</div>
-        <div class="card-desc">
-          <strong>商業潛力</strong><br>
-          優化方案在全事業處<br>落地的可行性與價值
-        </div>
+    <!-- Check flow -->
+    <div class="an card" style="border:1px solid rgba(255,215,0,.25);padding:1.5rem">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="label" style="color:var(--gold);font-size:.85rem">&#128260; 人工檢核迴圈機制</span>
       </div>
-      <div class="card anim" style="border-top: 3px solid var(--cyan); text-align:center;">
-        <div class="card-icon">&#127918;</div>
-        <div class="card-label" style="color:var(--cyan)">產品開發專家</div>
-        <div class="card-desc">
-          <strong>製作人視角</strong><br>
-          製程完整度、跨職能協作<br>遊戲性與品質
-        </div>
-      </div>
-      <div class="card anim" style="border-top: 3px solid var(--green); text-align:center;">
-        <div class="card-icon">&#128187;</div>
-        <div class="card-label" style="color:var(--green)">技術專家</div>
-        <div class="card-desc">
-          <strong>技術深度</strong><br>
-          AI 架構穩定性<br>創新突破程度
+      <div class="flow" style="gap:.4rem">
+        <div class="fn" style="border-color:var(--cyan);color:var(--cyan);font-size:.8rem">AI 產出</div>
+        <div class="fa">&rarr;</div>
+        <div class="fn" style="border-color:var(--gold);background:rgba(255,215,0,.1);color:var(--gold);font-size:.8rem">&#128064; 種子審核</div>
+        <div class="fa">&rarr;</div>
+        <div style="display:flex;flex-direction:column;gap:.4rem;align-items:center">
+          <div class="fn" style="border-color:var(--green);color:var(--green);font-size:.78rem">&#10003; 通過 &rarr; 下一步</div>
+          <div class="fn" style="border-color:var(--magenta);color:var(--magenta);font-size:.78rem">&#10007; 退回 &rarr; AI 修正</div>
         </div>
       </div>
     </div>
 
-    <!-- Convergence -->
-    <div class="anim" style="text-align:center;">
-      <div style="color:var(--text-dim); font-size:1.2rem; margin-bottom:0.3rem;">&#9660; &ensp; &#9660; &ensp; &#9660;</div>
-      <div class="flow-node accent" style="display:inline-block; font-size:1rem; padding:0.7rem 2rem;">
-        &#9733; 聯合評審決議
+    <div class="an g3" style="margin-top:.5rem">
+      <div class="card an">
+        <div class="card-title" style="color:var(--gold)">&#128737; 為什麼要檢核？</div>
+        <div class="card-desc">
+          AI 不是 100% 可靠<br>
+          種子以<strong>領域專業</strong>判斷產出是否可用，避免錯誤流入下游
+        </div>
+      </div>
+      <div class="card an">
+        <div class="card-title" style="color:var(--cyan)">&#127919; 檢核什麼？</div>
+        <div class="card-desc">
+          <strong>每個職種不同：</strong><br>
+          美術 &rarr; 風格一致性<br>
+          程式 &rarr; 邏輯正確性<br>
+          企劃 &rarr; 機制合理性<br>
+          QA &rarr; 覆蓋完整性
+        </div>
+      </div>
+      <div class="card an">
+        <div class="card-title" style="color:var(--green)">&#128200; 檢核帶來什麼？</div>
+        <div class="card-desc">
+          <strong>可量化的品質保證</strong><br>
+          每次通過/退回都有紀錄，<br>形成 Before/After 對比數據
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== SLIDE 6: GROUPS & PRIZES ===== -->
+<!-- ===== 6: PER-FUNCTION SKILLS ===== -->
 <section class="slide" data-slide="6">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">TRACKS &amp; PRIZES</span>
-      <h2 class="anim slide-title">競賽組別與獎勵</h2>
+      <span class="an tag">SKILLS MAP</span>
+      <h2 class="an">各職種 Skill &times; 檢核點一覽</h2>
     </div>
 
-    <!-- Two Tracks -->
-    <div class="anim track-split">
-      <div class="card track-card track-tiger anim">
-        <div class="track-icon">&#127920;</div>
-        <div class="track-name" style="color:var(--orange)">老虎機組</div>
-      </div>
-      <div class="card track-card track-fish anim">
-        <div class="track-icon">&#127907;</div>
-        <div class="track-name" style="color:var(--cyan)">捕魚機組</div>
-      </div>
+    <div class="an" style="overflow-x:auto">
+      <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem">
+        <thead>
+          <tr style="text-align:left">
+            <th style="padding:.7rem;color:var(--text-dim);border-bottom:1px solid var(--glass-border);width:80px">職種</th>
+            <th style="padding:.7rem;color:var(--cyan);border-bottom:1px solid var(--glass-border)">AI Skill 範例</th>
+            <th style="padding:.7rem;color:var(--gold);border-bottom:1px solid var(--glass-border)">&#128064; 人工檢核重點</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="an"><td style="padding:.6rem;border-bottom:1px solid var(--glass-border);font-weight:600;color:var(--green)">企劃</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">遊戲機制草案生成、數值平衡建議、規則文件撰寫</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">機制可行性、數值合理性、玩家體驗</td></tr>
+          <tr class="an"><td style="padding:.6rem;border-bottom:1px solid var(--glass-border);font-weight:600;color:var(--cyan)">美術</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">圖像生成、風格轉換、UI 素材、背景繪製</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">風格一致性、品質標準、商用可用性</td></tr>
+          <tr class="an"><td style="padding:.6rem;border-bottom:1px solid var(--glass-border);font-weight:600;color:var(--orange)">程式</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">程式碼生成、Bug 分析、效能優化、重構建議</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">邏輯正確性、效能指標、架構穩定性</td></tr>
+          <tr class="an"><td style="padding:.6rem;border-bottom:1px solid var(--glass-border);font-weight:600;color:var(--magenta)">QA</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">測試案例生成、自動化測試腳本、回歸測試</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">覆蓋率、邊界條件、場景完整性</td></tr>
+          <tr class="an"><td style="padding:.6rem;border-bottom:1px solid var(--glass-border);font-weight:600;color:var(--gold)">音效</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">音效生成、配樂輔助、音頻切割與混音</td><td style="padding:.6rem;border-bottom:1px solid var(--glass-border)">音質標準、情境適配性、版權合規</td></tr>
+          <tr class="an"><td style="padding:.6rem;font-weight:600;color:#8b5cf6">動畫</td><td style="padding:.6rem">動畫輔助生成、動作序列、特效參考</td><td style="padding:.6rem">流暢度、風格統一、技術可實現性</td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- Prize Tiers -->
-    <div class="anim prize-row">
-      <div class="card prize-card gold anim">
-        <div class="prize-icon">&#127942;</div>
-        <div class="prize-rank">金賞</div>
-        <div class="prize-amount">NT$ 50,000</div>
-      </div>
-      <div class="card prize-card silver anim">
-        <div class="prize-icon">&#129352;</div>
-        <div class="prize-rank">銀賞</div>
-        <div class="prize-amount">NT$ 30,000</div>
-      </div>
-      <div class="card prize-card bronze anim">
-        <div class="prize-icon">&#129353;</div>
-        <div class="prize-rank">銅賞</div>
-        <div class="prize-amount">NT$ 20,000</div>
-      </div>
+    <div class="an" style="text-align:center;margin-top:.5rem">
+      <div class="hc">每一列的 AI Skill 都內建至少 1~2 個人工檢核點</div>
     </div>
-    <p class="anim prize-extra">視參賽隊伍數量增設 <span class="highlight">創意獎</span>、<span class="highlight">佳作獎</span> NT$5,000</p>
   </div>
 </section>
 
-<!-- ===== SLIDE 7: TIMELINE ===== -->
+<!-- ===== 7: AGENT INTEGRATION ===== -->
 <section class="slide" data-slide="7">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">TIMELINE</span>
-      <h2 class="anim slide-title">賽程時間軸 &mdash; 總計 3.5 個月</h2>
-      <p class="anim slide-subtitle">特別拉長賽程，避免擠壓原有專案時程，給予充裕的研發與優化時間</p>
+      <span class="an tag">ARCHITECTURE</span>
+      <h2 class="an">Master Agent 整合架構</h2>
+      <p class="an sub">各職種 Agent 各司其職，由 <span class="hl-p">Master Agent</span> 統一調度，任何人都能使用</p>
     </div>
 
-    <!-- Timeline Visual -->
-    <div class="anim" style="padding: 0 1rem;">
-      <div class="timeline" style="justify-content: space-between;">
-        <div class="timeline-fill" style="width: 100%;"></div>
-
-        <!-- Start -->
-        <div class="timeline-seg anim" style="min-width: 80px;">
-          <div class="timeline-dot gold"></div>
-          <div class="timeline-phase" style="color:var(--gold)">啟動</div>
-          <div class="timeline-desc">Week 1</div>
+    <div class="an hub">
+      <!-- Left spokes -->
+      <div class="hub-spokes">
+        <div class="hub-spoke an">
+          <div class="spoke-node" style="border-color:rgba(0,255,136,.3)"><span class="spoke-hc"></span>企劃 Agent</div>
+          <div class="spoke-line" style="background:linear-gradient(90deg,rgba(0,255,136,.3),rgba(168,85,247,.3))"></div>
         </div>
-
-        <!-- Phase 1 -->
-        <div class="timeline-spacer">
-          <div style="position:absolute; top: 30px; left:50%; transform:translateX(-50%); text-align:center;">
-            <div style="font-size:0.72rem; color:var(--gold); font-weight:700;">規劃期</div>
-            <div style="font-size:0.65rem; color:var(--text-dim);">1.5 個月</div>
-          </div>
+        <div class="hub-spoke an">
+          <div class="spoke-node" style="border-color:rgba(0,212,255,.3)"><span class="spoke-hc"></span>美術 Agent</div>
+          <div class="spoke-line" style="background:linear-gradient(90deg,rgba(0,212,255,.3),rgba(168,85,247,.3))"></div>
         </div>
-
-        <!-- CP1 -->
-        <div class="timeline-seg anim" style="min-width: 110px;">
-          <div class="timeline-dot gold" style="background:var(--gold);"></div>
-          <div class="timeline-phase" style="color:var(--gold)">Checkpoint 1</div>
-          <div class="timeline-desc">Week 6<br>提出規劃藍圖</div>
+        <div class="hub-spoke an">
+          <div class="spoke-node" style="border-color:rgba(255,140,0,.3)"><span class="spoke-hc"></span>程式 Agent</div>
+          <div class="spoke-line" style="background:linear-gradient(90deg,rgba(255,140,0,.3),rgba(168,85,247,.3))"></div>
         </div>
+      </div>
 
-        <!-- Phase 2 -->
-        <div class="timeline-spacer">
-          <div style="position:absolute; top: 30px; left:50%; transform:translateX(-50%); text-align:center;">
-            <div style="font-size:0.72rem; color:var(--cyan); font-weight:700;">開發期</div>
-            <div style="font-size:0.65rem; color:var(--text-dim);">2 個月</div>
-          </div>
+      <!-- Center -->
+      <div class="hub-center an">
+        <div class="hub-title" style="color:var(--purple)">&#129302; Master Agent</div>
+        <div class="hub-sub">統一入口 &bull; 智慧路由 &bull; 跨職能調度</div>
+      </div>
+
+      <!-- Right spokes -->
+      <div class="hub-spokes">
+        <div class="hub-spoke an" style="flex-direction:row-reverse">
+          <div class="spoke-node" style="border-color:rgba(255,0,110,.3)"><span class="spoke-hc"></span>QA Agent</div>
+          <div class="spoke-line" style="background:linear-gradient(90deg,rgba(168,85,247,.3),rgba(255,0,110,.3))"></div>
         </div>
-
-        <!-- CP2 -->
-        <div class="timeline-seg anim" style="min-width: 110px;">
-          <div class="timeline-dot cyan" style="background:var(--cyan);"></div>
-          <div class="timeline-phase" style="color:var(--cyan)">Checkpoint 2</div>
-          <div class="timeline-desc">Week 14<br>最終成果發表會</div>
+        <div class="hub-spoke an" style="flex-direction:row-reverse">
+          <div class="spoke-node" style="border-color:rgba(255,215,0,.3)"><span class="spoke-hc"></span>音效 Agent</div>
+          <div class="spoke-line" style="background:linear-gradient(90deg,rgba(168,85,247,.3),rgba(255,215,0,.3))"></div>
+        </div>
+        <div class="hub-spoke an" style="flex-direction:row-reverse">
+          <div class="spoke-node" style="border-color:rgba(139,92,246,.3)"><span class="spoke-hc"></span>動畫 Agent</div>
+          <div class="spoke-line" style="background:linear-gradient(90deg,rgba(168,85,247,.3),rgba(139,92,246,.3))"></div>
         </div>
       </div>
     </div>
 
-    <!-- Phase detail cards -->
-    <div class="anim grid-2" style="margin-top: 0.5rem;">
-      <div class="card anim" style="border-left: 3px solid var(--gold);">
-        <div class="card-label" style="color:var(--gold);">Phase 1 &mdash; 規劃期 (Week 1-6)</div>
-        <div class="card-desc">團隊組建、研究 AI 工具、制定方案藍圖，<br>於 CP1 提出規劃報告</div>
+    <div class="an" style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap">
+      <div class="hc">&#128993; = 每個 Agent 都內建人工檢核</div>
+    </div>
+
+    <div class="an g3" style="margin-top:.3rem">
+      <div class="card an" style="text-align:center;padding:1rem">
+        <div style="font-size:1.3rem;margin-bottom:.3rem">&#128483;</div>
+        <div class="card-title">統一入口</div>
+        <div class="card-desc">任何職種透過 Master Agent 下指令</div>
       </div>
-      <div class="card anim" style="border-left: 3px solid var(--cyan);">
-        <div class="card-label" style="color:var(--cyan);">Phase 2 &mdash; 開發期 (Week 7-14)</div>
-        <div class="card-desc">將新方法實質落實於開發環節，<br>於 CP2 進行成果發表</div>
+      <div class="card an" style="text-align:center;padding:1rem">
+        <div style="font-size:1.3rem;margin-bottom:.3rem">&#128268;</div>
+        <div class="card-title">智慧路由</div>
+        <div class="card-desc">自動辨識需求，分派對應 Agent</div>
+      </div>
+      <div class="card an" style="text-align:center;padding:1rem">
+        <div style="font-size:1.3rem;margin-bottom:.3rem">&#128260;</div>
+        <div class="card-title">跨職能串聯</div>
+        <div class="card-desc">一個需求可觸發多個 Agent 協作</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== SLIDE 8: SUPPORT ===== -->
+<!-- ===== 8: END-TO-END WORKFLOW ===== -->
 <section class="slide" data-slide="8">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">SUPPORT</span>
-      <h2 class="anim slide-title">參賽與支援機制</h2>
+      <span class="an tag">WORKFLOW</span>
+      <h2 class="an">端到端示範 &mdash; 新增一款老虎機符號</h2>
+      <p class="an sub">一個真實場景，展示人機協作如何串聯多職種</p>
     </div>
 
-    <!-- Layer Architecture -->
-    <div class="anim layer-arch">
-      <div class="layer top anim">
-        <div class="layer-title" style="color:var(--cyan);">各部門參賽團隊</div>
-        <div class="layer-detail">鼓勵各部門至少指派一隊主力參加（不限報名組數）<br>打破部門藩籬 &bull; 跨職能合作</div>
+    <div class="an layers">
+      <div class="layer l1 an" style="display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap">
+        <span style="color:var(--purple);font-weight:700;font-size:.85rem">&#9312; 企劃</span>
+        <span style="font-size:.8rem">AI 生成符號機制草案</span>
+        <div class="hc" style="font-size:.7rem">&#128064; 企劃種子審核機制合理性</div>
       </div>
-      <div class="layer-connector anim"></div>
-      <div class="layer mid anim">
-        <div class="layer-title" style="color:var(--gold);">跨職能協作模式</div>
-        <div class="layer-detail">企劃 &bull; 美術 &bull; 程式 &bull; QA &bull; 音效 &bull; PM &hellip;<br>團隊成員 + AI 工具協作完成</div>
+      <div class="lc an"></div>
+      <div class="layer l2 an" style="display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap">
+        <span style="color:var(--cyan);font-weight:700;font-size:.85rem">&#9313; 美術</span>
+        <span style="font-size:.8rem">AI 生成符號圖像</span>
+        <div class="hc" style="font-size:.7rem">&#128064; 美術種子審核風格品質</div>
       </div>
-      <div class="layer-connector anim"></div>
-      <div class="layer bot anim">
-        <div class="layer-title" style="color:var(--green);">RD7 AI 組 &mdash; 技術後盾</div>
-        <div class="layer-detail">提供專業 AI 諮詢與技術支援<br>協助團隊克服技術障礙</div>
+      <div class="lc an"></div>
+      <div class="layer l2 an" style="border-color:rgba(139,92,246,.25);background:rgba(139,92,246,.08);display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap">
+        <span style="color:#8b5cf6;font-weight:700;font-size:.85rem">&#9314; 動畫</span>
+        <span style="font-size:.8rem">AI 輔助生成旋轉動畫</span>
+        <div class="hc" style="font-size:.7rem">&#128064; 動畫種子審核流暢度</div>
+      </div>
+      <div class="lc an"></div>
+      <div class="layer l3 an" style="display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap">
+        <span style="color:var(--gold);font-weight:700;font-size:.85rem">&#9315; 音效</span>
+        <span style="font-size:.8rem">AI 生成中獎音效</span>
+        <div class="hc" style="font-size:.7rem">&#128064; 音效種子審核適配性</div>
+      </div>
+      <div class="lc an"></div>
+      <div class="layer l2 an" style="border-color:rgba(255,140,0,.25);background:rgba(255,140,0,.08);display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap">
+        <span style="color:var(--orange);font-weight:700;font-size:.85rem">&#9316; 程式</span>
+        <span style="font-size:.8rem">AI 整合符號至遊戲引擎</span>
+        <div class="hc" style="font-size:.7rem">&#128064; 程式種子審核邏輯</div>
+      </div>
+      <div class="lc an"></div>
+      <div class="layer l4 an" style="display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap">
+        <span style="color:var(--magenta);font-weight:700;font-size:.85rem">&#9317; QA</span>
+        <span style="font-size:.8rem">AI 自動化測試</span>
+        <div class="hc" style="font-size:.7rem">&#128064; QA 種子驗證完整性</div>
       </div>
     </div>
 
-    <div class="anim" style="text-align:center; margin-top:1rem;">
-      <div class="flow-node accent" style="display:inline-block; font-size:0.85rem;">
-        &#128161; 有任何 AI 技術問題，隨時向 RD7 AI 組尋求協助
-      </div>
+    <div class="an" style="text-align:center;margin-top:.5rem;font-size:.82rem;color:var(--text-dim)">
+      全程由 <span class="hl-p">Master Agent</span> 調度 &bull; 每一步都有<span class="hl">人工檢核</span> &bull; 所有軌跡自動紀錄
     </div>
   </div>
 </section>
 
-<!-- ===== SLIDE 9: COMPLIANCE ===== -->
+<!-- ===== 9: SCORING ALIGNMENT ===== -->
 <section class="slide" data-slide="9">
   <div class="slide-inner">
     <div>
-      <span class="anim slide-tag">COMPLIANCE</span>
-      <h2 class="anim slide-title">防弊與合規驗證</h2>
-      <p class="anim slide-subtitle">確保成果真實性與公正性</p>
+      <span class="an tag">SCORING ALIGNMENT</span>
+      <h2 class="an">精準命中四大評分維度</h2>
     </div>
 
-    <!-- Required deliverables -->
-    <div style="margin-bottom: 0.5rem;">
-      <div class="anim" style="font-size:0.9rem; font-weight:700; margin-bottom:0.8rem; color:var(--green);">
-        &#9989; 成果發表必須涵蓋
-      </div>
-      <div class="checklist">
-        <div class="check-item anim">
-          <div class="check-icon ok">&#10003;</div>
-          <span><strong>工具清單</strong> &mdash; 完整列出使用的 AI 工具與新技術</span>
-        </div>
-        <div class="check-item anim">
-          <div class="check-icon ok">&#10003;</div>
-          <span><strong>應用環節軌跡紀錄</strong> &mdash; 記錄 AI 在各開發階段的使用過程</span>
-        </div>
-        <div class="check-item anim">
-          <div class="check-icon ok">&#10003;</div>
-          <span><strong>Before / After 成效對比</strong> &mdash; 以數據呈現導入前後差異</span>
+    <div class="an score-map">
+      <div class="card an" style="border-left:3px solid var(--gold)">
+        <div class="sm-row">
+          <div class="sm-pct" style="color:var(--gold)">&#9670; 優化效益 30%</div>
+          <div>
+            <div class="card-desc"><strong>人工檢核紀錄 = Before/After 數據</strong><br>每次 AI 迭代的通過率、退回率、修正次數，直接量化優化效益</div>
+            <div class="sm-bar" style="width:100%;background:var(--gold)"></div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Prohibition -->
-    <div>
-      <div class="anim" style="font-size:0.9rem; font-weight:700; margin-bottom:0.8rem; color:var(--magenta);">
-        &#128683; 禁止事項
-      </div>
-      <div class="checklist">
-        <div class="check-item anim" style="border-color: rgba(255,0,110,0.2);">
-          <div class="check-icon no">&#10007;</div>
-          <span><strong>嚴禁外部代工</strong> &mdash; 核心 AI 開發產出不得委由外部人員完成</span>
+      <div class="card an" style="border-left:3px solid var(--cyan)">
+        <div class="sm-row">
+          <div class="sm-pct" style="color:var(--cyan)">&#9670; AI 技術應用 30%</div>
+          <div>
+            <div class="card-desc"><strong>Master Agent + 6 職種 Agent = 跨職能串聯</strong><br>覆蓋完整開發生命週期，展現非孤島的高效工作流</div>
+            <div class="sm-bar" style="width:100%;background:var(--cyan)"></div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="anim flow" style="margin-top:1rem;">
-      <div class="flow-node" style="border-color:var(--green);">工具清單</div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node" style="border-color:var(--green);">軌跡紀錄</div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node" style="border-color:var(--green);">B/A 對比</div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node accent" style="font-weight:800;">&#10003; 驗證通過</div>
+      <div class="card an" style="border-left:3px solid var(--green)">
+        <div class="sm-row">
+          <div class="sm-pct" style="color:var(--green)">&#9670; 方案共用性 20%</div>
+          <div>
+            <div class="card-desc"><strong>Skill 模組化 = 可複製到任何專案</strong><br>種子培育模式可推廣至全事業處，Agent 架構可跨專案共用</div>
+            <div class="sm-bar" style="width:66%;background:var(--green)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card an" style="border-left:3px solid var(--magenta)">
+        <div class="sm-row">
+          <div class="sm-pct" style="color:var(--magenta)">&#9670; 產品完整度 20%</div>
+          <div>
+            <div class="card-desc"><strong>人工檢核 = 品質保證</strong><br>每個環節都有領域專家把關，確保成品具備商用水準</div>
+            <div class="sm-bar" style="width:66%;background:var(--magenta)"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== SLIDE 10: CTA ===== -->
+<!-- ===== 10: TIMELINE ===== -->
 <section class="slide" data-slide="10">
-  <div class="slide-inner" style="align-items: center; justify-content: center;">
-    <div class="anim cta-box">
-      <div class="cta-title anim" style="background: linear-gradient(135deg, var(--gold), var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">
-        以 AI 重塑製程，用創新贏得比賽
-      </div>
-      <p class="anim" style="color:var(--text-dim); margin-bottom: 1.5rem; font-size:0.95rem;">
-        組隊報名、打破藩籬、挑戰自我
-      </p>
+  <div class="slide-inner">
+    <div>
+      <span class="an tag">EXECUTION PLAN</span>
+      <h2 class="an">執行計畫與交付里程碑</h2>
+    </div>
 
-      <div class="anim grid-3" style="max-width:600px; margin:0 auto; gap:1rem;">
-        <div class="card anim" style="text-align:center; padding:1rem;">
-          <div style="font-size:1.5rem;">&#128640;</div>
-          <div style="font-weight:700; font-size:0.85rem; margin-top:0.3rem;">Step 1</div>
-          <div style="font-size:0.78rem; color:var(--text-dim);">組建跨職能團隊</div>
+    <div class="an g2">
+      <div class="card an" style="border-top:3px solid var(--gold)">
+        <div class="card-title" style="color:var(--gold)">CP1 — Week 6 交付</div>
+        <div class="cl" style="margin-top:.5rem">
+          <div class="ci"><div class="ci-icon ci-ok">&#10003;</div>種子選拔完成（6 職種 &times; 1 人）</div>
+          <div class="ci"><div class="ci-icon ci-ok">&#10003;</div>培訓計畫 &amp; Skill 設計藍圖</div>
+          <div class="ci"><div class="ci-icon ci-ok">&#10003;</div>人工檢核點規劃文件</div>
+          <div class="ci"><div class="ci-icon ci-ok">&#10003;</div>Master Agent 架構規劃</div>
+          <div class="ci"><div class="ci-icon ci-hc">&#128064;</div>至少 1 個 Skill 原型 Demo</div>
         </div>
-        <div class="card anim" style="text-align:center; padding:1rem;">
-          <div style="font-size:1.5rem;">&#128736;</div>
-          <div style="font-weight:700; font-size:0.85rem; margin-top:0.3rem;">Step 2</div>
-          <div style="font-size:0.78rem; color:var(--text-dim);">探索 AI 工具與方案</div>
-        </div>
-        <div class="card anim" style="text-align:center; padding:1rem;">
-          <div style="font-size:1.5rem;">&#127942;</div>
-          <div style="font-weight:700; font-size:0.85rem; margin-top:0.3rem;">Step 3</div>
-          <div style="font-size:0.78rem; color:var(--text-dim);">實戰驗證贏得獎項</div>
+      </div>
+      <div class="card an" style="border-top:3px solid var(--cyan)">
+        <div class="card-title" style="color:var(--cyan)">CP2 — Week 14 交付</div>
+        <div class="cl" style="margin-top:.5rem">
+          <div class="ci"><div class="ci-icon ci-ok">&#10003;</div>6 個職種 Agent 全數上線</div>
+          <div class="ci"><div class="ci-icon ci-ok">&#10003;</div>Master Agent 整合完成</div>
+          <div class="ci"><div class="ci-icon ci-ok">&#10003;</div>完整端到端 Demo（含人工檢核）</div>
+          <div class="ci"><div class="ci-icon ci-hc">&#128064;</div>Before/After 成效數據報告</div>
+          <div class="ci"><div class="ci-icon ci-hc">&#128064;</div>工具清單 &amp; 軌跡紀錄</div>
         </div>
       </div>
     </div>
 
-    <p class="anim" style="text-align:center; font-size:0.8rem; color:var(--text-dim); margin-top:1rem;">
-      技術支援：RD7 AI 組 &ensp;|&ensp; 總賽程 3.5 個月 &ensp;|&ensp; 不限報名組數
-    </p>
+    <div class="an flow" style="margin-top:.5rem">
+      <div class="fn an" style="border-color:var(--green);color:var(--green);font-size:.78rem">W1-3 選種培育</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--cyan);color:var(--cyan);font-size:.78rem">W3-6 Skill 建置</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--gold);color:var(--gold);font-size:.78rem">CP1</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--orange);color:var(--orange);font-size:.78rem">W7-10 Agent 開發</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--purple);color:var(--purple);font-size:.78rem">W10-13 整合測試</div>
+      <div class="fa">&rarr;</div>
+      <div class="fn an" style="border-color:var(--magenta);color:var(--magenta);font-size:.78rem">CP2</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11: CLOSING ===== -->
+<section class="slide" data-slide="11">
+  <div class="slide-inner" style="align-items:center;justify-content:center">
+    <div class="an card" style="text-align:center;padding:2.5rem;border:1px solid rgba(255,215,0,.2);background:linear-gradient(135deg,rgba(255,215,0,.06),rgba(168,85,247,.06))">
+      <h2 class="an" style="background:linear-gradient(135deg,var(--gold),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.8rem">
+        讓 AI 成為每個人的超能力<br>而不是取代任何人
+      </h2>
+      <p class="an sub" style="text-align:center;margin:.8rem auto 0;max-width:500px">
+        種子培育機制確保知識傳承<br>
+        人工檢核確保品質可控<br>
+        Agent 整合確保效率最大化
+      </p>
+    </div>
+
+    <div class="an g3" style="max-width:650px;margin:0 auto">
+      <div class="card an" style="text-align:center;padding:1rem">
+        <div style="font-size:1.3rem">&#127793;</div>
+        <div style="font-weight:700;font-size:.82rem;margin-top:.2rem;color:var(--green)">6 位種子</div>
+        <div style="font-size:.72rem;color:var(--text-dim)">各職種 AI 先鋒</div>
+      </div>
+      <div class="card an" style="text-align:center;padding:1rem">
+        <div style="font-size:1.3rem">&#128064;</div>
+        <div style="font-weight:700;font-size:.82rem;margin-top:.2rem;color:var(--gold)">N 個檢核點</div>
+        <div style="font-size:.72rem;color:var(--text-dim)">品質閘門遍布每個 Skill</div>
+      </div>
+      <div class="card an" style="text-align:center;padding:1rem">
+        <div style="font-size:1.3rem">&#129302;</div>
+        <div style="font-weight:700;font-size:.82rem;margin-top:.2rem;color:var(--purple)">1 個 Master Agent</div>
+        <div style="font-size:.72rem;color:var(--text-dim)">統一入口，人人可用</div>
+      </div>
+    </div>
   </div>
 </section>
 
 </div>
-<!-- ===================== END SLIDES ===================== -->
 
 <!-- Navigation -->
 <button class="nav-arrow nav-prev" id="prevBtn" aria-label="Previous">&#10094;</button>
@@ -911,57 +733,17 @@ body::before {
 <div class="page-num" id="pageNum"></div>
 
 <script>
-(function() {
-  const slides = document.querySelectorAll('.slide');
-  const total = slides.length;
-  const progress = document.getElementById('progress');
-  const navDots = document.getElementById('navDots');
-  const pageNum = document.getElementById('pageNum');
-  let current = 0;
-
-  // Build nav dots
-  for (let i = 0; i < total; i++) {
-    const dot = document.createElement('button');
-    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-    dot.addEventListener('click', () => goTo(i));
-    navDots.appendChild(dot);
-  }
-
-  function goTo(n) {
-    if (n < 0 || n >= total) return;
-    slides[current].classList.remove('active');
-    navDots.children[current].classList.remove('active');
-    current = n;
-    slides[current].classList.add('active');
-    navDots.children[current].classList.add('active');
-    progress.style.width = (current / (total - 1) * 100) + '%';
-    pageNum.textContent = (current + 1) + ' / ' + total;
-  }
-
-  function next() { goTo(current + 1); }
-  function prev() { goTo(current - 1); }
-
-  document.getElementById('nextBtn').addEventListener('click', next);
-  document.getElementById('prevBtn').addEventListener('click', prev);
-
-  // Keyboard
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
-    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
-    else if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
-  });
-
-  // Touch swipe
-  let touchStartX = 0;
-  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
-  document.addEventListener('touchend', (e) => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) { diff > 0 ? next() : prev(); }
-  });
-
-  // Init
+(function(){
+  const slides=document.querySelectorAll('.slide'),total=slides.length;
+  const progress=document.getElementById('progress'),navDots=document.getElementById('navDots'),pageNum=document.getElementById('pageNum');
+  let cur=0;
+  for(let i=0;i<total;i++){const d=document.createElement('button');d.className='nav-dot'+(i===0?' active':'');d.setAttribute('aria-label','Slide '+(i+1));d.addEventListener('click',()=>goTo(i));navDots.appendChild(d)}
+  function goTo(n){if(n<0||n>=total)return;slides[cur].classList.remove('active');navDots.children[cur].classList.remove('active');cur=n;slides[cur].classList.add('active');navDots.children[cur].classList.add('active');progress.style.width=(cur/(total-1)*100)+'%';pageNum.textContent=(cur+1)+' / '+total}
+  function next(){goTo(cur+1)}function prev(){goTo(cur-1)}
+  document.getElementById('nextBtn').addEventListener('click',next);
+  document.getElementById('prevBtn').addEventListener('click',prev);
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()}else if(e.key==='ArrowLeft'){e.preventDefault();prev()}else if(e.key==='Home'){e.preventDefault();goTo(0)}else if(e.key==='End'){e.preventDefault();goTo(total-1)}});
+  let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>50){d>0?next():prev()}});
   goTo(0);
 })();
 </script>
