@@ -15,32 +15,32 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2.5rem 3.5rem;opacity:0;transform:translateY(24px);pointer-events:none;transition:opacity .5s ease,transform .5s ease;overflow-y:auto}
 .slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
 .si{width:100%;max-width:1100px;display:flex;flex-direction:column;gap:1.3rem}
-.tag{font-size:.68rem;font-weight:500;letter-spacing:3px;color:var(--gold);opacity:.8}
-h2{font-size:1.9rem;font-weight:900;line-height:1.3}
-.sub{font-size:.88rem;color:var(--td);line-height:1.7;max-width:750px}
+.tag{font-size:1rem;font-weight:500;letter-spacing:3px;color:var(--gold);opacity:.8}
+h2{font-size:2.4rem;font-weight:900;line-height:1.3}
+.sub{font-size:1.05rem;color:var(--td);line-height:1.7;max-width:750px}
 .hl{color:var(--gold);font-weight:700}.hc{color:var(--cyan);font-weight:700}.hg{color:var(--green);font-weight:700}.hm{color:var(--magenta);font-weight:700}.hp{color:var(--purple);font-weight:700}.ho{color:var(--orange);font-weight:700}
 .card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--r);padding:1.2rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform .3s,box-shadow .3s}
 .card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
-.ct{font-size:.92rem;font-weight:700;margin-bottom:.25rem}.cd{font-size:.78rem;color:var(--td);line-height:1.6}
+.ct{font-size:1.1rem;font-weight:700;margin-bottom:.25rem}.cd{font-size:.95rem;color:var(--td);line-height:1.6}
 .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .flow{display:flex;align-items:center;justify-content:center;gap:.4rem;flex-wrap:wrap}
-.fn{background:var(--gs);border:1px solid var(--gb);border-radius:var(--rs);padding:.6rem 1rem;font-weight:600;font-size:.82rem;white-space:nowrap;text-align:center}
-.fa{font-size:1.1rem;color:var(--gold);opacity:.6;flex-shrink:0}
-.badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:99px;padding:.3rem .8rem;font-size:.75rem;font-weight:600}
+.fn{background:var(--gs);border:1px solid var(--gb);border-radius:var(--rs);padding:.7rem 1.2rem;font-weight:600;font-size:1rem;white-space:nowrap;text-align:center}
+.fa{font-size:1.3rem;color:var(--gold);opacity:.6;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:99px;padding:.4rem 1rem;font-size:1rem;font-weight:600}
 .badge-hc{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:var(--gold)}
 .badge-hc::before{content:'';display:inline-block;width:7px;height:7px;background:var(--gold);border-radius:50%}
 .badge-ai{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan)}
 
 /* Pipeline */
 .pipe{display:flex;align-items:stretch;gap:0;width:100%;flex-wrap:wrap;justify-content:center}
-.ps{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.5rem .35rem;flex:1;min-width:85px;max-width:140px}
-.ps .sb{border-radius:var(--rs);padding:.5rem .4rem;width:100%;text-align:center;font-size:.72rem;font-weight:600;border:1px solid}
+.ps{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.5rem .35rem;flex:1;min-width:95px;max-width:155px}
+.ps .sb{border-radius:var(--rs);padding:.55rem .5rem;width:100%;text-align:center;font-size:1rem;font-weight:600;border:1px solid}
 .sb.ai{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.2);color:var(--cyan)}
 .sb.hk{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:var(--gold)}
 .sb.out{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.2);color:var(--green)}
-.ps .sl{font-size:.6rem;color:var(--td);text-align:center;line-height:1.3}
-.pa{display:flex;align-items:center;font-size:.9rem;color:rgba(255,255,255,.15);padding:0 .05rem;align-self:center}
+.ps .sl{font-size:.95rem;color:var(--td);text-align:center;line-height:1.3}
+.pa{display:flex;align-items:center;font-size:1rem;color:rgba(255,255,255,.15);padding:0 .05rem;align-self:center}
 
 /* Dual track split */
 .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
@@ -49,7 +49,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
 .track-fish{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.2)}
 .track-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
 .track-icon{font-size:1.8rem}
-.track-name{font-size:1.1rem;font-weight:900}
+.track-name{font-size:1.3rem;font-weight:900}
 
 /* Hub diagram */
 .hub-wrap{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
@@ -57,7 +57,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
 .hub-tiger{background:linear-gradient(135deg,rgba(255,140,0,.1),rgba(255,215,0,.05));border:2px solid rgba(255,140,0,.35)}
 .hub-fish{background:linear-gradient(135deg,rgba(0,212,255,.1),rgba(0,255,136,.05));border:2px solid rgba(0,212,255,.35)}
 .hub-me{background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(0,212,255,.08));border:2px solid rgba(168,85,247,.4);padding:1.5rem 2rem}
-.spoke-list{display:flex;flex-direction:column;gap:.35rem;margin-top:.6rem;text-align:left;font-size:.72rem}
+.spoke-list{display:flex;flex-direction:column;gap:.35rem;margin-top:.6rem;text-align:left;font-size:1rem}
 .spoke-item{display:flex;align-items:center;gap:.3rem}
 .spoke-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .spoke-hc{width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-left:auto}
@@ -70,9 +70,9 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
 
 /* Checklist */
 .cl{display:flex;flex-direction:column;gap:.4rem}
-.ci{display:flex;align-items:center;gap:.6rem;background:var(--glass);border:1px solid var(--gb);border-radius:var(--rs);padding:.6rem .9rem;font-size:.82rem}
-.ci-ok{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;background:rgba(0,255,136,.15);color:var(--green)}
-.ci-hc{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;background:rgba(255,215,0,.15);color:var(--gold)}
+.ci{display:flex;align-items:center;gap:.6rem;background:var(--glass);border:1px solid var(--gb);border-radius:var(--rs);padding:.7rem 1rem;font-size:1rem}
+.ci-ok{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:rgba(0,255,136,.15);color:var(--green)}
+.ci-hc{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:rgba(255,215,0,.15);color:var(--gold)}
 
 /* Animations */
 .slide.active .an{animation:fadeUp .55s ease both}
@@ -99,14 +99,14 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
 .nav-arrow{position:fixed;top:50%;transform:translateY(-50%);font-size:1.3rem;color:rgba(255,255,255,.25);cursor:pointer;padding:1rem;z-index:99;transition:color .3s;background:none;border:none;outline:none;user-select:none}
 .nav-arrow:hover{color:var(--gold)}
 .nav-prev{left:.5rem}.nav-next{right:.5rem}
-.page-num{position:fixed;bottom:.8rem;right:1.5rem;font-size:.68rem;color:var(--td);z-index:99}
+.page-num{position:fixed;bottom:.8rem;right:1.5rem;font-size:1rem;color:var(--td);z-index:99}
 
 /* Cover */
 .cv-title{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:900;line-height:1.15;background:linear-gradient(135deg,var(--orange) 0%,var(--gold) 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cv-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.25);border-radius:99px;padding:.4rem 1rem;font-size:.78rem;color:var(--orange);font-weight:500}
+.cv-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.25);border-radius:99px;padding:.5rem 1.2rem;font-size:.95rem;color:var(--orange);font-weight:500}
 
 /* Score */
-.sc-row{display:grid;grid-template-columns:140px 1fr;gap:.8rem;align-items:start;font-size:.82rem}
+.sc-row{display:grid;grid-template-columns:160px 1fr;gap:.8rem;align-items:start;font-size:1rem}
 .sc-pct{font-weight:700;display:flex;align-items:center;gap:.4rem}
 
 @media(max-width:768px){
@@ -136,14 +136,14 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   </p>
   <div class="an flow" style="margin-top:.8rem">
     <div class="fn" style="border-color:var(--orange);color:var(--orange)">&#127920; 虎機 Agent</div>
-    <div style="font-size:.8rem;color:var(--td);padding:0 .3rem">+</div>
+    <div style="font-size:.95rem;color:var(--td);padding:0 .3rem">+</div>
     <div class="fn" style="border-color:var(--cyan);color:var(--cyan)">&#127907; 魚機 Agent</div>
-    <div style="font-size:.8rem;color:var(--td);padding:0 .3rem">&times;</div>
+    <div style="font-size:.95rem;color:var(--td);padding:0 .3rem">&times;</div>
     <div class="fn" style="border-color:var(--green);color:var(--green)">6 職種 Skill</div>
-    <div style="font-size:.8rem;color:var(--td);padding:0 .3rem">&times;</div>
+    <div style="font-size:.95rem;color:var(--td);padding:0 .3rem">&times;</div>
     <div class="fn" style="border-color:var(--gold);color:var(--gold)">&#128064; 人工檢核</div>
   </div>
-  <p class="an" style="font-size:.7rem;color:var(--td);margin-top:1.5rem;animation:pulse 2s infinite">按 &rarr; 或點擊右側開始瀏覽</p>
+  <p class="an" style="font-size:1rem;color:var(--td);margin-top:1.5rem;animation:pulse 2s infinite">按 &rarr; 或點擊右側開始瀏覽</p>
 </div>
 </section>
 
@@ -160,7 +160,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
     <div class="hub-box hub-tiger an">
       <div style="font-size:2rem">&#127920;</div>
       <div style="font-size:1rem;font-weight:900;color:var(--orange)">虎機 Agent</div>
-      <div style="font-size:.7rem;color:var(--td);margin:.2rem 0">全製程自動化</div>
+      <div style="font-size:1rem;color:var(--td);margin:.2rem 0">全製程自動化</div>
       <div class="spoke-list">
         <div class="spoke-item"><span class="spoke-dot" style="background:var(--green)"></span>企劃 Skill<span class="spoke-hc"></span></div>
         <div class="spoke-item"><span class="spoke-dot" style="background:var(--cyan)"></span>美術 Skill<span class="spoke-hc"></span></div>
@@ -175,7 +175,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
     <div class="hub-box hub-me an">
       <div style="font-size:1.8rem">&#127919;</div>
       <div style="font-size:1.1rem;font-weight:900;color:var(--purple)">統籌架構師</div>
-      <div style="font-size:.72rem;color:var(--td);margin-top:.2rem">
+      <div style="font-size:1rem;color:var(--td);margin-top:.2rem">
         Agent 設計 &bull; 種子培育<br>Skill 建置 &bull; 整合調度
       </div>
     </div>
@@ -184,7 +184,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
     <div class="hub-box hub-fish an">
       <div style="font-size:2rem">&#127907;</div>
       <div style="font-size:1rem;font-weight:900;color:var(--cyan)">魚機 Agent</div>
-      <div style="font-size:.7rem;color:var(--td);margin:.2rem 0">全製程自動化</div>
+      <div style="font-size:1rem;color:var(--td);margin:.2rem 0">全製程自動化</div>
       <div class="spoke-list">
         <div class="spoke-item"><span class="spoke-dot" style="background:var(--green)"></span>企劃 Skill<span class="spoke-hc"></span></div>
         <div class="spoke-item"><span class="spoke-dot" style="background:var(--cyan)"></span>美術 Skill<span class="spoke-hc"></span></div>
@@ -200,7 +200,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
     <span class="badge badge-hc">&#128993; = 每個 Skill 都內建人工檢核點</span>
   </div>
 
-  <p class="an sub" style="text-align:center;font-size:.8rem;margin:0 auto">
+  <p class="an sub" style="text-align:center;font-size:.95rem;margin:0 auto">
     兩支 Agent 各自獨立運作，共用<span class="hl">同一套種子培育體系</span>與<span class="hl">人工檢核框架</span>
   </p>
 </div>
@@ -226,32 +226,32 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
     <div class="card an" style="text-align:center;border-top:3px solid var(--green);padding:1rem">
       <div style="font-size:1.5rem">&#128203;</div>
       <div class="ct" style="color:var(--green)">企劃種子</div>
-      <div class="cd">遊戲機制 &bull; 數值設計<br><span style="font-size:.68rem;color:var(--orange)">&#127920; 賠率表/回合機制</span><br><span style="font-size:.68rem;color:var(--cyan)">&#127907; 魚種/武器/場景規劃</span></div>
+      <div class="cd">遊戲機制 &bull; 數值設計<br><span style="font-size:1rem;color:var(--orange)">&#127920; 賠率表/回合機制</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 魚種/武器/場景規劃</span></div>
     </div>
     <div class="card an" style="text-align:center;border-top:3px solid var(--cyan);padding:1rem">
       <div style="font-size:1.5rem">&#127912;</div>
       <div class="ct" style="color:var(--cyan)">美術種子</div>
-      <div class="cd">圖像生成 &bull; UI 素材<br><span style="font-size:.68rem;color:var(--orange)">&#127920; 符號/背景/介面</span><br><span style="font-size:.68rem;color:var(--cyan)">&#127907; 魚種造型/海底場景</span></div>
+      <div class="cd">圖像生成 &bull; UI 素材<br><span style="font-size:1rem;color:var(--orange)">&#127920; 符號/背景/介面</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 魚種造型/海底場景</span></div>
     </div>
     <div class="card an" style="text-align:center;border-top:3px solid #8b5cf6;padding:1rem">
       <div style="font-size:1.5rem">&#127916;</div>
       <div class="ct" style="color:#8b5cf6">動畫種子</div>
-      <div class="cd">動畫生成 &bull; 特效<br><span style="font-size:.68rem;color:var(--orange)">&#127920; 捲軸旋轉/中獎特效</span><br><span style="font-size:.68rem;color:var(--cyan)">&#127907; 魚群游動/捕獲爆炸</span></div>
+      <div class="cd">動畫生成 &bull; 特效<br><span style="font-size:1rem;color:var(--orange)">&#127920; 捲軸旋轉/中獎特效</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 魚群游動/捕獲爆炸</span></div>
     </div>
     <div class="card an" style="text-align:center;border-top:3px solid var(--gold);padding:1rem">
       <div style="font-size:1.5rem">&#127925;</div>
       <div class="ct" style="color:var(--gold)">音效種子</div>
-      <div class="cd">音效生成 &bull; 配樂<br><span style="font-size:.68rem;color:var(--orange)">&#127920; 捲軸音/中獎音/背景樂</span><br><span style="font-size:.68rem;color:var(--cyan)">&#127907; 水聲/射擊音/爆炸音</span></div>
+      <div class="cd">音效生成 &bull; 配樂<br><span style="font-size:1rem;color:var(--orange)">&#127920; 捲軸音/中獎音/背景樂</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 水聲/射擊音/爆炸音</span></div>
     </div>
     <div class="card an" style="text-align:center;border-top:3px solid var(--orange);padding:1rem">
       <div style="font-size:1.5rem">&#128187;</div>
       <div class="ct" style="color:var(--orange)">程式種子</div>
-      <div class="cd">程式碼生成 &bull; 優化<br><span style="font-size:.68rem;color:var(--orange)">&#127920; 遊戲邏輯/RNG引擎</span><br><span style="font-size:.68rem;color:var(--cyan)">&#127907; 物理碰撞/武器系統</span></div>
+      <div class="cd">程式碼生成 &bull; 優化<br><span style="font-size:1rem;color:var(--orange)">&#127920; 遊戲邏輯/RNG引擎</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 物理碰撞/武器系統</span></div>
     </div>
     <div class="card an" style="text-align:center;border-top:3px solid var(--magenta);padding:1rem">
       <div style="font-size:1.5rem">&#128270;</div>
       <div class="ct" style="color:var(--magenta)">QA 種子</div>
-      <div class="cd">測試自動化 &bull; 驗證<br><span style="font-size:.68rem;color:var(--orange)">&#127920; 賠率驗算/回合測試</span><br><span style="font-size:.68rem;color:var(--cyan)">&#127907; 平衡性/碰撞測試</span></div>
+      <div class="cd">測試自動化 &bull; 驗證<br><span style="font-size:1rem;color:var(--orange)">&#127920; 賠率驗算/回合測試</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 平衡性/碰撞測試</span></div>
     </div>
   </div>
 </div>
@@ -267,15 +267,15 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   </div>
 
   <div class="an flow">
-    <div class="fn an" style="border-color:var(--green);color:var(--green);font-size:.78rem">&#9312; 認識 AI 工具</div>
+    <div class="fn an" style="border-color:var(--green);color:var(--green);font-size:.95rem">&#9312; 認識 AI 工具</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--cyan);color:var(--cyan);font-size:.78rem">&#9313; 用真實案例演練</div>
+    <div class="fn an" style="border-color:var(--cyan);color:var(--cyan);font-size:.95rem">&#9313; 用真實案例演練</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--orange);color:var(--orange);font-size:.78rem">&#9314; 撰寫職種 Skill</div>
+    <div class="fn an" style="border-color:var(--orange);color:var(--orange);font-size:.95rem">&#9314; 撰寫職種 Skill</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--gold);color:var(--gold);font-size:.78rem">&#9315; 設計檢核點</div>
+    <div class="fn an" style="border-color:var(--gold);color:var(--gold);font-size:.95rem">&#9315; 設計檢核點</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--purple);color:var(--purple);font-size:.78rem">&#9316; 掛載至 Agent</div>
+    <div class="fn an" style="border-color:var(--purple);color:var(--purple);font-size:.95rem">&#9316; 掛載至 Agent</div>
   </div>
 
   <div class="an g2">
@@ -297,10 +297,10 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
 
   <div class="an card" style="border:1px solid rgba(168,85,247,.2)">
     <div class="cd" style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;text-align:center">
-      <div><strong style="color:var(--purple);font-size:1.2rem">1 : 1</strong><br><span style="font-size:.72rem">統籌帶教</span></div>
-      <div><strong style="color:var(--orange);font-size:1.2rem">Learning by Doing</strong><br><span style="font-size:.72rem">真實製程實作</span></div>
-      <div><strong style="color:var(--gold);font-size:1.2rem">Skill + 檢核</strong><br><span style="font-size:.72rem">每個 Skill 必含人工關卡</span></div>
-      <div><strong style="color:var(--cyan);font-size:1.2rem">&times;2 軌</strong><br><span style="font-size:.72rem">虎機 &amp; 魚機都要覆蓋</span></div>
+      <div><strong style="color:var(--purple);font-size:1.2rem">1 : 1</strong><br><span style="font-size:1rem">統籌帶教</span></div>
+      <div><strong style="color:var(--orange);font-size:1.2rem">Learning by Doing</strong><br><span style="font-size:1rem">真實製程實作</span></div>
+      <div><strong style="color:var(--gold);font-size:1.2rem">Skill + 檢核</strong><br><span style="font-size:1rem">每個 Skill 必含人工關卡</span></div>
+      <div><strong style="color:var(--cyan);font-size:1.2rem">&times;2 軌</strong><br><span style="font-size:1rem">虎機 &amp; 魚機都要覆蓋</span></div>
     </div>
   </div>
 </div>
@@ -347,7 +347,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   <div class="an" style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:.3rem">
     <span class="badge badge-ai">&#129302; AI 自動處理</span>
     <span class="badge badge-hc">&#128064; 人工檢核閘門</span>
-    <span style="font-size:.75rem;color:var(--td)">共 <strong style="color:var(--gold)">6 道</strong>人工品質關卡</span>
+    <span style="font-size:1rem;color:var(--td)">共 <strong style="color:var(--gold)">6 道</strong>人工品質關卡</span>
   </div>
 </div>
 </section>
@@ -393,7 +393,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   <div class="an" style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:.3rem">
     <span class="badge badge-ai">&#129302; AI 自動處理</span>
     <span class="badge badge-hc">&#128064; 人工檢核閘門</span>
-    <span style="font-size:.75rem;color:var(--td)">共 <strong style="color:var(--gold)">6 道</strong>人工品質關卡</span>
+    <span style="font-size:1rem;color:var(--td)">共 <strong style="color:var(--gold)">6 道</strong>人工品質關卡</span>
   </div>
 </div>
 </section>
@@ -409,15 +409,15 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
 
   <!-- Loop mechanism -->
   <div class="an card" style="border:1px solid rgba(255,215,0,.25);padding:1.3rem">
-    <div style="text-align:center;margin-bottom:.8rem;font-weight:700;color:var(--gold);font-size:.85rem">&#128260; 每個檢核點的運作機制</div>
+    <div style="text-align:center;margin-bottom:.8rem;font-weight:700;color:var(--gold);font-size:1rem">&#128260; 每個檢核點的運作機制</div>
     <div class="flow" style="gap:.3rem">
-      <div class="fn" style="border-color:var(--cyan);color:var(--cyan);font-size:.78rem">&#129302; AI 產出</div>
+      <div class="fn" style="border-color:var(--cyan);color:var(--cyan);font-size:.95rem">&#129302; AI 產出</div>
       <div class="fa">&rarr;</div>
-      <div class="fn" style="border-color:var(--gold);background:rgba(255,215,0,.1);color:var(--gold);font-size:.78rem">&#128064; 種子審核</div>
+      <div class="fn" style="border-color:var(--gold);background:rgba(255,215,0,.1);color:var(--gold);font-size:.95rem">&#128064; 種子審核</div>
       <div class="fa">&rarr;</div>
       <div style="display:flex;flex-direction:column;gap:.3rem">
-        <div class="fn" style="border-color:var(--green);color:var(--green);font-size:.72rem">&#10003; 通過 &rarr; 進入下一階段</div>
-        <div class="fn" style="border-color:var(--magenta);color:var(--magenta);font-size:.72rem">&#10007; 退回 &rarr; AI 依反饋修正 &rarr; 重新審核</div>
+        <div class="fn" style="border-color:var(--green);color:var(--green);font-size:1rem">&#10003; 通過 &rarr; 進入下一階段</div>
+        <div class="fn" style="border-color:var(--magenta);color:var(--magenta);font-size:1rem">&#10007; 退回 &rarr; AI 依反饋修正 &rarr; 重新審核</div>
       </div>
     </div>
   </div>
@@ -445,12 +445,12 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   <div class="an g2" style="margin-top:.2rem">
     <div class="card an" style="text-align:center;padding:1rem;border-color:rgba(255,140,0,.2)">
       <div style="font-size:1rem">&#127920;</div>
-      <div style="font-size:.82rem;font-weight:700;color:var(--orange)">虎機：6 道檢核</div>
+      <div style="font-size:.95rem;font-weight:700;color:var(--orange)">虎機：6 道檢核</div>
       <div class="cd">企劃 &bull; 美術 &bull; 動畫 &bull; 音效 &bull; 程式 &bull; QA</div>
     </div>
     <div class="card an" style="text-align:center;padding:1rem;border-color:rgba(0,212,255,.2)">
       <div style="font-size:1rem">&#127907;</div>
-      <div style="font-size:.82rem;font-weight:700;color:var(--cyan)">魚機：6 道檢核</div>
+      <div style="font-size:.95rem;font-weight:700;color:var(--cyan)">魚機：6 道檢核</div>
       <div class="cd">企劃 &bull; 美術 &bull; 動畫 &bull; 音效 &bull; 程式 &bull; QA</div>
     </div>
   </div>
@@ -466,7 +466,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   </div>
 
   <div class="an" style="overflow-x:auto">
-    <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:.75rem">
+    <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:1rem">
       <thead>
         <tr style="text-align:left">
           <th style="padding:.6rem;color:var(--td);border-bottom:1px solid var(--gb);width:55px">職種</th>
@@ -487,7 +487,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   </div>
 
   <div class="an" style="text-align:center;margin-top:.3rem">
-    <span class="badge badge-hc" style="font-size:.78rem">雙軌共 12 組 Skill &times; 12 道人工檢核 = 全面品質保障</span>
+    <span class="badge badge-hc" style="font-size:.95rem">雙軌共 12 組 Skill &times; 12 道人工檢核 = 全面品質保障</span>
   </div>
 </div>
 </section>
@@ -508,8 +508,8 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
         <div class="track-icon">&#127920;</div>
         <div class="track-name" style="color:var(--orange)">虎機 Agent</div>
       </div>
-      <div style="font-size:.78rem;color:var(--td);margin-bottom:.5rem">自動執行：企劃 &rarr; 美術 &rarr; 動畫 &rarr; 音效 &rarr; 程式 &rarr; QA</div>
-      <div style="display:flex;flex-direction:column;gap:.3rem;font-size:.72rem">
+      <div style="font-size:.95rem;color:var(--td);margin-bottom:.5rem">自動執行：企劃 &rarr; 美術 &rarr; 動畫 &rarr; 音效 &rarr; 程式 &rarr; QA</div>
+      <div style="display:flex;flex-direction:column;gap:.3rem;font-size:1rem">
         <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--cyan)">&#9654;</span> 自動調度各職種 Skill</div>
         <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--gold)">&#9632;</span> 遇檢核點 &rarr; 暫停 &rarr; 通知種子</div>
         <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--green)">&#10003;</span> 種子確認後 &rarr; 自動續行</div>
@@ -523,8 +523,8 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
         <div class="track-icon">&#127907;</div>
         <div class="track-name" style="color:var(--cyan)">魚機 Agent</div>
       </div>
-      <div style="font-size:.78rem;color:var(--td);margin-bottom:.5rem">自動執行：企劃 &rarr; 美術 &rarr; 動畫 &rarr; 音效 &rarr; 程式 &rarr; QA</div>
-      <div style="display:flex;flex-direction:column;gap:.3rem;font-size:.72rem">
+      <div style="font-size:.95rem;color:var(--td);margin-bottom:.5rem">自動執行：企劃 &rarr; 美術 &rarr; 動畫 &rarr; 音效 &rarr; 程式 &rarr; QA</div>
+      <div style="display:flex;flex-direction:column;gap:.3rem;font-size:1rem">
         <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--cyan)">&#9654;</span> 自動調度各職種 Skill</div>
         <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--gold)">&#9632;</span> 遇檢核點 &rarr; 暫停 &rarr; 通知種子</div>
         <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--green)">&#10003;</span> 種子確認後 &rarr; 自動續行</div>
@@ -534,7 +534,7 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   </div>
 
   <div class="an card" style="border:1px solid rgba(168,85,247,.2);text-align:center;padding:1rem">
-    <div style="font-size:.85rem;font-weight:700;color:var(--purple);margin-bottom:.3rem">&#129302; Agent 自動化 + &#128064; 人工把關 = 效率 &times; 品質雙贏</div>
+    <div style="font-size:1rem;font-weight:700;color:var(--purple);margin-bottom:.3rem">&#129302; Agent 自動化 + &#128064; 人工把關 = 效率 &times; 品質雙贏</div>
     <div class="cd">AI 跑完一整條流水線只需下一個指令，但每個關鍵節點都有專家守門<br>不是黑箱自動化，是<strong>透明、可控、可追蹤</strong>的人機協作</div>
   </div>
 </div>
@@ -551,43 +551,43 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
 
   <div class="an layers">
     <div class="layer an" style="background:rgba(0,255,136,.06);border-color:rgba(0,255,136,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--green);font-weight:700;font-size:.8rem">&#9312; 企劃</span>
-      <span style="font-size:.75rem">AI 生成符號機制 &amp; 賠率配置</span>
-      <span class="badge badge-hc" style="font-size:.65rem">&#128064; 審核機制合理性</span>
+      <span style="color:var(--green);font-weight:700;font-size:.95rem">&#9312; 企劃</span>
+      <span style="font-size:1rem">AI 生成符號機制 &amp; 賠率配置</span>
+      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核機制合理性</span>
     </div>
     <div class="lc an"></div>
     <div class="layer an" style="background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--cyan);font-weight:700;font-size:.8rem">&#9313; 美術</span>
-      <span style="font-size:.75rem">AI 生成符號圖像 &amp; 動態素材</span>
-      <span class="badge badge-hc" style="font-size:.65rem">&#128064; 審核風格品質</span>
+      <span style="color:var(--cyan);font-weight:700;font-size:.95rem">&#9313; 美術</span>
+      <span style="font-size:1rem">AI 生成符號圖像 &amp; 動態素材</span>
+      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核風格品質</span>
     </div>
     <div class="lc an"></div>
     <div class="layer an" style="background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:#8b5cf6;font-weight:700;font-size:.8rem">&#9314; 動畫</span>
-      <span style="font-size:.75rem">AI 生成旋轉 &amp; 中獎動畫</span>
-      <span class="badge badge-hc" style="font-size:.65rem">&#128064; 審核流暢表現</span>
+      <span style="color:#8b5cf6;font-weight:700;font-size:.95rem">&#9314; 動畫</span>
+      <span style="font-size:1rem">AI 生成旋轉 &amp; 中獎動畫</span>
+      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核流暢表現</span>
     </div>
     <div class="lc an"></div>
     <div class="layer an" style="background:rgba(255,215,0,.06);border-color:rgba(255,215,0,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--gold);font-weight:700;font-size:.8rem">&#9315; 音效</span>
-      <span style="font-size:.75rem">AI 生成中獎音效 &amp; 背景音</span>
-      <span class="badge badge-hc" style="font-size:.65rem">&#128064; 審核音質適配</span>
+      <span style="color:var(--gold);font-weight:700;font-size:.95rem">&#9315; 音效</span>
+      <span style="font-size:1rem">AI 生成中獎音效 &amp; 背景音</span>
+      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核音質適配</span>
     </div>
     <div class="lc an"></div>
     <div class="layer an" style="background:rgba(255,140,0,.06);border-color:rgba(255,140,0,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--orange);font-weight:700;font-size:.8rem">&#9316; 程式</span>
-      <span style="font-size:.75rem">AI 整合至遊戲引擎</span>
-      <span class="badge badge-hc" style="font-size:.65rem">&#128064; 審核邏輯穩定</span>
+      <span style="color:var(--orange);font-weight:700;font-size:.95rem">&#9316; 程式</span>
+      <span style="font-size:1rem">AI 整合至遊戲引擎</span>
+      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核邏輯穩定</span>
     </div>
     <div class="lc an"></div>
     <div class="layer an" style="background:rgba(255,0,110,.06);border-color:rgba(255,0,110,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--magenta);font-weight:700;font-size:.8rem">&#9317; QA</span>
-      <span style="font-size:.75rem">AI 自動化驗證測試</span>
-      <span class="badge badge-hc" style="font-size:.65rem">&#128064; 審核測試覆蓋</span>
+      <span style="color:var(--magenta);font-weight:700;font-size:.95rem">&#9317; QA</span>
+      <span style="font-size:1rem">AI 自動化驗證測試</span>
+      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核測試覆蓋</span>
     </div>
   </div>
 
-  <div class="an" style="text-align:center;font-size:.78rem;color:var(--td);margin-top:.3rem">
+  <div class="an" style="text-align:center;font-size:.95rem;color:var(--td);margin-top:.3rem">
     全程 <span class="ho">虎機 Agent</span> 自動調度 &bull; 所有軌跡自動紀錄 &bull; 退回自動觸發 AI 修正
   </div>
 </div>
@@ -662,17 +662,17 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   </div>
 
   <div class="an flow" style="margin-top:.3rem">
-    <div class="fn an" style="border-color:var(--green);color:var(--green);font-size:.72rem">W1-2<br>選種培育</div>
+    <div class="fn an" style="border-color:var(--green);color:var(--green);font-size:1rem">W1-2<br>選種培育</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--cyan);color:var(--cyan);font-size:.72rem">W3-5<br>Skill 建置</div>
+    <div class="fn an" style="border-color:var(--cyan);color:var(--cyan);font-size:1rem">W3-5<br>Skill 建置</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--gold);color:var(--gold);font-size:.72rem">W6<br>CP1</div>
+    <div class="fn an" style="border-color:var(--gold);color:var(--gold);font-size:1rem">W6<br>CP1</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--orange);color:var(--orange);font-size:.72rem">W7-10<br>Agent 開發</div>
+    <div class="fn an" style="border-color:var(--orange);color:var(--orange);font-size:1rem">W7-10<br>Agent 開發</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--purple);color:var(--purple);font-size:.72rem">W11-13<br>整合 &amp; 優化</div>
+    <div class="fn an" style="border-color:var(--purple);color:var(--purple);font-size:1rem">W11-13<br>整合 &amp; 優化</div>
     <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--magenta);color:var(--magenta);font-size:.72rem">W14<br>CP2</div>
+    <div class="fn an" style="border-color:var(--magenta);color:var(--magenta);font-size:1rem">W14<br>CP2</div>
   </div>
 </div>
 </section>
@@ -693,23 +693,23 @@ h2{font-size:1.9rem;font-weight:900;line-height:1.3}
   <div class="an" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
     <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
       <div style="font-size:1.3rem">&#127920; &#127907;</div>
-      <div style="font-weight:700;font-size:.82rem;margin-top:.2rem;color:var(--orange)">2 支 Agent</div>
-      <div style="font-size:.68rem;color:var(--td)">虎機 + 魚機</div>
+      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--orange)">2 支 Agent</div>
+      <div style="font-size:1rem;color:var(--td)">虎機 + 魚機</div>
     </div>
     <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
       <div style="font-size:1.3rem">&#127793;</div>
-      <div style="font-weight:700;font-size:.82rem;margin-top:.2rem;color:var(--green)">6 位種子</div>
-      <div style="font-size:.68rem;color:var(--td)">各職種 AI 先鋒</div>
+      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--green)">6 位種子</div>
+      <div style="font-size:1rem;color:var(--td)">各職種 AI 先鋒</div>
     </div>
     <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
       <div style="font-size:1.3rem">&#128736;</div>
-      <div style="font-weight:700;font-size:.82rem;margin-top:.2rem;color:var(--cyan)">12 組 Skill</div>
-      <div style="font-size:.68rem;color:var(--td)">雙軌 &times; 6 職種</div>
+      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--cyan)">12 組 Skill</div>
+      <div style="font-size:1rem;color:var(--td)">雙軌 &times; 6 職種</div>
     </div>
     <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
       <div style="font-size:1.3rem">&#128064;</div>
-      <div style="font-weight:700;font-size:.82rem;margin-top:.2rem;color:var(--gold)">12 道檢核</div>
-      <div style="font-size:.68rem;color:var(--td)">品質閘門遍布全程</div>
+      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--gold)">12 道檢核</div>
+      <div style="font-size:1rem;color:var(--td)">品質閘門遍布全程</div>
     </div>
   </div>
 </div>
