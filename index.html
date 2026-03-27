@@ -3,713 +3,840 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>虎機魚機 AI 競賽 — 雙軌全製程自動化戰略</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<title>虎機魚機 AI 競賽 — 各職種 Agent 全製程自動化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0a2e;--gold:#ffd700;--cyan:#00d4ff;--green:#00ff88;--magenta:#ff006e;--orange:#ff8c00;--purple:#a855f7;--red:#ef4444;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12);--gs:rgba(255,255,255,.1);--t:#f0f0f0;--td:rgba(255,255,255,.55);--r:16px;--rs:10px}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans TC','PingFang TC',sans-serif;background:var(--bg);color:var(--t);overflow:hidden;height:100vh;width:100vw;-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 50%,rgba(255,140,0,.04) 0%,transparent 60%),radial-gradient(ellipse at 85% 20%,rgba(0,212,255,.04) 0%,transparent 60%),radial-gradient(ellipse at 50% 85%,rgba(168,85,247,.04) 0%,transparent 60%);pointer-events:none;z-index:0}
-.progress{position:fixed;top:0;left:0;height:3px;z-index:100;background:linear-gradient(90deg,var(--orange),var(--cyan));transition:width .4s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(255,140,0,.4)}
-.deck{position:relative;width:100vw;height:100vh;z-index:1}
-.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2.5rem 3.5rem;opacity:0;transform:translateY(24px);pointer-events:none;transition:opacity .5s ease,transform .5s ease;overflow-y:auto}
-.slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
-.si{width:100%;max-width:1100px;display:flex;flex-direction:column;gap:1.3rem}
-.tag{font-size:1rem;font-weight:500;letter-spacing:3px;color:var(--gold);opacity:.8}
-h2{font-size:2.4rem;font-weight:900;line-height:1.3}
-.sub{font-size:1.05rem;color:var(--td);line-height:1.7;max-width:750px}
-.hl{color:var(--gold);font-weight:700}.hc{color:var(--cyan);font-weight:700}.hg{color:var(--green);font-weight:700}.hm{color:var(--magenta);font-weight:700}.hp{color:var(--purple);font-weight:700}.ho{color:var(--orange);font-weight:700}
-.card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--r);padding:1.2rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform .3s,box-shadow .3s}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
-.ct{font-size:1.1rem;font-weight:700;margin-bottom:.25rem}.cd{font-size:.95rem;color:var(--td);line-height:1.6}
-.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.flow{display:flex;align-items:center;justify-content:center;gap:.4rem;flex-wrap:wrap}
-.fn{background:var(--gs);border:1px solid var(--gb);border-radius:var(--rs);padding:.7rem 1.2rem;font-weight:600;font-size:1rem;white-space:nowrap;text-align:center}
-.fa{font-size:1.3rem;color:var(--gold);opacity:.6;flex-shrink:0}
-.badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:99px;padding:.4rem 1rem;font-size:1rem;font-weight:600}
-.badge-hc{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:var(--gold)}
-.badge-hc::before{content:'';display:inline-block;width:7px;height:7px;background:var(--gold);border-radius:50%}
-.badge-ai{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan)}
+/* ─── TOKENS ─── */
+:root {
+  --void: #06060e;
+  --slab: #0c0c1a;
+  --raised: #111128;
+  --stroke: rgba(255,255,255,.08);
+  --dim: rgba(255,255,255,.4);
+  --txt: #e8e8f0;
+  --purple: #b07aff;
+  --cyan: #22d3ee;
+  --lime: #4ade80;
+  --amber: #fbbf24;
+  --rose: #fb7185;
+  --orange: #fb923c;
+  --blue: #60a5fa;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Noto Sans TC', system-ui, sans-serif;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size: 22px; }
+body {
+  font-family: var(--sans);
+  background: var(--void);
+  color: var(--txt);
+  height: 100vh; width: 100vw;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-/* Pipeline */
-.pipe{display:flex;align-items:stretch;gap:0;width:100%;flex-wrap:wrap;justify-content:center}
-.ps{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.5rem .35rem;flex:1;min-width:95px;max-width:155px}
-.ps .sb{border-radius:var(--rs);padding:.55rem .5rem;width:100%;text-align:center;font-size:1rem;font-weight:600;border:1px solid}
-.sb.ai{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.2);color:var(--cyan)}
-.sb.hk{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:var(--gold)}
-.sb.out{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.2);color:var(--green)}
-.ps .sl{font-size:.95rem;color:var(--td);text-align:center;line-height:1.3}
-.pa{display:flex;align-items:center;font-size:1rem;color:rgba(255,255,255,.15);padding:0 .05rem;align-self:center}
+/* ─── GLOBAL TEXTURE ─── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 30%, rgba(251,146,60,.05), transparent),
+    radial-gradient(ellipse 70% 50% at 90% 70%, rgba(34,211,238,.04), transparent);
+  pointer-events: none; z-index: 0;
+}
 
-/* Dual track split */
-.dual{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-.track{border-radius:var(--r);padding:1.3rem;position:relative;overflow:hidden}
-.track-tiger{background:rgba(255,140,0,.04);border:1px solid rgba(255,140,0,.2)}
-.track-fish{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.2)}
-.track-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
-.track-icon{font-size:1.8rem}
-.track-name{font-size:1.3rem;font-weight:900}
+/* ─── PROGRESS ─── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+  background: linear-gradient(90deg, var(--orange), var(--amber), var(--cyan));
+  transition: width .35s ease;
+}
 
-/* Hub diagram */
-.hub-wrap{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
-.hub-box{border-radius:var(--r);padding:1.2rem 1.5rem;text-align:center;min-width:180px}
-.hub-tiger{background:linear-gradient(135deg,rgba(255,140,0,.1),rgba(255,215,0,.05));border:2px solid rgba(255,140,0,.35)}
-.hub-fish{background:linear-gradient(135deg,rgba(0,212,255,.1),rgba(0,255,136,.05));border:2px solid rgba(0,212,255,.35)}
-.hub-me{background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(0,212,255,.08));border:2px solid rgba(168,85,247,.4);padding:1.5rem 2rem}
-.spoke-list{display:flex;flex-direction:column;gap:.35rem;margin-top:.6rem;text-align:left;font-size:1rem}
-.spoke-item{display:flex;align-items:center;gap:.3rem}
-.spoke-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.spoke-hc{width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-left:auto}
+/* ─── SLIDE SYSTEM ─── */
+.deck { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem 4vw;
+  opacity: 0; pointer-events: none;
+  transition: opacity .45s ease;
+  overflow-y: auto;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.inner {
+  width: 100%; max-width: none;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  gap: 1.4rem;
+}
 
-/* Layers */
-.layers{display:flex;flex-direction:column;align-items:center;gap:0}
-.layer{width:92%;max-width:700px;text-align:center;padding:.9rem;border-radius:var(--rs);border:1px solid var(--gb);position:relative}
-.lc{width:2px;height:20px;background:rgba(255,255,255,.12);position:relative}
-.lc::after{content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid rgba(255,255,255,.12)}
+/* ─── TYPOGRAPHY ─── */
+.eyebrow {
+  font-family: var(--mono); font-size: .85rem; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--orange);
+}
+h2 {
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 900; line-height: 1.2;
+  letter-spacing: -.02em;
+}
+.lead {
+  font-size: 1.15rem; color: var(--dim); line-height: 1.7;
+  max-width: 60ch;
+}
+.accent-p { color: var(--purple); font-weight: 700; }
+.accent-c { color: var(--cyan); font-weight: 700; }
+.accent-l { color: var(--lime); font-weight: 700; }
+.accent-a { color: var(--amber); font-weight: 700; }
+.accent-r { color: var(--rose); font-weight: 700; }
+.accent-o { color: var(--orange); font-weight: 700; }
 
-/* Checklist */
-.cl{display:flex;flex-direction:column;gap:.4rem}
-.ci{display:flex;align-items:center;gap:.6rem;background:var(--glass);border:1px solid var(--gb);border-radius:var(--rs);padding:.7rem 1rem;font-size:1rem}
-.ci-ok{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:rgba(0,255,136,.15);color:var(--green)}
-.ci-hc{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:rgba(255,215,0,.15);color:var(--gold)}
+/* ─── PANELS ─── */
+.panel {
+  background: var(--slab);
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  padding: 1.5rem 1.6rem;
+  position: relative;
+  overflow: hidden;
+}
+.panel::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.panel-p::before { background: var(--purple); }
+.panel-c::before { background: var(--cyan); }
+.panel-l::before { background: var(--lime); }
+.panel-a::before { background: var(--amber); }
+.panel-r::before { background: var(--rose); }
+.panel-o::before { background: var(--orange); }
+.panel-title {
+  font-size: 1.2rem; font-weight: 700; margin-bottom: .4rem;
+}
+.panel-body {
+  font-size: 1.05rem; color: var(--dim); line-height: 1.65;
+}
 
-/* Animations */
-.slide.active .an{animation:fadeUp .55s ease both}
-.slide.active .an:nth-child(1){animation-delay:.04s}
-.slide.active .an:nth-child(2){animation-delay:.08s}
-.slide.active .an:nth-child(3){animation-delay:.12s}
-.slide.active .an:nth-child(4){animation-delay:.16s}
-.slide.active .an:nth-child(5){animation-delay:.2s}
-.slide.active .an:nth-child(6){animation-delay:.24s}
-.slide.active .an:nth-child(7){animation-delay:.28s}
-.slide.active .an:nth-child(8){animation-delay:.32s}
-.slide.active .an:nth-child(9){animation-delay:.36s}
-.slide.active .an:nth-child(10){animation-delay:.4s}
-.slide.active .an:nth-child(11){animation-delay:.44s}
-.slide.active .an:nth-child(12){animation-delay:.48s}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+/* ─── GRIDS ─── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
 
-/* Nav */
-.nav-dots{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:99}
-.nav-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s;border:none;outline:none}
-.nav-dot.active{background:var(--gold);transform:scale(1.4);box-shadow:0 0 8px rgba(255,215,0,.5)}
-.nav-dot:hover{background:rgba(255,255,255,.5)}
-.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);font-size:1.3rem;color:rgba(255,255,255,.25);cursor:pointer;padding:1rem;z-index:99;transition:color .3s;background:none;border:none;outline:none;user-select:none}
-.nav-arrow:hover{color:var(--gold)}
-.nav-prev{left:.5rem}.nav-next{right:.5rem}
-.page-num{position:fixed;bottom:.8rem;right:1.5rem;font-size:1rem;color:var(--td);z-index:99}
+/* ─── FLOW DIAGRAM ─── */
+.pipe {
+  display: flex; align-items: center; gap: .4rem;
+  flex-wrap: wrap; justify-content: center;
+}
+.node {
+  background: var(--raised);
+  border: 1.5px solid var(--stroke);
+  border-radius: 8px;
+  padding: .6rem 1rem;
+  font-weight: 600; font-size: 1.05rem;
+  text-align: center; white-space: nowrap;
+}
+.arrow { color: var(--orange); opacity: .5; font-size: 1.4rem; flex-shrink: 0; }
 
-/* Cover */
-.cv-title{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:900;line-height:1.15;background:linear-gradient(135deg,var(--orange) 0%,var(--gold) 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cv-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.25);border-radius:99px;padding:.5rem 1.2rem;font-size:.95rem;color:var(--orange);font-weight:500}
+/* ─── LAYER STACK ─── */
+.stack { display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%; }
+.stack-fill { flex: 1; justify-content: center; }
+.slab {
+  width: 100%;
+  text-align: center; padding: .9rem 1.3rem;
+  border: 1px solid var(--stroke); border-radius: 8px;
+}
+.slab-label { font-size: 1.25rem; font-weight: 800; }
+.slab-desc { font-size: 1.05rem; color: var(--dim); margin-top: .25rem; line-height: 1.6; }
+.joiner {
+  width: 2px; height: 12px;
+  background: rgba(255,255,255,.1);
+  position: relative;
+}
+.joiner::after {
+  content: '';
+  position: absolute; bottom: -4px; left: -4px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(255,255,255,.12);
+}
 
-/* Score */
-.sc-row{display:grid;grid-template-columns:160px 1fr;gap:.8rem;align-items:start;font-size:1rem}
-.sc-pct{font-weight:700;display:flex;align-items:center;gap:.4rem}
+/* ─── KV TABLE ─── */
+.kvt {
+  display: grid; grid-template-columns: 9rem 1fr; gap: .35rem 1rem;
+  font-size: 1.05rem;
+}
+.kvt .kk { color: var(--dim); text-align: right; font-weight: 500; }
+.kvt .vv { font-weight: 700; }
 
-@media(max-width:768px){
-  .slide{padding:1.8rem 1rem}
-  h2{font-size:1.4rem}
-  .cv-title{font-size:1.9rem}
-  .g2,.g3,.dual{grid-template-columns:1fr}
-  .hub-wrap{flex-direction:column}
-  .nav-arrow{display:none}
-  .pipe{gap:.2rem}.ps{min-width:70px;padding:.4rem .2rem}
-  .sc-row{grid-template-columns:1fr;gap:.2rem}
+/* ─── BADGE ─── */
+.pill {
+  display: inline-flex; align-items: center; gap: .35rem;
+  border-radius: 99px; padding: .3rem .9rem;
+  font-size: .95rem; font-weight: 600;
+  border: 1px solid;
+}
+.pill-o { background: rgba(251,146,60,.1); border-color: rgba(251,146,60,.3); color: var(--orange); }
+.pill-c { background: rgba(34,211,238,.08); border-color: rgba(34,211,238,.25); color: var(--cyan); }
+.pill-a { background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.3); color: var(--amber); }
+.pill-l { background: rgba(74,222,128,.1); border-color: rgba(74,222,128,.3); color: var(--lime); }
+.pill-r { background: rgba(251,113,133,.1); border-color: rgba(251,113,133,.3); color: var(--rose); }
+.pill-p { background: rgba(176,122,255,.1); border-color: rgba(176,122,255,.3); color: var(--purple); }
+
+/* ─── PIPELINE STEP ─── */
+.pstep {
+  display: flex; flex-direction: column; align-items: center; gap: .2rem;
+  min-width: 6.5rem;
+}
+.pstep-box {
+  border-radius: 8px; padding: .5rem .8rem;
+  width: 100%; text-align: center;
+  font-weight: 600; font-size: 1rem;
+  border: 1.5px solid;
+}
+.pstep-ai { background: rgba(34,211,238,.06); border-color: rgba(34,211,238,.2); color: var(--cyan); }
+.pstep-hc { background: rgba(251,191,36,.08); border-color: rgba(251,191,36,.3); color: var(--amber); }
+.pstep-ok { background: rgba(74,222,128,.06); border-color: rgba(74,222,128,.2); color: var(--lime); }
+.pstep-desc { font-size: .9rem; color: var(--dim); text-align: center; line-height: 1.3; }
+
+/* ─── DUAL TRACK ─── */
+.dual { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+.track { border-radius: 10px; padding: 1.3rem; position: relative; overflow: hidden; }
+.track-tiger { background: rgba(251,146,60,.03); border: 1px solid rgba(251,146,60,.2); }
+.track-fish { background: rgba(34,211,238,.03); border: 1px solid rgba(34,211,238,.2); }
+
+/* ─── ANIMATIONS ─── */
+.slide.active .a { animation: rise .5s ease both; }
+.slide.active .a:nth-child(1){animation-delay:.02s}
+.slide.active .a:nth-child(2){animation-delay:.06s}
+.slide.active .a:nth-child(3){animation-delay:.1s}
+.slide.active .a:nth-child(4){animation-delay:.14s}
+.slide.active .a:nth-child(5){animation-delay:.18s}
+.slide.active .a:nth-child(6){animation-delay:.22s}
+.slide.active .a:nth-child(7){animation-delay:.26s}
+.slide.active .a:nth-child(8){animation-delay:.3s}
+.slide.active .a:nth-child(9){animation-delay:.34s}
+.slide.active .a:nth-child(10){animation-delay:.38s}
+.slide.active .a:nth-child(11){animation-delay:.42s}
+.slide.active .a:nth-child(12){animation-delay:.46s}
+.slide.active .a:nth-child(13){animation-delay:.5s}
+.slide.active .a:nth-child(14){animation-delay:.54s}
+@keyframes rise { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes blink { 0%,100%{opacity:.4} 50%{opacity:.9} }
+
+/* ─── NAV ─── */
+.dots {
+  position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 7px; z-index: 99;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,.15); border: none; cursor: pointer;
+  transition: all .25s;
+}
+.dot.on { background: var(--orange); transform: scale(1.5); box-shadow: 0 0 10px rgba(251,146,60,.5); }
+.nav-btn {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-size: 1.6rem; color: rgba(255,255,255,.2);
+  background: none; border: none; cursor: pointer;
+  padding: 1.2rem; z-index: 99; transition: color .2s;
+}
+.nav-btn:hover { color: var(--orange); }
+.nav-prev { left: .4rem; }
+.nav-next { right: .4rem; }
+.pg {
+  position: fixed; bottom: .7rem; right: 1.5rem;
+  font-family: var(--mono); font-size: .8rem; color: var(--dim); z-index: 99;
+}
+
+/* ─── COVER ─── */
+.hero-title {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 900; line-height: 1.08; letter-spacing: -.03em;
+  background: linear-gradient(135deg, var(--orange), var(--amber) 50%, var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-badge {
+  font-family: var(--mono); font-size: .95rem; font-weight: 600;
+  color: var(--orange);
+  border: 1px solid rgba(251,146,60,.25);
+  background: rgba(251,146,60,.06);
+  padding: .4rem 1.1rem; border-radius: 99px;
+  display: inline-block;
+}
+.hero-hint {
+  font-family: var(--mono); font-size: .8rem; color: var(--dim);
+  animation: blink 2.5s ease-in-out infinite;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1100px) {
+  .cover-flow { flex-direction: column !important; align-items: center !important; gap: .8rem !important; }
+  .cover-flow .arrow { transform: rotate(90deg); }
+}
+@media (max-width: 900px) {
+  html { font-size: 17px; }
+  .slide { padding: 1rem .8rem; }
+  .inner { gap: .8rem; }
+  .g2, .g3, .dual { grid-template-columns: 1fr; }
+  .nav-btn { display: none; }
+  .kvt { grid-template-columns: 7rem 1fr; font-size: .95rem; }
+  .hero-title { font-size: 2rem; }
+  .pipe { gap: .3rem; }
+  .pipe .node { font-size: .9rem; padding: .5rem .7rem; }
 }
 </style>
 </head>
 <body>
-<div class="progress" id="progress" style="width:0%"></div>
-<div class="deck" id="deck">
+<div id="progress" style="width:0"></div>
+<div class="deck">
 
-<!-- ===== 0: COVER ===== -->
+<!-- ══════ 0 · COVER ══════ -->
 <section class="slide active" data-slide="0">
-<div class="si" style="align-items:center;text-align:center;gap:.6rem">
-  <div class="an cv-badge">虎機魚機 AI 競賽 &mdash; 雙組參賽</div>
-  <h1 class="an cv-title">雙軌全製程<br>AI 自動化戰略</h1>
-  <p class="an sub" style="text-align:center;max-width:620px">
-    <span class="ho">&#127920; 老虎機</span> &amp; <span class="hc">&#127907; 捕魚機</span> 各一支 Agent<br>
-    覆蓋全職種製程，每個關鍵階段安插<span class="hl">人工檢核</span>
-  </p>
-  <div class="an flow" style="margin-top:.8rem">
-    <div class="fn" style="border-color:var(--orange);color:var(--orange)">&#127920; 虎機 Agent</div>
-    <div style="font-size:.95rem;color:var(--td);padding:0 .3rem">+</div>
-    <div class="fn" style="border-color:var(--cyan);color:var(--cyan)">&#127907; 魚機 Agent</div>
-    <div style="font-size:.95rem;color:var(--td);padding:0 .3rem">&times;</div>
-    <div class="fn" style="border-color:var(--green);color:var(--green)">6 職種 Skill</div>
-    <div style="font-size:.95rem;color:var(--td);padding:0 .3rem">&times;</div>
-    <div class="fn" style="border-color:var(--gold);color:var(--gold)">&#128064; 人工檢核</div>
-  </div>
-  <p class="an" style="font-size:1rem;color:var(--td);margin-top:1.5rem;animation:pulse 2s infinite">按 &rarr; 或點擊右側開始瀏覽</p>
-</div>
-</section>
-
-<!-- ===== 1: BIG PICTURE ===== -->
-<section class="slide" data-slide="1">
-<div class="si">
-  <div>
-    <span class="an tag">BIG PICTURE</span>
-    <h2 class="an">戰略全貌 &mdash; 雙軌架構</h2>
-  </div>
-
-  <div class="an hub-wrap">
-    <!-- Tiger Agent -->
-    <div class="hub-box hub-tiger an">
-      <div style="font-size:2rem">&#127920;</div>
-      <div style="font-size:1rem;font-weight:900;color:var(--orange)">虎機 Agent</div>
-      <div style="font-size:1rem;color:var(--td);margin:.2rem 0">全製程自動化</div>
-      <div class="spoke-list">
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--green)"></span>企劃 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--cyan)"></span>美術 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:#8b5cf6"></span>動畫 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--gold)"></span>音效 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--orange)"></span>程式 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--magenta)"></span>QA Skill<span class="spoke-hc"></span></div>
-      </div>
-    </div>
-
-    <!-- Me -->
-    <div class="hub-box hub-me an">
-      <div style="font-size:1.8rem">&#127919;</div>
-      <div style="font-size:1.1rem;font-weight:900;color:var(--purple)">統籌架構師</div>
-      <div style="font-size:1rem;color:var(--td);margin-top:.2rem">
-        Agent 設計 &bull; 種子培育<br>Skill 建置 &bull; 整合調度
-      </div>
-    </div>
-
-    <!-- Fish Agent -->
-    <div class="hub-box hub-fish an">
-      <div style="font-size:2rem">&#127907;</div>
-      <div style="font-size:1rem;font-weight:900;color:var(--cyan)">魚機 Agent</div>
-      <div style="font-size:1rem;color:var(--td);margin:.2rem 0">全製程自動化</div>
-      <div class="spoke-list">
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--green)"></span>企劃 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--cyan)"></span>美術 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:#8b5cf6"></span>動畫 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--gold)"></span>音效 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--orange)"></span>程式 Skill<span class="spoke-hc"></span></div>
-        <div class="spoke-item"><span class="spoke-dot" style="background:var(--magenta)"></span>QA Skill<span class="spoke-hc"></span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="an" style="text-align:center">
-    <span class="badge badge-hc">&#128993; = 每個 Skill 都內建人工檢核點</span>
-  </div>
-
-  <p class="an sub" style="text-align:center;font-size:.95rem;margin:0 auto">
-    兩支 Agent 各自獨立運作，共用<span class="hl">同一套種子培育體系</span>與<span class="hl">人工檢核框架</span>
-  </p>
-</div>
-</section>
-
-<!-- ===== 2: SEEDS ===== -->
-<section class="slide" data-slide="2">
-<div class="si">
-  <div>
-    <span class="an tag">TEAM</span>
-    <h2 class="an">種子選拔 &mdash; 跨雙軌共用</h2>
-    <p class="an sub">每個職種一名 AI 種子，同時服務虎機與魚機兩條線</p>
-  </div>
-
-  <div class="an" style="text-align:center">
-    <div class="fn" style="border-color:var(--purple);color:var(--purple);display:inline-block;padding:.6rem 1.8rem;font-size:.95rem">
-      &#127919; 我 &mdash; 統籌 &amp; Agent 架構師
-    </div>
-  </div>
-  <div class="an" style="text-align:center;font-size:1.2rem;color:rgba(255,255,255,.15)">&#9660; &ensp; &#9660; &ensp; &#9660; &ensp; &#9660; &ensp; &#9660; &ensp; &#9660;</div>
-
-  <div class="an g3">
-    <div class="card an" style="text-align:center;border-top:3px solid var(--green);padding:1rem">
-      <div style="font-size:1.5rem">&#128203;</div>
-      <div class="ct" style="color:var(--green)">企劃種子</div>
-      <div class="cd">遊戲機制 &bull; 數值設計<br><span style="font-size:1rem;color:var(--orange)">&#127920; 賠率表/回合機制</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 魚種/武器/場景規劃</span></div>
-    </div>
-    <div class="card an" style="text-align:center;border-top:3px solid var(--cyan);padding:1rem">
-      <div style="font-size:1.5rem">&#127912;</div>
-      <div class="ct" style="color:var(--cyan)">美術種子</div>
-      <div class="cd">圖像生成 &bull; UI 素材<br><span style="font-size:1rem;color:var(--orange)">&#127920; 符號/背景/介面</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 魚種造型/海底場景</span></div>
-    </div>
-    <div class="card an" style="text-align:center;border-top:3px solid #8b5cf6;padding:1rem">
-      <div style="font-size:1.5rem">&#127916;</div>
-      <div class="ct" style="color:#8b5cf6">動畫種子</div>
-      <div class="cd">動畫生成 &bull; 特效<br><span style="font-size:1rem;color:var(--orange)">&#127920; 捲軸旋轉/中獎特效</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 魚群游動/捕獲爆炸</span></div>
-    </div>
-    <div class="card an" style="text-align:center;border-top:3px solid var(--gold);padding:1rem">
-      <div style="font-size:1.5rem">&#127925;</div>
-      <div class="ct" style="color:var(--gold)">音效種子</div>
-      <div class="cd">音效生成 &bull; 配樂<br><span style="font-size:1rem;color:var(--orange)">&#127920; 捲軸音/中獎音/背景樂</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 水聲/射擊音/爆炸音</span></div>
-    </div>
-    <div class="card an" style="text-align:center;border-top:3px solid var(--orange);padding:1rem">
-      <div style="font-size:1.5rem">&#128187;</div>
-      <div class="ct" style="color:var(--orange)">程式種子</div>
-      <div class="cd">程式碼生成 &bull; 優化<br><span style="font-size:1rem;color:var(--orange)">&#127920; 遊戲邏輯/RNG引擎</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 物理碰撞/武器系統</span></div>
-    </div>
-    <div class="card an" style="text-align:center;border-top:3px solid var(--magenta);padding:1rem">
-      <div style="font-size:1.5rem">&#128270;</div>
-      <div class="ct" style="color:var(--magenta)">QA 種子</div>
-      <div class="cd">測試自動化 &bull; 驗證<br><span style="font-size:1rem;color:var(--orange)">&#127920; 賠率驗算/回合測試</span><br><span style="font-size:1rem;color:var(--cyan)">&#127907; 平衡性/碰撞測試</span></div>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- ===== 3: TRAINING ===== -->
-<section class="slide" data-slide="3">
-<div class="si">
-  <div>
-    <span class="an tag">TRAINING</span>
-    <h2 class="an">實作培育 &mdash; 邊做邊學 Skill 建置</h2>
-    <p class="an sub">不是上課聽講，是直接在<span class="ho">虎機</span>或<span class="hc">魚機</span>的真實製程中實作</p>
-  </div>
-
-  <div class="an flow">
-    <div class="fn an" style="border-color:var(--green);color:var(--green);font-size:.95rem">&#9312; 認識 AI 工具</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--cyan);color:var(--cyan);font-size:.95rem">&#9313; 用真實案例演練</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--orange);color:var(--orange);font-size:.95rem">&#9314; 撰寫職種 Skill</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--gold);color:var(--gold);font-size:.95rem">&#9315; 設計檢核點</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--purple);color:var(--purple);font-size:.95rem">&#9316; 掛載至 Agent</div>
-  </div>
-
-  <div class="an g2">
-    <div class="card an" style="border-left:3px solid var(--purple)">
-      <div class="ct" style="color:var(--purple)">&#127919; 培育模式</div>
-      <div class="cd">
-        我 1-on-1 帶每位種子：先 Demo 完整 Skill 建置流程，再讓種子用自己的工作場景實作。<br>
-        <strong>產出：</strong>每位種子為虎機 &amp; 魚機各完成至少 1 個 Skill
-      </div>
-    </div>
-    <div class="card an" style="border-left:3px solid var(--gold)">
-      <div class="ct" style="color:var(--gold)">&#128064; 檢核優先原則</div>
-      <div class="cd">
-        教學同步教導：在 Skill 中<strong>哪裡插入檢核點</strong>、<strong>檢核什麼</strong>、<strong>退回機制怎麼設計</strong>。<br>
-        種子不只學會用 AI，更學會<strong>管控 AI</strong>
-      </div>
-    </div>
-  </div>
-
-  <div class="an card" style="border:1px solid rgba(168,85,247,.2)">
-    <div class="cd" style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;text-align:center">
-      <div><strong style="color:var(--purple);font-size:1.2rem">1 : 1</strong><br><span style="font-size:1rem">統籌帶教</span></div>
-      <div><strong style="color:var(--orange);font-size:1.2rem">Learning by Doing</strong><br><span style="font-size:1rem">真實製程實作</span></div>
-      <div><strong style="color:var(--gold);font-size:1.2rem">Skill + 檢核</strong><br><span style="font-size:1rem">每個 Skill 必含人工關卡</span></div>
-      <div><strong style="color:var(--cyan);font-size:1.2rem">&times;2 軌</strong><br><span style="font-size:1rem">虎機 &amp; 魚機都要覆蓋</span></div>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- ===== 4: TIGER PIPELINE ===== -->
-<section class="slide" data-slide="4">
-<div class="si">
-  <div>
-    <span class="an tag" style="color:var(--orange)">TIGER MACHINE</span>
-    <h2 class="an">&#127920; 虎機全製程 &mdash; AI + 人工檢核</h2>
-    <p class="an sub">從企劃到 QA，完整老虎機開發流水線</p>
-  </div>
-
-  <div class="an pipe">
-    <div class="ps an"><div class="sb ai">&#128203; 企劃<br>機制生成</div><div class="sl">賠率表 &bull; 回合設計</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 企劃種子<br>審核</div><div class="sl">機制合理性</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#127912; 美術<br>符號生成</div><div class="sl">符號 &bull; 背景 &bull; UI</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 美術種子<br>審核</div><div class="sl">風格一致性</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#127916; 動畫<br>特效生成</div><div class="sl">捲軸 &bull; 中獎特效</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 動畫種子<br>審核</div><div class="sl">流暢度 &bull; 品質</div></div>
-  </div>
-  <div class="an pipe" style="margin-top:.3rem">
-    <div class="ps an"><div class="sb ai">&#127925; 音效<br>音頻生成</div><div class="sl">捲軸音 &bull; 中獎音</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 音效種子<br>審核</div><div class="sl">適配性 &bull; 音質</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#128187; 程式<br>引擎整合</div><div class="sl">邏輯 &bull; RNG &bull; 效能</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 程式種子<br>審核</div><div class="sl">正確性 &bull; 穩定性</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#128270; QA<br>自動測試</div><div class="sl">賠率驗算 &bull; 回歸</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; QA 種子<br>審核</div><div class="sl">覆蓋率 &bull; 邊界</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb out">&#9989;<br>交付</div><div class="sl">商用水準成品</div></div>
-  </div>
-
-  <div class="an" style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:.3rem">
-    <span class="badge badge-ai">&#129302; AI 自動處理</span>
-    <span class="badge badge-hc">&#128064; 人工檢核閘門</span>
-    <span style="font-size:1rem;color:var(--td)">共 <strong style="color:var(--gold)">6 道</strong>人工品質關卡</span>
-  </div>
-</div>
-</section>
-
-<!-- ===== 5: FISH PIPELINE ===== -->
-<section class="slide" data-slide="5">
-<div class="si">
-  <div>
-    <span class="an tag" style="color:var(--cyan)">FISH MACHINE</span>
-    <h2 class="an">&#127907; 魚機全製程 &mdash; AI + 人工檢核</h2>
-    <p class="an sub">從企劃到 QA，完整捕魚機開發流水線</p>
-  </div>
-
-  <div class="an pipe">
-    <div class="ps an"><div class="sb ai">&#128203; 企劃<br>玩法生成</div><div class="sl">魚種 &bull; 武器 &bull; 場景</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 企劃種子<br>審核</div><div class="sl">玩法平衡性</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#127912; 美術<br>造型生成</div><div class="sl">魚種 &bull; 海底場景</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 美術種子<br>審核</div><div class="sl">風格統一性</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#127916; 動畫<br>動態生成</div><div class="sl">游動 &bull; 捕獲 &bull; 爆炸</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 動畫種子<br>審核</div><div class="sl">自然感 &bull; 表現力</div></div>
-  </div>
-  <div class="an pipe" style="margin-top:.3rem">
-    <div class="ps an"><div class="sb ai">&#127925; 音效<br>音頻生成</div><div class="sl">水聲 &bull; 射擊 &bull; 爆炸</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 音效種子<br>審核</div><div class="sl">沉浸感 &bull; 節奏</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#128187; 程式<br>系統整合</div><div class="sl">物理 &bull; 碰撞 &bull; 武器</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; 程式種子<br>審核</div><div class="sl">效能 &bull; 碰撞精度</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb ai">&#128270; QA<br>自動測試</div><div class="sl">平衡 &bull; 壓力測試</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb hk">&#128064; QA 種子<br>審核</div><div class="sl">公平性 &bull; 穩定性</div></div>
-    <div class="pa">&rarr;</div>
-    <div class="ps an"><div class="sb out">&#9989;<br>交付</div><div class="sl">商用水準成品</div></div>
-  </div>
-
-  <div class="an" style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:.3rem">
-    <span class="badge badge-ai">&#129302; AI 自動處理</span>
-    <span class="badge badge-hc">&#128064; 人工檢核閘門</span>
-    <span style="font-size:1rem;color:var(--td)">共 <strong style="color:var(--gold)">6 道</strong>人工品質關卡</span>
-  </div>
-</div>
-</section>
-
-<!-- ===== 6: HUMAN CHECKPOINT ===== -->
-<section class="slide" data-slide="6">
-<div class="si">
-  <div>
-    <span class="an tag">KEY DIFFERENTIATOR</span>
-    <h2 class="an">人工檢核設計 &mdash; 核心競爭力</h2>
-    <p class="an sub">AI 產出<span class="hl">永遠不會直接進入下游</span>，必須經過種子專家把關</p>
-  </div>
-
-  <!-- Loop mechanism -->
-  <div class="an card" style="border:1px solid rgba(255,215,0,.25);padding:1.3rem">
-    <div style="text-align:center;margin-bottom:.8rem;font-weight:700;color:var(--gold);font-size:1rem">&#128260; 每個檢核點的運作機制</div>
-    <div class="flow" style="gap:.3rem">
-      <div class="fn" style="border-color:var(--cyan);color:var(--cyan);font-size:.95rem">&#129302; AI 產出</div>
-      <div class="fa">&rarr;</div>
-      <div class="fn" style="border-color:var(--gold);background:rgba(255,215,0,.1);color:var(--gold);font-size:.95rem">&#128064; 種子審核</div>
-      <div class="fa">&rarr;</div>
-      <div style="display:flex;flex-direction:column;gap:.3rem">
-        <div class="fn" style="border-color:var(--green);color:var(--green);font-size:1rem">&#10003; 通過 &rarr; 進入下一階段</div>
-        <div class="fn" style="border-color:var(--magenta);color:var(--magenta);font-size:1rem">&#10007; 退回 &rarr; AI 依反饋修正 &rarr; 重新審核</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="an g3">
-    <div class="card an">
-      <div class="ct" style="color:var(--gold)">&#128737; 為什麼？</div>
-      <div class="cd">AI 非 100% 可靠。種子以<strong>領域專業</strong>判斷產出品質，攔截錯誤在源頭</div>
-    </div>
-    <div class="card an">
-      <div class="ct" style="color:var(--cyan)">&#127919; 檢核什麼？</div>
-      <div class="cd">
-        企劃 &rarr; 機制合理性<br>
-        美術 &rarr; 風格一致性<br>
-        程式 &rarr; 邏輯正確性<br>
-        QA &rarr; 覆蓋完整性
-      </div>
-    </div>
-    <div class="card an">
-      <div class="ct" style="color:var(--green)">&#128200; 產出什麼？</div>
-      <div class="cd">每次通過/退回自動紀錄，形成<strong>可量化的 Before/After 數據</strong>，直接對應評分維度</div>
-    </div>
-  </div>
-
-  <div class="an g2" style="margin-top:.2rem">
-    <div class="card an" style="text-align:center;padding:1rem;border-color:rgba(255,140,0,.2)">
-      <div style="font-size:1rem">&#127920;</div>
-      <div style="font-size:.95rem;font-weight:700;color:var(--orange)">虎機：6 道檢核</div>
-      <div class="cd">企劃 &bull; 美術 &bull; 動畫 &bull; 音效 &bull; 程式 &bull; QA</div>
-    </div>
-    <div class="card an" style="text-align:center;padding:1rem;border-color:rgba(0,212,255,.2)">
-      <div style="font-size:1rem">&#127907;</div>
-      <div style="font-size:.95rem;font-weight:700;color:var(--cyan)">魚機：6 道檢核</div>
-      <div class="cd">企劃 &bull; 美術 &bull; 動畫 &bull; 音效 &bull; 程式 &bull; QA</div>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- ===== 7: SKILL DETAIL TABLE ===== -->
-<section class="slide" data-slide="7">
-<div class="si">
-  <div>
-    <span class="an tag">SKILLS MAP</span>
-    <h2 class="an">各職種 Skill &times; 檢核重點 &mdash; 雙軌對照</h2>
-  </div>
-
-  <div class="an" style="overflow-x:auto">
-    <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:1rem">
-      <thead>
-        <tr style="text-align:left">
-          <th style="padding:.6rem;color:var(--td);border-bottom:1px solid var(--gb);width:55px">職種</th>
-          <th style="padding:.6rem;color:var(--orange);border-bottom:1px solid var(--gb)">&#127920; 虎機 Skill</th>
-          <th style="padding:.6rem;color:var(--cyan);border-bottom:1px solid var(--gb)">&#127907; 魚機 Skill</th>
-          <th style="padding:.6rem;color:var(--gold);border-bottom:1px solid var(--gb)">&#128064; 人工檢核</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="an"><td style="padding:.5rem;border-bottom:1px solid var(--gb);font-weight:600;color:var(--green)">企劃</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">賠率表生成、回合機制、獎勵結構</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">魚種分佈、武器設計、場景難度</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">機制合理性、數值平衡、玩家體驗</td></tr>
-        <tr class="an"><td style="padding:.5rem;border-bottom:1px solid var(--gb);font-weight:600;color:var(--cyan)">美術</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">符號圖像、背景、獎框 UI</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">魚種造型、海底場景、武器外觀</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">風格一致性、品質標準、商用可用</td></tr>
-        <tr class="an"><td style="padding:.5rem;border-bottom:1px solid var(--gb);font-weight:600;color:#8b5cf6">動畫</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">捲軸旋轉、中獎特效、Bonus 演出</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">魚群游動、捕獲爆炸、Boss 登場</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">流暢度、表現力、風格統一</td></tr>
-        <tr class="an"><td style="padding:.5rem;border-bottom:1px solid var(--gb);font-weight:600;color:var(--gold)">音效</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">捲軸音、中獎音效、背景配樂</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">水聲環境、射擊音、爆炸回饋</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">音質、情境適配、節奏感</td></tr>
-        <tr class="an"><td style="padding:.5rem;border-bottom:1px solid var(--gb);font-weight:600;color:var(--orange)">程式</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">遊戲邏輯、RNG 引擎、效能優化</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">物理引擎、碰撞偵測、武器系統</td><td style="padding:.5rem;border-bottom:1px solid var(--gb)">邏輯正確性、效能指標、穩定性</td></tr>
-        <tr class="an"><td style="padding:.5rem;font-weight:600;color:var(--magenta)">QA</td><td style="padding:.5rem">賠率驗算、回合測試、回歸自動化</td><td style="padding:.5rem">平衡性測試、碰撞精度、壓力測試</td><td style="padding:.5rem">覆蓋率、邊界條件、公平性</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="an" style="text-align:center;margin-top:.3rem">
-    <span class="badge badge-hc" style="font-size:.95rem">雙軌共 12 組 Skill &times; 12 道人工檢核 = 全面品質保障</span>
-  </div>
-</div>
-</section>
-
-<!-- ===== 8: AGENT ARCHITECTURE ===== -->
-<section class="slide" data-slide="8">
-<div class="si">
-  <div>
-    <span class="an tag">ARCHITECTURE</span>
-    <h2 class="an">Agent 運作架構 &mdash; 一個指令跑完全製程</h2>
-    <p class="an sub">每支 Agent 接收需求後自動調度所有 Skill，遇到檢核點自動暫停等人工確認</p>
-  </div>
-
-  <div class="an dual">
-    <!-- Tiger Agent -->
-    <div class="track track-tiger an">
-      <div class="track-head">
-        <div class="track-icon">&#127920;</div>
-        <div class="track-name" style="color:var(--orange)">虎機 Agent</div>
-      </div>
-      <div style="font-size:.95rem;color:var(--td);margin-bottom:.5rem">自動執行：企劃 &rarr; 美術 &rarr; 動畫 &rarr; 音效 &rarr; 程式 &rarr; QA</div>
-      <div style="display:flex;flex-direction:column;gap:.3rem;font-size:1rem">
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--cyan)">&#9654;</span> 自動調度各職種 Skill</div>
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--gold)">&#9632;</span> 遇檢核點 &rarr; 暫停 &rarr; 通知種子</div>
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--green)">&#10003;</span> 種子確認後 &rarr; 自動續行</div>
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--magenta)">&#10007;</span> 退回 &rarr; AI 修正 &rarr; 重新送審</div>
-      </div>
-    </div>
-
-    <!-- Fish Agent -->
-    <div class="track track-fish an">
-      <div class="track-head">
-        <div class="track-icon">&#127907;</div>
-        <div class="track-name" style="color:var(--cyan)">魚機 Agent</div>
-      </div>
-      <div style="font-size:.95rem;color:var(--td);margin-bottom:.5rem">自動執行：企劃 &rarr; 美術 &rarr; 動畫 &rarr; 音效 &rarr; 程式 &rarr; QA</div>
-      <div style="display:flex;flex-direction:column;gap:.3rem;font-size:1rem">
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--cyan)">&#9654;</span> 自動調度各職種 Skill</div>
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--gold)">&#9632;</span> 遇檢核點 &rarr; 暫停 &rarr; 通知種子</div>
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--green)">&#10003;</span> 種子確認後 &rarr; 自動續行</div>
-        <div style="display:flex;align-items:center;gap:.4rem"><span style="color:var(--magenta)">&#10007;</span> 退回 &rarr; AI 修正 &rarr; 重新送審</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="an card" style="border:1px solid rgba(168,85,247,.2);text-align:center;padding:1rem">
-    <div style="font-size:1rem;font-weight:700;color:var(--purple);margin-bottom:.3rem">&#129302; Agent 自動化 + &#128064; 人工把關 = 效率 &times; 品質雙贏</div>
-    <div class="cd">AI 跑完一整條流水線只需下一個指令，但每個關鍵節點都有專家守門<br>不是黑箱自動化，是<strong>透明、可控、可追蹤</strong>的人機協作</div>
-  </div>
-</div>
-</section>
-
-<!-- ===== 9: END-TO-END DEMO ===== -->
-<section class="slide" data-slide="9">
-<div class="si">
-  <div>
-    <span class="an tag">DEMO</span>
-    <h2 class="an">端到端示範 &mdash; 「新增一款虎機符號」</h2>
-    <p class="an sub">一個指令觸發 Agent，自動跑完 6 職種，<span class="hl">6 道人工品質閘門</span></p>
-  </div>
-
-  <div class="an layers">
-    <div class="layer an" style="background:rgba(0,255,136,.06);border-color:rgba(0,255,136,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--green);font-weight:700;font-size:.95rem">&#9312; 企劃</span>
-      <span style="font-size:1rem">AI 生成符號機制 &amp; 賠率配置</span>
-      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核機制合理性</span>
-    </div>
-    <div class="lc an"></div>
-    <div class="layer an" style="background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--cyan);font-weight:700;font-size:.95rem">&#9313; 美術</span>
-      <span style="font-size:1rem">AI 生成符號圖像 &amp; 動態素材</span>
-      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核風格品質</span>
-    </div>
-    <div class="lc an"></div>
-    <div class="layer an" style="background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:#8b5cf6;font-weight:700;font-size:.95rem">&#9314; 動畫</span>
-      <span style="font-size:1rem">AI 生成旋轉 &amp; 中獎動畫</span>
-      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核流暢表現</span>
-    </div>
-    <div class="lc an"></div>
-    <div class="layer an" style="background:rgba(255,215,0,.06);border-color:rgba(255,215,0,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--gold);font-weight:700;font-size:.95rem">&#9315; 音效</span>
-      <span style="font-size:1rem">AI 生成中獎音效 &amp; 背景音</span>
-      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核音質適配</span>
-    </div>
-    <div class="lc an"></div>
-    <div class="layer an" style="background:rgba(255,140,0,.06);border-color:rgba(255,140,0,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--orange);font-weight:700;font-size:.95rem">&#9316; 程式</span>
-      <span style="font-size:1rem">AI 整合至遊戲引擎</span>
-      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核邏輯穩定</span>
-    </div>
-    <div class="lc an"></div>
-    <div class="layer an" style="background:rgba(255,0,110,.06);border-color:rgba(255,0,110,.2);display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap">
-      <span style="color:var(--magenta);font-weight:700;font-size:.95rem">&#9317; QA</span>
-      <span style="font-size:1rem">AI 自動化驗證測試</span>
-      <span class="badge badge-hc" style="font-size:.95rem">&#128064; 審核測試覆蓋</span>
-    </div>
-  </div>
-
-  <div class="an" style="text-align:center;font-size:.95rem;color:var(--td);margin-top:.3rem">
-    全程 <span class="ho">虎機 Agent</span> 自動調度 &bull; 所有軌跡自動紀錄 &bull; 退回自動觸發 AI 修正
-  </div>
-</div>
-</section>
-
-<!-- ===== 10: SCORING ===== -->
-<section class="slide" data-slide="10">
-<div class="si">
-  <div>
-    <span class="an tag">SCORING ALIGNMENT</span>
-    <h2 class="an">精準命中四大評分維度</h2>
-  </div>
-
-  <div style="display:flex;flex-direction:column;gap:.7rem">
-    <div class="card an" style="border-left:3px solid var(--gold)">
-      <div class="sc-row">
-        <div class="sc-pct" style="color:var(--gold)">&#9670; 優化效益 30%</div>
-        <div class="cd"><strong>12 道人工檢核 = 完整 Before/After 數據</strong><br>每次迭代的通過率、退回次數、修正時間，客觀量化 AI 帶來的效率提升</div>
-      </div>
-    </div>
-    <div class="card an" style="border-left:3px solid var(--cyan)">
-      <div class="sc-row">
-        <div class="sc-pct" style="color:var(--cyan)">&#9670; AI 技術應用 30%</div>
-        <div class="cd"><strong>2 Agent &times; 6 職種 = 全生命週期覆蓋</strong><br>虎機 &amp; 魚機各一支 Agent，串聯企劃到 QA 的完整跨職能工作流</div>
-      </div>
-    </div>
-    <div class="card an" style="border-left:3px solid var(--green)">
-      <div class="sc-row">
-        <div class="sc-pct" style="color:var(--green)">&#9670; 方案共用性 20%</div>
-        <div class="cd"><strong>Skill 模組化 + 種子培育機制 = 可複製</strong><br>Agent 架構、Skill、檢核框架可直接推廣至事業處其他專案</div>
-      </div>
-    </div>
-    <div class="card an" style="border-left:3px solid var(--magenta)">
-      <div class="sc-row">
-        <div class="sc-pct" style="color:var(--magenta)">&#9670; 產品完整度 20%</div>
-        <div class="cd"><strong>人工檢核 = 商用級品質保證</strong><br>不是 AI 黑箱產出，是經過領域專家層層把關的高標準成品</div>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- ===== 11: TIMELINE ===== -->
-<section class="slide" data-slide="11">
-<div class="si">
-  <div>
-    <span class="an tag">EXECUTION</span>
-    <h2 class="an">執行計畫與交付里程碑</h2>
-  </div>
-
-  <div class="an g2">
-    <div class="card an" style="border-top:3px solid var(--gold)">
-      <div class="ct" style="color:var(--gold)">CP1 — Week 6</div>
-      <div class="cl" style="margin-top:.4rem">
-        <div class="ci"><div class="ci-ok">&#10003;</div>6 職種種子選定完成</div>
-        <div class="ci"><div class="ci-ok">&#10003;</div>種子培育完成（每人至少 2 個 Skill）</div>
-        <div class="ci"><div class="ci-ok">&#10003;</div>虎機 &amp; 魚機 Agent 架構設計</div>
-        <div class="ci"><div class="ci-hc">&#128064;</div>人工檢核框架 &amp; 規範文件</div>
-        <div class="ci"><div class="ci-hc">&#128064;</div>至少 1 條完整 Pipeline Demo</div>
-      </div>
-    </div>
-    <div class="card an" style="border-top:3px solid var(--cyan)">
-      <div class="ct" style="color:var(--cyan)">CP2 — Week 14</div>
-      <div class="cl" style="margin-top:.4rem">
-        <div class="ci"><div class="ci-ok">&#10003;</div>虎機 Agent 上線（6 Skill + 6 檢核）</div>
-        <div class="ci"><div class="ci-ok">&#10003;</div>魚機 Agent 上線（6 Skill + 6 檢核）</div>
-        <div class="ci"><div class="ci-ok">&#10003;</div>端到端 Demo &mdash; 雙軌各跑完整流程</div>
-        <div class="ci"><div class="ci-hc">&#128064;</div>Before/After 成效數據報告</div>
-        <div class="ci"><div class="ci-hc">&#128064;</div>工具清單 &amp; 全軌跡紀錄</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="an flow" style="margin-top:.3rem">
-    <div class="fn an" style="border-color:var(--green);color:var(--green);font-size:1rem">W1-2<br>選種培育</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--cyan);color:var(--cyan);font-size:1rem">W3-5<br>Skill 建置</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--gold);color:var(--gold);font-size:1rem">W6<br>CP1</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--orange);color:var(--orange);font-size:1rem">W7-10<br>Agent 開發</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--purple);color:var(--purple);font-size:1rem">W11-13<br>整合 &amp; 優化</div>
-    <div class="fa">&rarr;</div>
-    <div class="fn an" style="border-color:var(--magenta);color:var(--magenta);font-size:1rem">W14<br>CP2</div>
-  </div>
-</div>
-</section>
-
-<!-- ===== 12: CLOSING ===== -->
-<section class="slide" data-slide="12">
-<div class="si" style="align-items:center;justify-content:center">
-  <div class="an card" style="text-align:center;padding:2rem;border:1px solid rgba(255,215,0,.2);background:linear-gradient(135deg,rgba(255,140,0,.06),rgba(0,212,255,.06))">
-    <h2 class="an" style="background:linear-gradient(135deg,var(--orange),var(--gold),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.6rem">
-      全製程 AI 自動化<br>每一步都有人在把關
-    </h2>
-    <p class="an sub" style="text-align:center;margin:.6rem auto 0;max-width:500px">
-      不是用 AI 取代人，是讓 AI 跑製程、讓人管品質<br>
-      種子培育確保知識可傳承，Agent 確保效率可複製
+<div class="inner" style="gap:1rem;justify-content:center">
+  <div style="text-align:center">
+    <div class="a hero-badge">Tiger &times; Fish AI Contest</div>
+    <h1 class="a hero-title" style="margin-top:.4rem">各職種 Agent<br>全製程自動化</h1>
+    <p class="a lead" style="text-align:center;margin:.4rem auto 0">
+      <span class="accent-o">&#127920; 老虎機組</span> &amp; <span class="accent-c">&#127907; 捕魚機組</span> &mdash; 每個職種一個專屬 Agent<br>
+      全製程自動化，每一步都有<strong class="accent-a">人工檢核</strong>把關
     </p>
   </div>
 
-  <div class="an" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
-    <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
+  <div class="a cover-flow" style="display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:nowrap;margin:.3rem 0">
+    <div class="node a" style="border-color:rgba(176,122,255,.5);background:rgba(176,122,255,.08);padding:.8rem 1.2rem">
+      <div style="font-size:1.1rem">&#127919;</div>
+      <div style="color:var(--purple);font-size:1.1rem;font-weight:800">&#25105;(&#32113;&#31820;)</div>
+    </div>
+    <div class="arrow a">&rarr;</div>
+    <div style="display:flex;flex-direction:column;gap:.5rem">
+      <div class="node a" style="border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.06);padding:.6rem 1rem">
+        <div style="color:var(--orange);font-size:1rem;font-weight:700">&#127920; &#34382;&#27231; Master Agent</div>
+      </div>
+      <div class="node a" style="border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.06);padding:.6rem 1rem">
+        <div style="color:var(--cyan);font-size:1rem;font-weight:700">&#127907; &#39770;&#27231; Master Agent</div>
+      </div>
+    </div>
+    <div class="arrow a">&rarr;</div>
+    <div style="display:flex;flex-direction:column;gap:.3rem">
+      <div class="node a" style="border-color:rgba(74,222,128,.3);padding:.35rem .8rem"><span style="color:var(--lime);font-size:.95rem">&#20225;&#21123; Agent</span></div>
+      <div class="node a" style="border-color:rgba(34,211,238,.3);padding:.35rem .8rem"><span style="color:var(--cyan);font-size:.95rem">&#32654;&#34899; Agent</span></div>
+      <div class="node a" style="border-color:rgba(176,122,255,.3);padding:.35rem .8rem"><span style="color:var(--purple);font-size:.95rem">&#21205;&#30059; Agent</span></div>
+      <div class="node a" style="border-color:rgba(251,191,36,.3);padding:.35rem .8rem"><span style="color:var(--amber);font-size:.95rem">&#38899;&#25928; Agent</span></div>
+      <div class="node a" style="border-color:rgba(251,146,60,.3);padding:.35rem .8rem"><span style="color:var(--orange);font-size:.95rem">&#31243;&#24335; Agent</span></div>
+      <div class="node a" style="border-color:rgba(251,113,133,.3);padding:.35rem .8rem"><span style="color:var(--rose);font-size:.95rem">QA Agent</span></div>
+    </div>
+  </div>
+
+  <div class="a hero-hint" style="text-align:center">&#9654; &#25353;&#21491;&#37749;&#38283;&#22987;</div>
+</div>
+</section>
+
+<!-- ══════ 1 · STRATEGY ══════ -->
+<section class="slide" data-slide="1">
+<div class="inner">
+  <div><span class="a eyebrow">Strategy</span><h2 class="a">&#26680;&#24515;&#31574;&#30053;&#65306;&#28858;&#27599;&#20491;&#32887;&#31278;&#35373;&#35336;&#23560;&#23660; Agent</h2>
+  <p class="a lead">&#19981;&#26159;&#21482;&#32102;&#19968;&#20491; Skill&#65292;&#32780;&#26159;&#32102;&#27599;&#20491;&#32887;&#31278;&#19968;&#20491;&#23436;&#25972;&#30340; <strong class="accent-o">Agent</strong> &mdash; &#26377;&#33258;&#24049;&#30340;&#24037;&#20855;&#12289;&#27402;&#38480;&#12289;&#35352;&#25014;&#12289;&#33287;&#20154;&#24037;&#27298;&#26680;&#40670;</p></div>
+
+  <div class="a g3">
+    <div class="panel panel-l a">
+      <div class="panel-title" style="color:var(--lime)">&#128203; &#20225;&#21123; Agent</div>
+      <div class="panel-body">&#36064;&#29575;&#34920;&#12289;&#27231;&#21046;&#35373;&#35336;&#12289;&#25976;&#20540;&#24179;&#34913;<br>&#127920; &#22238;&#21512;&#32080;&#27083; &#127907; &#39770;&#31278;&#20998;&#20296;</div>
+    </div>
+    <div class="panel panel-c a">
+      <div class="panel-title" style="color:var(--cyan)">&#127912; &#32654;&#34899; Agent</div>
+      <div class="panel-body">&#22294;&#20687;&#29983;&#25104;&#12289;UI &#32032;&#26448;&#12289;&#22580;&#26223;&#35373;&#35336;<br>&#127920; &#31526;&#34399;/&#32972;&#26223; &#127907; &#39770;&#31278;&#36896;&#22411;</div>
+    </div>
+    <div class="panel panel-p a">
+      <div class="panel-title" style="color:var(--purple)">&#127916; &#21205;&#30059; Agent</div>
+      <div class="panel-body">&#21205;&#30059;&#29983;&#25104;&#12289;&#29305;&#25928;&#12289;&#36942;&#22580;<br>&#127920; &#25458;&#36600;&#26059;&#36681; &#127907; &#39770;&#32676;&#28216;&#21205;</div>
+    </div>
+    <div class="panel panel-a a">
+      <div class="panel-title" style="color:var(--amber)">&#127925; &#38899;&#25928; Agent</div>
+      <div class="panel-body">&#38899;&#25928;&#29983;&#25104;&#12289;&#37197;&#27138;&#12289;&#29872;&#22659;&#38899;<br>&#127920; &#20013;&#29518;&#38899; &#127907; &#23556;&#25802;/&#29190;&#28856;&#38899;</div>
+    </div>
+    <div class="panel panel-o a">
+      <div class="panel-title" style="color:var(--orange)">&#128187; &#31243;&#24335; Agent</div>
+      <div class="panel-body">&#31243;&#24335;&#30908;&#29983;&#25104;&#12289;&#24341;&#25806;&#25972;&#21512;<br>&#127920; RNG &#24341;&#25806; &#127907; &#29289;&#29702;&#30896;&#25758;</div>
+    </div>
+    <div class="panel panel-r a">
+      <div class="panel-title" style="color:var(--rose)">&#128270; QA Agent</div>
+      <div class="panel-body">&#33258;&#21205;&#21270;&#28204;&#35430;&#12289;&#39511;&#35657;&#12289;&#22238;&#27512;<br>&#127920; &#36064;&#29575;&#39511;&#31639; &#127907; &#24179;&#34913;&#24615;&#28204;&#35430;</div>
+    </div>
+  </div>
+
+  <div class="a" style="text-align:center">
+    <span class="pill pill-a">Agent &#8800; Skill &mdash; Agent &#26377;&#29544;&#31435;&#30340;&#27402;&#38480;&#12289;&#24037;&#20855;&#12289;&#35352;&#25014;&#33287;&#20154;&#24037;&#27298;&#26680;&#40670;</span>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 2 · ARCHITECTURE ══════ -->
+<section class="slide" data-slide="2">
+<div class="inner">
+  <div><span class="a eyebrow">Architecture</span><h2 class="a">Agent &#26550;&#27083;&#22294; &mdash; &#32113;&#31820; &#8594; Master &#8594; &#32887;&#31278;</h2></div>
+
+  <div class="a stack stack-fill">
+    <div class="slab a" style="background:rgba(176,122,255,.04);border-color:rgba(176,122,255,.25)">
+      <div class="slab-label" style="color:var(--purple)">&#127919; &#25105;&#65288;&#32113;&#31820;&#26550;&#27083;&#24107;&#65289;</div>
+      <div class="slab-desc">Agent &#35373;&#35336; &bull; Gateway &#27402;&#38480;&#35373;&#23450; &bull; &#31278;&#23376;&#22521;&#32946; &bull; &#25972;&#21512;&#35519;&#24230;</div>
+    </div>
+    <div class="joiner a"></div>
+    <div style="display:flex;gap:1.2rem;width:100%">
+      <div class="slab a" style="flex:1;background:rgba(251,146,60,.04);border-color:rgba(251,146,60,.25)">
+        <div class="slab-label" style="color:var(--orange)">&#127920; &#34382;&#27231; Master Agent</div>
+        <div class="slab-desc">&#12300;&#38283;&#30332;&#19968;&#27454;&#32769;&#34382;&#27231;&#12301;&rarr; &#33258;&#21205;&#35519;&#24230;&#20845;&#32887;&#31278;</div>
+      </div>
+      <div class="slab a" style="flex:1;background:rgba(34,211,238,.04);border-color:rgba(34,211,238,.25)">
+        <div class="slab-label" style="color:var(--cyan)">&#127907; &#39770;&#27231; Master Agent</div>
+        <div class="slab-desc">&#12300;&#35069;&#20316;&#19968;&#27454;&#39770;&#27231;&#65295;&#26032;&#22686;&#39770;&#31278;&#12301;&rarr; &#33258;&#21205;&#35519;&#24230;&#20845;&#32887;&#31278;</div>
+      </div>
+    </div>
+    <div class="joiner a"></div>
+    <div class="slab a" style="background:rgba(251,191,36,.04);border-color:rgba(251,191,36,.2)">
+      <div class="slab-label" style="color:var(--amber)">&#20845;&#32887;&#31278; Agent&#65288;&#21508;&#33258;&#29544;&#31435;&#12289;&#21508;&#26377;&#27402;&#38480;&#65289;</div>
+      <div class="slab-desc">
+        <span class="accent-l">&#20225;&#21123;</span> &rarr;
+        <span class="accent-c">&#32654;&#34899;</span> &rarr;
+        <span class="accent-p">&#21205;&#30059;</span> &rarr;
+        <span class="accent-a">&#38899;&#25928;</span> &rarr;
+        <span class="accent-o">&#31243;&#24335;</span> &rarr;
+        <span class="accent-r">QA</span>
+        &ensp;&#27599;&#19968;&#27493;&#37117;&#26377;&#20154;&#24037;&#27298;&#26680;
+      </div>
+    </div>
+    <div class="joiner a"></div>
+    <div class="slab a" style="background:rgba(251,113,133,.04);border-color:rgba(251,113,133,.2)">
+      <div class="slab-label" style="color:var(--rose)">&#9881; Gateway &#27402;&#38480;&#25511;&#31649;&#23652;</div>
+      <div class="slab-desc">Tool ACL &bull; Per-Agent &#24037;&#20855;&#30333;&#21517;&#21934; &bull; Exec &#25351;&#20196;&#30333;&#21517;&#21934; &bull; &#27599;&#20491; Agent &#21482;&#33021;&#23384;&#21462;&#33258;&#24049;&#30340;&#36039;&#28304;</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 3 · PER-FUNCTION AGENTS ══════ -->
+<section class="slide" data-slide="3">
+<div class="inner" style="gap:1rem">
+  <div><span class="a eyebrow">Per-Function Agents</span><h2 class="a">&#20845;&#32887;&#31278; Agent &#35443;&#35299; &mdash; &#24037;&#20855;&#12289;&#27402;&#38480;&#12289;&#27298;&#26680;&#40670;</h2></div>
+
+  <div class="a g3" style="flex:unset">
+    <div class="panel panel-l a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">&#128203; &#20225;&#21123; Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">&#24037;&#20855;</div><div class="vv">&#25976;&#20540;&#29983;&#25104;&#12289;&#36064;&#29575;&#31639;&#27861;</div>
+        <div class="kk">&#29986;&#20986;</div><div class="vv accent-l">&#27231;&#21046;&#25991;&#20214;&#12289;&#36064;&#29575;&#34920;</div>
+        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#27231;&#21046;&#21512;&#29702;&#24615;&#12289;&#25976;&#20540;&#24179;&#34913;</div>
+      </div>
+    </div>
+    <div class="panel panel-c a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--cyan);font-size:1.15rem">&#127912; &#32654;&#34899; Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">&#24037;&#20855;</div><div class="vv">&#22294;&#20687;&#29983;&#25104;&#12289;&#32032;&#26448;&#31649;&#29702;</div>
+        <div class="kk">&#29986;&#20986;</div><div class="vv accent-c">&#31526;&#34399;&#12289;&#32972;&#26223;&#12289;UI &#32032;&#26448;</div>
+        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#39080;&#26684;&#19968;&#33268;&#24615;&#12289;&#21697;&#36074;&#27161;&#28310;</div>
+      </div>
+    </div>
+    <div class="panel panel-p a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--purple);font-size:1.15rem">&#127916; &#21205;&#30059; Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">&#24037;&#20855;</div><div class="vv">&#21205;&#30059;&#29983;&#25104;&#12289;&#29305;&#25928;&#24341;&#25806;</div>
+        <div class="kk">&#29986;&#20986;</div><div class="vv accent-p">&#36942;&#22580;&#21205;&#30059;&#12289;&#29305;&#25928;&#27284;&#26696;</div>
+        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#27969;&#26274;&#24230;&#12289;&#34920;&#29694;&#21147;</div>
+      </div>
+    </div>
+    <div class="panel panel-a a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">&#127925; &#38899;&#25928; Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">&#24037;&#20855;</div><div class="vv">&#38899;&#25928;&#29983;&#25104;&#12289;&#37197;&#27138;&#24341;&#25806;</div>
+        <div class="kk">&#29986;&#20986;</div><div class="vv accent-a">&#20013;&#29518;&#38899;&#12289;&#32972;&#26223;&#27138;&#12289;&#29872;&#22659;&#38899;</div>
+        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#38899;&#36074;&#12289;&#24773;&#22659;&#36969;&#37197;</div>
+      </div>
+    </div>
+    <div class="panel panel-o a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--orange);font-size:1.15rem">&#128187; &#31243;&#24335; Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">&#24037;&#20855;</div><div class="vv">&#31243;&#24335;&#30908;&#29983;&#25104;&#12289;Exec</div>
+        <div class="kk">&#29986;&#20986;</div><div class="vv accent-o">&#36938;&#25138;&#37007;&#36655;&#12289;&#24341;&#25806;&#25972;&#21512;</div>
+        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#37007;&#36655;&#27491;&#30906;&#12289;&#25928;&#33021;&#31337;&#23450;</div>
+      </div>
+    </div>
+    <div class="panel panel-r a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--rose);font-size:1.15rem">&#128270; QA Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">&#24037;&#20855;</div><div class="vv">&#28204;&#35430;&#26694;&#26550;&#12289;&#22238;&#27512;&#25475;&#25551;</div>
+        <div class="kk">&#29986;&#20986;</div><div class="vv accent-r">&#28204;&#35430;&#22577;&#21578;&#12289;&#35206;&#33995;&#29575;&#25976;&#25818;</div>
+        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#35206;&#33995;&#29575;&#12289;&#37002;&#30028;&#26781;&#20214;</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 4 · TIGER PIPELINE ══════ -->
+<section class="slide" data-slide="4">
+<div class="inner" style="gap:1rem">
+  <div><span class="a eyebrow" style="color:var(--orange)">Tiger Pipeline</span><h2 class="a">&#127920; &#38283;&#30332;&#19968;&#27454;&#32769;&#34382;&#27231; &mdash; &#23436;&#25972;&#27969;&#31243;</h2>
+  <p class="a lead">&#19968;&#20491;&#25351;&#20196;&#35320;&#30332; Master Agent&#65292;&#33258;&#21205;&#35519;&#24230; 6 &#20491;&#32887;&#31278; Agent&#65292;&#27599;&#27493;&#37117;&#26377;&#20154;&#24037;&#27298;&#26680;</p></div>
+
+  <div class="a pipe">
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#128203; &#20225;&#21123;<br>Agent</div><div class="pstep-desc">&#36064;&#29575;&#34920; &bull; &#22238;&#21512;&#27231;&#21046;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27231;&#21046;&#21512;&#29702;&#24615;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#127912; &#32654;&#34899;<br>Agent</div><div class="pstep-desc">&#31526;&#34399; &bull; &#32972;&#26223; &bull; UI</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#39080;&#26684;&#19968;&#33268;&#24615;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#127916; &#21205;&#30059;<br>Agent</div><div class="pstep-desc">&#25458;&#36600; &bull; &#20013;&#29518;&#29305;&#25928;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27969;&#26274;&#24230; &bull; &#21697;&#36074;</div></div>
+  </div>
+  <div class="a pipe">
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#127925; &#38899;&#25928;<br>Agent</div><div class="pstep-desc">&#25458;&#36600;&#38899; &bull; &#20013;&#29518;&#38899;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#38899;&#36074; &bull; &#36969;&#37197;&#24615;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#128187; &#31243;&#24335;<br>Agent</div><div class="pstep-desc">&#37007;&#36655; &bull; RNG &bull; &#25928;&#33021;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27491;&#30906;&#24615; &bull; &#31337;&#23450;&#24615;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#128270; QA<br>Agent</div><div class="pstep-desc">&#36064;&#29575;&#39511;&#31639; &bull; &#22238;&#27512;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#35206;&#33995;&#29575; &bull; &#37002;&#30028;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>&#20132;&#20184;</div><div class="pstep-desc">&#21830;&#29992;&#27700;&#28310;</div></div>
+  </div>
+
+  <div class="a" style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+    <span class="pill pill-c">&#129302; AI Agent &#33258;&#21205;&#34389;&#29702;</span>
+    <span class="pill pill-a">&#128064; &#20154;&#24037;&#27298;&#26680;&#38296;&#38272;</span>
+    <span style="font-size:1rem;color:var(--dim)">&#20849; <strong class="accent-a">6 &#36947;</strong>&#20154;&#24037;&#21697;&#36074;&#38364;&#21345;</span>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 5 · FISH PIPELINE ══════ -->
+<section class="slide" data-slide="5">
+<div class="inner" style="gap:1rem">
+  <div><span class="a eyebrow" style="color:var(--cyan)">Fish Pipeline</span><h2 class="a">&#127907; &#35069;&#20316;&#19968;&#27454;&#39770;&#27231;&#65295;&#26032;&#22686;&#39770;&#31278; &mdash; &#23436;&#25972;&#27969;&#31243;</h2>
+  <p class="a lead">&#21516;&#27171;&#26550;&#27083;&#65292;&#19981;&#21516;&#20839;&#23481; &mdash; &#27599;&#20491; Agent &#37341;&#23565;&#39770;&#27231;&#29305;&#24615;&#23458;&#35069;&#21270;</p></div>
+
+  <div class="a pipe">
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#128203; &#20225;&#21123;<br>Agent</div><div class="pstep-desc">&#39770;&#31278; &bull; &#27494;&#22120; &bull; &#22580;&#26223;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#29609;&#27861;&#24179;&#34913;&#24615;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#127912; &#32654;&#34899;<br>Agent</div><div class="pstep-desc">&#39770;&#31278;&#36896;&#22411; &bull; &#28023;&#24213;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#39080;&#26684;&#32113;&#19968;&#24615;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#127916; &#21205;&#30059;<br>Agent</div><div class="pstep-desc">&#28216;&#21205; &bull; &#25429;&#29554; &bull; &#29190;&#28856;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#33258;&#28982;&#24863; &bull; &#34920;&#29694;&#21147;</div></div>
+  </div>
+  <div class="a pipe">
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#127925; &#38899;&#25928;<br>Agent</div><div class="pstep-desc">&#27700;&#32882; &bull; &#23556;&#25802; &bull; &#29190;&#28856;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27784;&#28024;&#24863; &bull; &#31680;&#22863;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#128187; &#31243;&#24335;<br>Agent</div><div class="pstep-desc">&#29289;&#29702; &bull; &#30896;&#25758; &bull; &#27494;&#22120;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#25928;&#33021; &bull; &#30896;&#25758;&#31934;&#24230;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai">&#128270; QA<br>Agent</div><div class="pstep-desc">&#24179;&#34913; &bull; &#22739;&#21147;&#28204;&#35430;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#20844;&#24179;&#24615; &bull; &#31337;&#23450;&#24615;</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>&#20132;&#20184;</div><div class="pstep-desc">&#21830;&#29992;&#27700;&#28310;</div></div>
+  </div>
+
+  <div class="a" style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+    <span class="pill pill-c">&#129302; AI Agent &#33258;&#21205;&#34389;&#29702;</span>
+    <span class="pill pill-a">&#128064; &#20154;&#24037;&#27298;&#26680;&#38296;&#38272;</span>
+    <span style="font-size:1rem;color:var(--dim)">&#20849; <strong class="accent-a">6 &#36947;</strong>&#20154;&#24037;&#21697;&#36074;&#38364;&#21345;</span>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 6 · PERMISSION CONTROL ══════ -->
+<section class="slide" data-slide="6">
+<div class="inner">
+  <div><span class="a eyebrow">Permission Control</span><h2 class="a">Gateway &#27402;&#38480;&#25511;&#31649; &mdash; &#27599;&#20491; Agent &#21482;&#33021;&#20570;&#33258;&#24049;&#30340;&#20107;</h2>
+  <p class="a lead">&#21443;&#32771; OpenClaw &#26550;&#27083;&#65306;&#36879;&#36942; Gateway &#23565;&#27599;&#20491; Agent &#35373;&#23450;&#24037;&#20855;&#30333;&#21517;&#21934;&#12289;Exec &#25351;&#20196;&#30333;&#21517;&#21934;&#12289;&#36039;&#28304;&#23384;&#21462;&#31684;&#22285;</p></div>
+
+  <div class="a g2">
+    <div class="panel panel-r a">
+      <div class="panel-title" style="color:var(--rose);font-size:1.15rem">&#128683; Tool ACL &mdash; &#24037;&#20855;&#23384;&#21462;&#25511;&#21046;</div>
+      <div class="panel-body">
+        &#27599;&#20491; Agent &#21482;&#33021;&#20351;&#29992;&#34987;&#26680;&#20934;&#30340;&#24037;&#20855;&#65306;<br>
+        &bull; <strong>&#32654;&#34899; Agent</strong>&#65306;&#21482;&#33021;&#29992;&#22294;&#20687;&#29983;&#25104;&#24037;&#20855;&#65292;&#31105;&#29992; exec/process<br>
+        &bull; <strong>&#31243;&#24335; Agent</strong>&#65306;&#21487;&#29992; exec&#65292;&#20294;&#21482;&#38480;&#30333;&#21517;&#21934;&#25351;&#20196;<br>
+        &bull; <strong>QA Agent</strong>&#65306;&#21487;&#22519;&#34892;&#28204;&#35430;&#65292;&#31105;&#29992; apply_patch
+      </div>
+    </div>
+    <div class="panel panel-l a">
+      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">&#128274; Exec Allowlist &mdash; &#25351;&#20196;&#30333;&#21517;&#21934;</div>
+      <div class="panel-body">
+        &#25152;&#26377; exec &#32147; Gateway &#20195;&#29702;&#65292;&#38750;&#30333;&#21517;&#21934;&#30452;&#25509;&#25803;&#65306;<br>
+        &bull; <strong>exec-approvals.json</strong>&#65306;&#36880;&#26781;&#26680;&#20934;&#21487;&#22519;&#34892;&#25351;&#20196;<br>
+        &bull; &#27599;&#26781;&#25351;&#20196;&#35352;&#37636;&#26368;&#24460;&#20351;&#29992;&#26178;&#38291;&#33287;&#23436;&#25972;&#21629;&#20196;<br>
+        &bull; Agent &#28961;&#27861;&#30452;&#25509;&#23384;&#21462; Shell
+      </div>
+    </div>
+  </div>
+
+  <div class="a g2">
+    <div class="panel panel-p a">
+      <div class="panel-title" style="color:var(--purple);font-size:1.15rem">&#128737; Per-Agent &#36039;&#28304;&#38548;&#38626;</div>
+      <div class="panel-body">
+        &bull; &#27599;&#20491; Agent &#26377;&#29544;&#31435;&#30340; workspace &#21644;&#35352;&#25014;&#31684;&#22285;<br>
+        &bull; &#32654;&#34899; Agent &#19981;&#33021;&#30475;&#31243;&#24335;&#30908;&#65292;&#31243;&#24335; Agent &#19981;&#33021;&#25913;&#32654;&#34899;&#32032;&#26448;<br>
+        &bull; &#25152;&#26377;&#23384;&#21462;&#37117;&#36879;&#36942; Gateway &#27402;&#38480;&#27298;&#26597;
+      </div>
+    </div>
+    <div class="panel panel-a a">
+      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">&#128100; Per-User &#20491;&#20154;&#21270;&#36969;&#37197;</div>
+      <div class="panel-body">
+        &bull; &#21516;&#19968;&#20491; Agent&#65292;&#23565;&#19981;&#21516;&#31278;&#23376;&#25552;&#20379;&#19981;&#21516;&#20114;&#21205;&#39080;&#26684;<br>
+        &bull; Gateway &#20381; UserID &#27880;&#20837;&#19981;&#21516; System Prompt<br>
+        &bull; &#36039;&#28145;&#31278;&#23376;&#30475;&#35443;&#32048;&#21443;&#25976;&#65292;&#26032;&#25163;&#30475;&#24341;&#23566;&#24314;&#35696;
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 7 · HUMAN CHECKPOINT ══════ -->
+<section class="slide" data-slide="7">
+<div class="inner">
+  <div><span class="a eyebrow">Human Checkpoint</span><h2 class="a">&#20154;&#24037;&#27298;&#26680;&#35373;&#35336; &mdash; &#26680;&#24515;&#31478;&#29229;&#21147;</h2>
+  <p class="a lead">AI &#29986;&#20986;<strong class="accent-r">&#27704;&#36960;&#19981;&#26371;&#30452;&#25509;&#36914;&#20837;&#19979;&#28216;</strong>&#65292;&#24517;&#38920;&#32147;&#36942;&#31278;&#23376;&#23560;&#23478;&#25226;&#38364;</p></div>
+
+  <div class="a panel" style="border:2px solid rgba(251,191,36,.25);padding:1.4rem">
+    <div style="text-align:center;margin-bottom:.6rem;font-weight:700;color:var(--amber);font-size:1.15rem">&#128260; &#27599;&#20491;&#27298;&#26680;&#40670;&#30340; Loop &#27231;&#21046;</div>
+    <div class="pipe" style="gap:.4rem">
+      <div class="node" style="border-color:rgba(34,211,238,.3);color:var(--cyan)">&#129302; Agent &#29986;&#20986;</div>
+      <div class="arrow">&rarr;</div>
+      <div class="node" style="border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08);color:var(--amber)">&#128064; &#31278;&#23376;&#23529;&#26680;</div>
+      <div class="arrow">&rarr;</div>
+      <div style="display:flex;flex-direction:column;gap:.3rem">
+        <div class="node" style="border-color:rgba(74,222,128,.3);color:var(--lime)">&#10003; &#36890;&#36942; &rarr; &#36914;&#20837;&#19979;&#19968;&#20491; Agent</div>
+        <div class="node" style="border-color:rgba(251,113,133,.3);color:var(--rose)">&#10007; &#36864;&#22238; &rarr; AI &#20381;&#21453;&#39243;&#20462;&#27491; &rarr; &#37325;&#26032;&#23529;&#26680;</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="a g3">
+    <div class="panel panel-a a">
+      <div class="panel-title" style="color:var(--amber)">&#128737; &#28858;&#20160;&#40636;&#65311;</div>
+      <div class="panel-body">AI &#38750; 100% &#21487;&#38752;&#12290;&#31278;&#23376;&#20197;<strong>&#38936;&#22495;&#23560;&#26989;</strong>&#21028;&#26039;&#29986;&#20986;&#21697;&#36074;&#65292;&#25884;&#25130;&#37679;&#35492;&#22312;&#28304;&#38957;</div>
+    </div>
+    <div class="panel panel-c a">
+      <div class="panel-title" style="color:var(--cyan)">&#127919; &#27298;&#26680;&#20160;&#40636;&#65311;</div>
+      <div class="panel-body">
+        &#20225;&#21123; &rarr; &#27231;&#21046;&#21512;&#29702;&#24615;<br>
+        &#32654;&#34899; &rarr; &#39080;&#26684;&#19968;&#33268;&#24615;<br>
+        &#31243;&#24335; &rarr; &#37007;&#36655;&#27491;&#30906;&#24615;<br>
+        QA &rarr; &#35206;&#33995;&#23436;&#25972;&#24615;
+      </div>
+    </div>
+    <div class="panel panel-l a">
+      <div class="panel-title" style="color:var(--lime)">&#128200; &#29986;&#20986;&#20160;&#40636;&#65311;</div>
+      <div class="panel-body">&#27599;&#27425;&#36890;&#36942;/&#36864;&#22238;&#33258;&#21205;&#32000;&#37636;&#65292;&#24418;&#25104;<strong>&#21487;&#37327;&#21270;&#30340; Before/After &#25976;&#25818;</strong>&#65292;&#30452;&#25509;&#23565;&#25033;&#35413;&#20998;&#32173;&#24230;</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 8 · TRAINING ══════ -->
+<section class="slide" data-slide="8">
+<div class="inner">
+  <div><span class="a eyebrow">Training</span><h2 class="a">&#31278;&#23376;&#36984;&#25300; + &#23526;&#20316;&#22521;&#32946;</h2>
+  <p class="a lead">&#27599;&#20491;&#32887;&#31278;&#19968;&#21517; AI &#31278;&#23376;&#65292;1-on-1 &#24118;&#25945;&#65292;&#30452;&#25509;&#22312;&#30495;&#23526;&#35069;&#31243;&#20013;&#23526;&#20316;</p></div>
+
+  <div class="a pipe">
+    <div class="node a" style="border-color:rgba(74,222,128,.3);color:var(--lime)">&#9312; &#35469;&#35672; AI &#24037;&#20855;</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(34,211,238,.3);color:var(--cyan)">&#9313; &#30495;&#23526;&#26696;&#20363;&#28436;&#32244;</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(251,146,60,.3);color:var(--orange)">&#9314; &#24314;&#32622;&#32887;&#31278; Agent</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(251,191,36,.3);color:var(--amber)">&#9315; &#35373;&#35336;&#27298;&#26680;&#40670;</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(176,122,255,.3);color:var(--purple)">&#9316; &#25499;&#36617;&#33267; Master</div>
+  </div>
+
+  <div class="a g2">
+    <div class="panel panel-p a">
+      <div class="panel-title" style="color:var(--purple)">&#127919; &#22521;&#32946;&#27169;&#24335;</div>
+      <div class="panel-body">
+        &#25105; 1-on-1 &#24118;&#27599;&#20301;&#31278;&#23376;&#65306;&#20808; Demo &#23436;&#25972; Agent &#24314;&#32622;&#27969;&#31243;&#65292;&#20877;&#35731;&#31278;&#23376;&#29992;&#33258;&#24049;&#30340;&#24037;&#20316;&#22580;&#26223;&#23526;&#20316;&#12290;<br>
+        <strong>&#29986;&#20986;&#65306;</strong>&#27599;&#20301;&#31278;&#23376;&#28858;&#34382;&#27231; &amp; &#39770;&#27231;&#21508;&#23436;&#25104;&#33267;&#23569; 1 &#20491; Agent &#35373;&#23450;
+      </div>
+    </div>
+    <div class="panel panel-a a">
+      <div class="panel-title" style="color:var(--amber)">&#128064; &#27298;&#26680;&#20778;&#20808;&#21407;&#21063;</div>
+      <div class="panel-body">
+        &#25945;&#23416;&#21516;&#27493;&#25945;&#23566;&#65306;&#22312; Agent &#20013;<strong>&#21738;&#35041;&#25554;&#20837;&#27298;&#26680;&#40670;</strong>&#12289;<strong>&#27298;&#26680;&#20160;&#40636;</strong>&#12289;<strong>&#36864;&#22238;&#27231;&#21046;&#24590;&#40636;&#35373;&#35336;</strong>&#12290;<br>
+        &#31278;&#23376;&#19981;&#21482;&#23416;&#26371;&#29992; AI&#65292;&#26356;&#23416;&#26371;<strong>&#31649;&#25511; AI</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="a panel" style="text-align:center;padding:1rem">
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center">
+      <div><strong class="accent-p" style="font-size:1.2rem">1 : 1</strong><br><span style="color:var(--dim)">&#32113;&#31820;&#24118;&#25945;</span></div>
+      <div><strong class="accent-o" style="font-size:1.2rem">Learning by Doing</strong><br><span style="color:var(--dim)">&#30495;&#23526;&#35069;&#31243;&#23526;&#20316;</span></div>
+      <div><strong class="accent-a" style="font-size:1.2rem">Agent + &#27298;&#26680;</strong><br><span style="color:var(--dim)">&#27599;&#20491; Agent &#24517;&#21547;&#20154;&#24037;&#38364;&#21345;</span></div>
+      <div><strong class="accent-c" style="font-size:1.2rem">&times;2 &#36556;</strong><br><span style="color:var(--dim)">&#34382;&#27231; &amp; &#39770;&#27231;&#37117;&#35201;&#35206;&#33995;</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 9 · SCORING ══════ -->
+<section class="slide" data-slide="9">
+<div class="inner">
+  <div><span class="a eyebrow">Scoring Alignment</span><h2 class="a">&#31934;&#28310;&#21629;&#20013;&#22235;&#22823;&#35413;&#20998;&#32173;&#24230;</h2></div>
+
+  <div style="display:flex;flex-direction:column;gap:.8rem">
+    <div class="panel panel-a a" style="border-width:2px">
+      <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
+        <div style="font-weight:700;color:var(--amber)">&#9670; &#20778;&#21270;&#25928;&#30410; 30%</div>
+        <div class="panel-body"><strong>12 &#36947;&#20154;&#24037;&#27298;&#26680; = &#23436;&#25972; Before/After &#25976;&#25818;</strong><br>&#27599;&#27425;&#36845;&#20195;&#30340;&#36890;&#36942;&#29575;&#12289;&#36864;&#22238;&#27425;&#25976;&#12289;&#20462;&#27491;&#26178;&#38291;&#65292;&#23458;&#35264;&#37327;&#21270; AI &#24118;&#20358;&#30340;&#25928;&#29575;&#25552;&#21319;</div>
+      </div>
+    </div>
+    <div class="panel panel-c a" style="border-width:2px">
+      <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
+        <div style="font-weight:700;color:var(--cyan)">&#9670; AI &#25216;&#34899;&#25033;&#29992; 30%</div>
+        <div class="panel-body"><strong>2 Master &times; 6 &#32887;&#31278; Agent = &#20840;&#29983;&#21629;&#36913;&#26399;&#35206;&#33995;</strong><br>&#34382;&#27231; &amp; &#39770;&#27231;&#21508;&#19968;&#22871; Agent &#31649;&#32218;&#65292;&#20018;&#32879;&#20225;&#21123;&#21040; QA &#30340;&#23436;&#25972;&#36328;&#32887;&#33021;&#24037;&#20316;&#27969;</div>
+      </div>
+    </div>
+    <div class="panel panel-l a" style="border-width:2px">
+      <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
+        <div style="font-weight:700;color:var(--lime)">&#9670; &#26041;&#26696;&#20849;&#29992;&#24615; 20%</div>
+        <div class="panel-body"><strong>Agent &#27169;&#32068;&#21270; + &#31278;&#23376;&#22521;&#32946;&#27231;&#21046; = &#21487;&#35079;&#35069;</strong><br>Agent &#26550;&#27083;&#12289;&#27402;&#38480;&#25511;&#31649;&#12289;&#27298;&#26680;&#26694;&#26550;&#21487;&#30452;&#25509;&#25512;&#24291;&#33267;&#20107;&#26989;&#34389;&#20854;&#20182;&#23560;&#26696;</div>
+      </div>
+    </div>
+    <div class="panel panel-r a" style="border-width:2px">
+      <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
+        <div style="font-weight:700;color:var(--rose)">&#9670; &#29986;&#21697;&#23436;&#25972;&#24230; 20%</div>
+        <div class="panel-body"><strong>&#20154;&#24037;&#27298;&#26680; = &#21830;&#29992;&#32026;&#21697;&#36074;&#20445;&#35657;</strong><br>&#19981;&#26159; AI &#40657;&#31665;&#29986;&#20986;&#65292;&#26159;&#32147;&#36942;&#38936;&#22495;&#23560;&#23478;&#23652;&#23652;&#25226;&#38364;&#30340;&#39640;&#27161;&#28310;&#25104;&#21697;</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 10 · TIMELINE ══════ -->
+<section class="slide" data-slide="10">
+<div class="inner">
+  <div><span class="a eyebrow">Execution</span><h2 class="a">&#22519;&#34892;&#35336;&#30059;&#33287;&#20132;&#20184;&#37324;&#31243;&#30865;</h2></div>
+
+  <div class="a g2">
+    <div class="panel panel-a a" style="border-width:2px">
+      <div class="panel-title" style="color:var(--amber);font-size:1.2rem">CP1 &mdash; Week 6</div>
+      <div style="display:flex;flex-direction:column;gap:.35rem;margin-top:.5rem;font-size:1.05rem">
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> 6 &#32887;&#31278;&#31278;&#23376;&#36984;&#23450;&#23436;&#25104;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#31278;&#23376;&#22521;&#32946;&#23436;&#25104;&#65288;&#27599;&#20154;&#33267;&#23569; 2 &#20491; Agent&#65289;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#34382;&#27231; &amp; &#39770;&#27231; Master Agent &#26550;&#27083;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> Gateway &#27402;&#38480;&#25511;&#31649;&#26694;&#26550;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> &#33267;&#23569; 1 &#26781;&#23436;&#25972; Pipeline Demo</div>
+      </div>
+    </div>
+    <div class="panel panel-c a" style="border-width:2px">
+      <div class="panel-title" style="color:var(--cyan);font-size:1.2rem">CP2 &mdash; Week 14</div>
+      <div style="display:flex;flex-direction:column;gap:.35rem;margin-top:.5rem;font-size:1.05rem">
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#34382;&#27231; Master + 6 Agent &#19978;&#32218;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#39770;&#27231; Master + 6 Agent &#19978;&#32218;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#31471;&#21040;&#31471; Demo &mdash; &#38617;&#36556;&#21508;&#36305;&#23436;&#25972;&#27969;&#31243;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> Before/After &#25104;&#25928;&#25976;&#25818;&#22577;&#21578;</div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> &#24037;&#20855;&#28165;&#21934; &amp; &#20840;&#36556;&#36321;&#32000;&#37636;</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="a pipe" style="gap:.3rem">
+    <div class="node a" style="border-color:rgba(74,222,128,.3);color:var(--lime);font-size:.95rem">W1-2<br>&#36984;&#31278;&#22521;&#32946;</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(34,211,238,.3);color:var(--cyan);font-size:.95rem">W3-5<br>Agent &#24314;&#32622;</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(251,191,36,.4);color:var(--amber);font-size:.95rem;background:rgba(251,191,36,.06)">W6<br>CP1</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(251,146,60,.3);color:var(--orange);font-size:.95rem">W7-10<br>Master &#38283;&#30332;</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(176,122,255,.3);color:var(--purple);font-size:.95rem">W11-13<br>&#25972;&#21512;&#20778;&#21270;</div>
+    <div class="arrow">&rarr;</div>
+    <div class="node a" style="border-color:rgba(34,211,238,.4);color:var(--cyan);font-size:.95rem;background:rgba(34,211,238,.06)">W14<br>CP2</div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 11 · KEY INSIGHT ══════ -->
+<section class="slide" data-slide="11">
+<div class="inner" style="justify-content:center;gap:1.2rem">
+  <div>
+    <span class="a eyebrow">Key Insight</span>
+    <h2 class="a">&#33258;&#21205;&#21270;&#35352;&#25014; + &#31934;&#28310; Context</h2>
+    <p class="a lead">Agent &#19981;&#26159;&#19968;&#27425;&#24615;&#24037;&#20855;&#65292;&#26159;&#26371;&#33258;&#21205;&#32047;&#31309;&#35352;&#25014;&#30340;&#22296;&#38538;&#25104;&#21729;&#12290;&#27599;&#27425;&#20132;&#20184;&#30340;&#32147;&#39511;&#37117;&#26371;&#34987;&#35352;&#20303;&#65292;&#19979;&#27425;&#20570;&#24471;&#26356;&#22909;&#12290;</p>
+  </div>
+
+  <div class="a g3" style="flex:unset">
+    <div class="panel panel-a a">
+      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">Phase 0 &mdash; &#21021;&#22987;&#21270;&#65288;&#19978;&#32218;&#21069;&#65289;</div>
+      <div class="panel-body">&#21295;&#20837;&#27231;&#31278;&#30456;&#38364;&#30340;&#35373;&#35336;&#35215;&#31684;&#12289;&#22238;&#21512;&#35215;&#21063;&#12289;&#32654;&#34899;&#39080;&#26684;&#25351;&#21335; &rarr; &#21521;&#37327;&#21270;&#23384;&#20837;&#35352;&#25014;<br><span style="color:var(--dim)">&#21021;&#22987;&#30693;&#35672;&#19981;&#23436;&#25972;&#65292;&#20294;&#36275;&#20197;&#21855;&#21205;</span></div>
+    </div>
+    <div class="panel panel-c a">
+      <div class="panel-title" style="color:var(--cyan);font-size:1.15rem">Phase 1 &mdash; &#31278;&#23376;&#24118;&#26032;&#20154;&#65288;&#31478;&#36093;&#26399;&#65289;</div>
+      <div class="panel-body">&#31278;&#23376;&#26085;&#24120;&#20351;&#29992;&#20013;&#25345;&#32396;&#35347;&#32244; Agent&#65292;&#35036;&#40778;&#21508;&#32887;&#31278;&#30340;&#38936;&#22495;&#30693;&#35672; &rarr; <strong class="accent-l">&#37002;&#29992;&#37002;&#35347;&#32244;</strong><br>&#27599;&#27425;&#36864;&#22238;&#12289;&#20462;&#27491;&#37117;&#35731; Agent &#26356;&#26234;&#24935;</div>
+    </div>
+    <div class="panel panel-l a">
+      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">Phase 2 &mdash; &#20840;&#35069;&#31243;&#33258;&#21205;&#21270;&#65288;&#31478;&#36093;&#24460;&#65289;</div>
+      <div class="panel-body">Agent &#24050;&#32047;&#31309;&#36275;&#22816;&#32147;&#39511;&#65292;&#26032;&#23560;&#26696;&#21482;&#38656;&#19979;&#25351;&#20196; &rarr; <strong class="accent-c">&#20840;&#33258;&#21205;&#29986;&#20986; + &#20154;&#24037;&#25226;&#38364;</strong></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════ 12 · CLOSING ══════ -->
+<section class="slide" data-slide="12">
+<div class="inner" style="align-items:center;justify-content:center">
+  <div class="a panel" style="text-align:center;padding:2.5rem 3rem;border-color:rgba(251,146,60,.2);background:linear-gradient(135deg,rgba(251,146,60,.05),rgba(34,211,238,.04))">
+    <h2 class="a" style="background:linear-gradient(135deg,var(--orange),var(--amber),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:clamp(1.6rem,3vw,2.4rem)">
+      &#20840;&#35069;&#31243; AI &#33258;&#21205;&#21270;<br>&#27599;&#19968;&#27493;&#37117;&#26377;&#20154;&#22312;&#25226;&#38364;
+    </h2>
+    <p class="a lead" style="text-align:center;margin:.8rem auto 0;max-width:50ch">
+      &#19981;&#26159;&#29992; AI &#21462;&#20195;&#20154;&#65292;&#26159;&#35731; AI &#36305;&#35069;&#31243;&#12289;&#35731;&#20154;&#31649;&#21697;&#36074;<br>
+      &#27599;&#20491;&#32887;&#31278;&#19968;&#20491;&#23560;&#23660; Agent&#65292;&#36879;&#36942; Gateway &#27402;&#38480;&#25511;&#31649;&#65292;&#30906;&#20445;&#23433;&#20840;&#21487;&#25511;<br>
+      <strong class="accent-a" style="font-size:1.3rem">&#19968;&#20491;&#26376; USD $100</strong>
+    </p>
+  </div>
+  <div class="a pipe" style="gap:.5rem;flex-wrap:wrap;justify-content:center">
+    <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#127920; &#127907;</div>
-      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--orange)">2 支 Agent</div>
-      <div style="font-size:1rem;color:var(--td)">虎機 + 魚機</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--orange)">2 Master Agent</div>
+      <div style="font-size:.9rem;color:var(--dim)">&#34382;&#27231; + &#39770;&#27231;</div>
     </div>
-    <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
-      <div style="font-size:1.3rem">&#127793;</div>
-      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--green)">6 位種子</div>
-      <div style="font-size:1rem;color:var(--td)">各職種 AI 先鋒</div>
+    <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
+      <div style="font-size:1.3rem">&#129302;</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--cyan)">6 &#32887;&#31278; Agent</div>
+      <div style="font-size:.9rem;color:var(--dim)">&#20225;&#21123;&#21040; QA &#20840;&#35206;&#33995;</div>
     </div>
-    <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
-      <div style="font-size:1.3rem">&#128736;</div>
-      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--cyan)">12 組 Skill</div>
-      <div style="font-size:1rem;color:var(--td)">雙軌 &times; 6 職種</div>
-    </div>
-    <div class="card an" style="text-align:center;padding:1rem;min-width:120px">
+    <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#128064;</div>
-      <div style="font-weight:700;font-size:.95rem;margin-top:.2rem;color:var(--gold)">12 道檢核</div>
-      <div style="font-size:1rem;color:var(--td)">品質閘門遍布全程</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--amber)">12 &#36947;&#27298;&#26680;</div>
+      <div style="font-size:.9rem;color:var(--dim)">&#21697;&#36074;&#38296;&#38272;&#36941;&#24067;&#20840;&#31243;</div>
+    </div>
+    <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
+      <div style="font-size:1.3rem">&#9881;</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--purple)">Gateway &#25511;&#31649;</div>
+      <div style="font-size:.9rem;color:var(--dim)">&#27402;&#38480; &bull; ACL &bull; &#38548;&#38626;</div>
+    </div>
+    <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
+      <div style="font-size:1.3rem">&#127793;</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--lime)">6 &#20301;&#31278;&#23376;</div>
+      <div style="font-size:.9rem;color:var(--dim)">&#21508;&#32887;&#31278; AI &#20808;&#37586;</div>
     </div>
   </div>
 </div>
@@ -717,24 +844,45 @@ h2{font-size:2.4rem;font-weight:900;line-height:1.3}
 
 </div>
 
-<button class="nav-arrow nav-prev" id="prevBtn" aria-label="Previous">&#10094;</button>
-<button class="nav-arrow nav-next" id="nextBtn" aria-label="Next">&#10095;</button>
-<div class="nav-dots" id="navDots"></div>
-<div class="page-num" id="pageNum"></div>
+<!-- NAV -->
+<button class="nav-btn nav-prev" id="prevBtn">&#10094;</button>
+<button class="nav-btn nav-next" id="nextBtn">&#10095;</button>
+<div class="dots" id="dots"></div>
+<div class="pg" id="pg"></div>
 
 <script>
 (function(){
-  const s=document.querySelectorAll('.slide'),t=s.length;
-  const p=document.getElementById('progress'),nd=document.getElementById('navDots'),pn=document.getElementById('pageNum');
-  let c=0;
-  for(let i=0;i<t;i++){const d=document.createElement('button');d.className='nav-dot'+(i===0?' active':'');d.setAttribute('aria-label','Slide '+(i+1));d.addEventListener('click',()=>g(i));nd.appendChild(d)}
-  function g(n){if(n<0||n>=t)return;s[c].classList.remove('active');nd.children[c].classList.remove('active');c=n;s[c].classList.add('active');nd.children[c].classList.add('active');p.style.width=(c/(t-1)*100)+'%';pn.textContent=(c+1)+' / '+t}
-  function next(){g(c+1)}function prev(){g(c-1)}
-  document.getElementById('nextBtn').addEventListener('click',next);
-  document.getElementById('prevBtn').addEventListener('click',prev);
-  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()}else if(e.key==='ArrowLeft'){e.preventDefault();prev()}else if(e.key==='Home'){e.preventDefault();g(0)}else if(e.key==='End'){e.preventDefault();g(t-1)}});
-  let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>50){d>0?next():prev()}});
-  g(0);
+  const S=document.querySelectorAll('.slide'), N=S.length;
+  const bar=document.getElementById('progress'), dots=document.getElementById('dots'), pg=document.getElementById('pg');
+  let cur=0;
+  for(let i=0;i<N;i++){
+    const d=document.createElement('button');
+    d.className='dot'+(i?'':' on');
+    d.onclick=()=>go(i);
+    dots.appendChild(d);
+  }
+  function go(n){
+    if(n<0||n>=N) return;
+    S[cur].classList.remove('active');
+    dots.children[cur].classList.remove('on');
+    cur=n;
+    S[cur].classList.add('active');
+    dots.children[cur].classList.add('on');
+    bar.style.width=(cur/(N-1)*100)+'%';
+    pg.textContent=(cur+1)+' / '+N;
+  }
+  document.getElementById('nextBtn').onclick=()=>go(cur+1);
+  document.getElementById('prevBtn').onclick=()=>go(cur-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(cur+1)}
+    else if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1)}
+    else if(e.key==='Home'){e.preventDefault();go(0)}
+    else if(e.key==='End'){e.preventDefault();go(N-1)}
+  });
+  let tx=0;
+  document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
+  document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>50)d>0?go(cur+1):go(cur-1)});
+  go(0);
 })();
 </script>
 </body>
