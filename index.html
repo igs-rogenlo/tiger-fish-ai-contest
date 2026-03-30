@@ -112,6 +112,7 @@ h2 {
 .panel-a::before { background: var(--amber); }
 .panel-r::before { background: var(--rose); }
 .panel-o::before { background: var(--orange); }
+.panel-b::before { background: var(--blue); }
 .panel-title {
   font-size: 1.2rem; font-weight: 700; margin-bottom: .4rem;
 }
@@ -182,6 +183,8 @@ h2 {
 .pill-l { background: rgba(74,222,128,.1); border-color: rgba(74,222,128,.3); color: var(--lime); }
 .pill-r { background: rgba(251,113,133,.1); border-color: rgba(251,113,133,.3); color: var(--rose); }
 .pill-p { background: rgba(176,122,255,.1); border-color: rgba(176,122,255,.3); color: var(--purple); }
+.pill-b { background: rgba(96,165,250,.1); border-color: rgba(96,165,250,.3); color: var(--blue); }
+.accent-b { color: var(--blue); font-weight: 700; }
 
 /* ─── PIPELINE STEP ─── */
 .pstep {
@@ -295,6 +298,7 @@ h2 {
 <!-- ══════ 0 · COVER ══════ -->
 <section class="slide active" data-slide="0">
 <div class="inner" style="gap:1rem;justify-content:center">
+
   <div style="text-align:center">
     <div class="a hero-badge">Tiger &times; Fish AI Contest</div>
     <h1 class="a hero-title" style="margin-top:.4rem">各職種 Agent<br>全製程自動化</h1>
@@ -307,255 +311,288 @@ h2 {
   <div class="a cover-flow" style="display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:nowrap;margin:.3rem 0">
     <div class="node a" style="border-color:rgba(176,122,255,.5);background:rgba(176,122,255,.08);padding:.8rem 1.2rem">
       <div style="font-size:1.1rem">&#127919;</div>
-      <div style="color:var(--purple);font-size:1.1rem;font-weight:800">&#25105;(&#32113;&#31820;)</div>
+      <div style="color:var(--purple);font-size:1.1rem;font-weight:800">Agent主要架構師</div>
     </div>
     <div class="arrow a">&rarr;</div>
     <div style="display:flex;flex-direction:column;gap:.5rem">
       <div class="node a" style="border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.06);padding:.6rem 1rem">
-        <div style="color:var(--orange);font-size:1rem;font-weight:700">&#127920; &#34382;&#27231; Master Agent</div>
+        <div style="color:var(--orange);font-size:1rem;font-weight:700">&#127920; 虎機 Master Agent</div>
       </div>
       <div class="node a" style="border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.06);padding:.6rem 1rem">
-        <div style="color:var(--cyan);font-size:1rem;font-weight:700">&#127907; &#39770;&#27231; Master Agent</div>
+        <div style="color:var(--cyan);font-size:1rem;font-weight:700">&#127907; 魚機 Master Agent</div>
       </div>
     </div>
     <div class="arrow a">&rarr;</div>
     <div style="display:flex;flex-direction:column;gap:.3rem">
-      <div class="node a" style="border-color:rgba(74,222,128,.3);padding:.35rem .8rem"><span style="color:var(--lime);font-size:.95rem">&#20225;&#21123; Agent</span></div>
-      <div class="node a" style="border-color:rgba(34,211,238,.3);padding:.35rem .8rem"><span style="color:var(--cyan);font-size:.95rem">&#32654;&#34899; Agent</span></div>
-      <div class="node a" style="border-color:rgba(176,122,255,.3);padding:.35rem .8rem"><span style="color:var(--purple);font-size:.95rem">&#21205;&#30059; Agent</span></div>
-      <div class="node a" style="border-color:rgba(251,191,36,.3);padding:.35rem .8rem"><span style="color:var(--amber);font-size:.95rem">&#38899;&#25928; Agent</span></div>
-      <div class="node a" style="border-color:rgba(251,146,60,.3);padding:.35rem .8rem"><span style="color:var(--orange);font-size:.95rem">&#31243;&#24335; Agent</span></div>
-      <div class="node a" style="border-color:rgba(251,113,133,.3);padding:.35rem .8rem"><span style="color:var(--rose);font-size:.95rem">QA Agent</span></div>
+      <div class="node a" style="border-color:rgba(74,222,128,.3);padding:.35rem .8rem"><span style="color:var(--lime);font-size:.95rem">企劃 Agent</span></div>
+      <div class="node a" style="border-color:rgba(34,211,238,.3);padding:.35rem .8rem"><span style="color:var(--cyan);font-size:.95rem">美術 Agent</span></div>
+      <div class="node a" style="border-color:rgba(176,122,255,.3);padding:.35rem .8rem"><span style="color:var(--purple);font-size:.95rem">Client Agent</span></div>
+      <div class="node a" style="border-color:rgba(96,165,250,.3);padding:.35rem .8rem"><span style="color:var(--blue);font-size:.95rem">Server Agent</span></div>
+      <div class="node a" style="border-color:rgba(251,113,133,.3);padding:.35rem .8rem"><span style="color:var(--rose);font-size:.95rem">品檢 Agent</span></div>
+      <div class="node a" style="border-color:rgba(251,146,60,.3);padding:.35rem .8rem"><span style="color:var(--orange);font-size:.95rem">機率 Agent</span></div>
+      <div class="node a" style="border-color:rgba(251,191,36,.3);padding:.35rem .8rem"><span style="color:var(--amber);font-size:.95rem">數據 Agent</span></div>
     </div>
   </div>
 
-  <div class="a hero-hint" style="text-align:center">&#9654; &#25353;&#21491;&#37749;&#38283;&#22987;</div>
+  <div class="a hero-hint" style="text-align:center">&#9654; 按右鍵開始</div>
+
 </div>
 </section>
 
 <!-- ══════ 1 · STRATEGY ══════ -->
 <section class="slide" data-slide="1">
 <div class="inner">
-  <div><span class="a eyebrow">Strategy</span><h2 class="a">&#26680;&#24515;&#31574;&#30053;&#65306;&#28858;&#27599;&#20491;&#32887;&#31278;&#35373;&#35336;&#23560;&#23660; Agent</h2>
-  <p class="a lead">&#19981;&#26159;&#21482;&#32102;&#19968;&#20491; Skill&#65292;&#32780;&#26159;&#32102;&#27599;&#20491;&#32887;&#31278;&#19968;&#20491;&#23436;&#25972;&#30340; <strong class="accent-o">Agent</strong> &mdash; &#26377;&#33258;&#24049;&#30340;&#24037;&#20855;&#12289;&#27402;&#38480;&#12289;&#35352;&#25014;&#12289;&#33287;&#20154;&#24037;&#27298;&#26680;&#40670;</p></div>
+
+  <div><span class="a eyebrow">Strategy</span><h2 class="a">核心策略：為每個職種設計專屬 Agent</h2>
+  <p class="a lead">不是只給一個 Skill，而是給每個職種一個完整的 <strong class="accent-o">Agent</strong> &mdash; 有自己的工具、權限、記憶、與人工檢核點</p></div>
 
   <div class="a g3">
     <div class="panel panel-l a">
-      <div class="panel-title" style="color:var(--lime)">&#128203; &#20225;&#21123; Agent</div>
-      <div class="panel-body">&#36064;&#29575;&#34920;&#12289;&#27231;&#21046;&#35373;&#35336;&#12289;&#25976;&#20540;&#24179;&#34913;<br>&#127920; &#22238;&#21512;&#32080;&#27083; &#127907; &#39770;&#31278;&#20998;&#20296;</div>
+      <div class="panel-title" style="color:var(--lime)">&#128203; 企劃 Agent</div>
+      <div class="panel-body">需求討論、草案撰寫、排程<br>&#127920; 規格定版 &#127907; 美術音效檢核</div>
     </div>
     <div class="panel panel-c a">
-      <div class="panel-title" style="color:var(--cyan)">&#127912; &#32654;&#34899; Agent</div>
-      <div class="panel-body">&#22294;&#20687;&#29983;&#25104;&#12289;UI &#32032;&#26448;&#12289;&#22580;&#26223;&#35373;&#35336;<br>&#127920; &#31526;&#34399;/&#32972;&#26223; &#127907; &#39770;&#31278;&#36896;&#22411;</div>
+      <div class="panel-title" style="color:var(--cyan)">&#127912; 美術 Agent</div>
+      <div class="panel-body">文案撰寫、美術設計、音樂<br>&#127920; 素材生成 &#127907; 腳本製作</div>
     </div>
     <div class="panel panel-p a">
-      <div class="panel-title" style="color:var(--purple)">&#127916; &#21205;&#30059; Agent</div>
-      <div class="panel-body">&#21205;&#30059;&#29983;&#25104;&#12289;&#29305;&#25928;&#12289;&#36942;&#22580;<br>&#127920; &#25458;&#36600;&#26059;&#36681; &#127907; &#39770;&#32676;&#28216;&#21205;</div>
+      <div class="panel-title" style="color:var(--purple)">&#128187; Client Agent</div>
+      <div class="panel-body">規格確認、流程串接、Demo<br>&#127920; 自我檢測 &#127907; 版本調整</div>
     </div>
-    <div class="panel panel-a a">
-      <div class="panel-title" style="color:var(--amber)">&#127925; &#38899;&#25928; Agent</div>
-      <div class="panel-body">&#38899;&#25928;&#29983;&#25104;&#12289;&#37197;&#27138;&#12289;&#29872;&#22659;&#38899;<br>&#127920; &#20013;&#29518;&#38899; &#127907; &#23556;&#25802;/&#29190;&#28856;&#38899;</div>
-    </div>
-    <div class="panel panel-o a">
-      <div class="panel-title" style="color:var(--orange)">&#128187; &#31243;&#24335; Agent</div>
-      <div class="panel-body">&#31243;&#24335;&#30908;&#29983;&#25104;&#12289;&#24341;&#25806;&#25972;&#21512;<br>&#127920; RNG &#24341;&#25806; &#127907; &#29289;&#29702;&#30896;&#25758;</div>
+    <div class="panel panel-b a">
+      <div class="panel-title" style="color:var(--blue)">&#128421; Server Agent</div>
+      <div class="panel-body">技術評估、架構設計、送測<br>&#127920; 流程串接 &#127907; 系統效能</div>
     </div>
     <div class="panel panel-r a">
-      <div class="panel-title" style="color:var(--rose)">&#128270; QA Agent</div>
-      <div class="panel-body">&#33258;&#21205;&#21270;&#28204;&#35430;&#12289;&#39511;&#35657;&#12289;&#22238;&#27512;<br>&#127920; &#36064;&#29575;&#39511;&#31639; &#127907; &#24179;&#34913;&#24615;&#28204;&#35430;</div>
+      <div class="panel-title" style="color:var(--rose)">&#128270; 品檢 Agent</div>
+      <div class="panel-body">測試規格確認、Alpha/Beta<br>&#127920; 送測前檢驗 &#127907; 回歸測試</div>
+    </div>
+    <div class="panel panel-o a">
+      <div class="panel-title" style="color:var(--orange)">&#127922; 機率 Agent</div>
+      <div class="panel-body">數值檢核、機率快測<br>&#127920; 數值驗證 &#127907; 機率算法</div>
+    </div>
+    <div class="panel panel-a a">
+      <div class="panel-title" style="color:var(--amber)">&#128202; 數據 Agent</div>
+      <div class="panel-body">數據需求評估、埋點驗證<br>&#127920; 數據分析 &#127907; 串接結果</div>
     </div>
   </div>
 
-  <div class="a" style="text-align:center">
-    <span class="pill pill-a">Agent &#8800; Skill &mdash; Agent &#26377;&#29544;&#31435;&#30340;&#27402;&#38480;&#12289;&#24037;&#20855;&#12289;&#35352;&#25014;&#33287;&#20154;&#24037;&#27298;&#26680;&#40670;</span>
+  <div class="a" style="text-align:center;margin-top:1rem">
+    <span class="pill pill-a">Agent &ne; Skill &mdash; Agent 有獨立的權限、工具、記憶與人工檢核點</span>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 2 · ARCHITECTURE ══════ -->
 <section class="slide" data-slide="2">
 <div class="inner">
-  <div><span class="a eyebrow">Architecture</span><h2 class="a">Agent &#26550;&#27083;&#22294; &mdash; &#32113;&#31820; &#8594; Master &#8594; &#32887;&#31278;</h2></div>
+
+  <div><span class="a eyebrow">Architecture</span><h2 class="a">Agent 架構圖 &mdash; 統籌 &rarr; Master &rarr; 職種</h2></div>
 
   <div class="a stack stack-fill">
     <div class="slab a" style="background:rgba(176,122,255,.04);border-color:rgba(176,122,255,.25)">
-      <div class="slab-label" style="color:var(--purple)">&#127919; &#25105;&#65288;&#32113;&#31820;&#26550;&#27083;&#24107;&#65289;</div>
-      <div class="slab-desc">Agent &#35373;&#35336; &bull; Gateway &#27402;&#38480;&#35373;&#23450; &bull; &#31278;&#23376;&#22521;&#32946; &bull; &#25972;&#21512;&#35519;&#24230;</div>
+      <div class="slab-label" style="color:var(--purple)">&#127919; Agent主要架構師</div>
+      <div class="slab-desc">Agent 設計 &bull; Gateway 權限設定 &bull; 種子培育 &bull; 整合調度</div>
     </div>
     <div class="joiner a"></div>
     <div style="display:flex;gap:1.2rem;width:100%">
       <div class="slab a" style="flex:1;background:rgba(251,146,60,.04);border-color:rgba(251,146,60,.25)">
-        <div class="slab-label" style="color:var(--orange)">&#127920; &#34382;&#27231; Master Agent</div>
-        <div class="slab-desc">&#12300;&#38283;&#30332;&#19968;&#27454;&#32769;&#34382;&#27231;&#12301;&rarr; &#33258;&#21205;&#35519;&#24230;&#20845;&#32887;&#31278;</div>
+        <div class="slab-label" style="color:var(--orange)">&#127920; 虎機 Master Agent</div>
+        <div class="slab-desc">「開發一款老虎機」&rarr; 自動調度 7 職種</div>
       </div>
       <div class="slab a" style="flex:1;background:rgba(34,211,238,.04);border-color:rgba(34,211,238,.25)">
-        <div class="slab-label" style="color:var(--cyan)">&#127907; &#39770;&#27231; Master Agent</div>
-        <div class="slab-desc">&#12300;&#35069;&#20316;&#19968;&#27454;&#39770;&#27231;&#65295;&#26032;&#22686;&#39770;&#31278;&#12301;&rarr; &#33258;&#21205;&#35519;&#24230;&#20845;&#32887;&#31278;</div>
+        <div class="slab-label" style="color:var(--cyan)">&#127907; 魚機 Master Agent</div>
+        <div class="slab-desc">「製作一款魚機」&rarr; 自動調度 7 職種</div>
       </div>
     </div>
     <div class="joiner a"></div>
     <div class="slab a" style="background:rgba(251,191,36,.04);border-color:rgba(251,191,36,.2)">
-      <div class="slab-label" style="color:var(--amber)">&#20845;&#32887;&#31278; Agent&#65288;&#21508;&#33258;&#29544;&#31435;&#12289;&#21508;&#26377;&#27402;&#38480;&#65289;</div>
+      <div class="slab-label" style="color:var(--amber)">7 職種 Agent（各有專屬、各有權限）</div>
       <div class="slab-desc">
-        <span class="accent-l">&#20225;&#21123;</span> &rarr;
-        <span class="accent-c">&#32654;&#34899;</span> &rarr;
-        <span class="accent-p">&#21205;&#30059;</span> &rarr;
-        <span class="accent-a">&#38899;&#25928;</span> &rarr;
-        <span class="accent-o">&#31243;&#24335;</span> &rarr;
-        <span class="accent-r">QA</span>
-        &ensp;&#27599;&#19968;&#27493;&#37117;&#26377;&#20154;&#24037;&#27298;&#26680;
+        <span class="accent-l">企劃</span> &rarr;
+        <span class="accent-c">美術</span> &rarr;
+        <span class="accent-p">Client</span> &rarr;
+        <span class="accent-b">Server</span> &rarr;
+        <span class="accent-o">機率</span> &rarr;
+        <span class="accent-a">數據</span> &rarr;
+        <span class="accent-r">品檢</span>
+        &ensp;每一步都有人工檢核
       </div>
     </div>
     <div class="joiner a"></div>
     <div class="slab a" style="background:rgba(251,113,133,.04);border-color:rgba(251,113,133,.2)">
-      <div class="slab-label" style="color:var(--rose)">&#9881; Gateway &#27402;&#38480;&#25511;&#31649;&#23652;</div>
-      <div class="slab-desc">Tool ACL &bull; Per-Agent &#24037;&#20855;&#30333;&#21517;&#21934; &bull; Exec &#25351;&#20196;&#30333;&#21517;&#21934; &bull; &#27599;&#20491; Agent &#21482;&#33021;&#23384;&#21462;&#33258;&#24049;&#30340;&#36039;&#28304;</div>
+      <div class="slab-label" style="color:var(--rose)">&#9881; Gateway 權限管控層</div>
+      <div class="slab-desc">Tool ACL &bull; Per-Agent 工具白名單 &bull; Exec 指令白名單 &bull; 每個 Agent 只能存取自己的資源</div>
     </div>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 3 · PER-FUNCTION AGENTS ══════ -->
 <section class="slide" data-slide="3">
 <div class="inner" style="gap:1rem">
-  <div><span class="a eyebrow">Per-Function Agents</span><h2 class="a">&#20845;&#32887;&#31278; Agent &#35443;&#35299; &mdash; &#24037;&#20855;&#12289;&#27402;&#38480;&#12289;&#27298;&#26680;&#40670;</h2></div>
+
+  <div><span class="a eyebrow">Per-Function Agents</span><h2 class="a">7 職種 Agent 詳解 &mdash; 職責、產出、檢核點</h2></div>
 
   <div class="a g3" style="flex:unset">
     <div class="panel panel-l a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">&#128203; &#20225;&#21123; Agent</div>
+      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">&#128203; 企劃 Agent</div>
       <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">&#24037;&#20855;</div><div class="vv">&#25976;&#20540;&#29983;&#25104;&#12289;&#36064;&#29575;&#31639;&#27861;</div>
-        <div class="kk">&#29986;&#20986;</div><div class="vv accent-l">&#27231;&#21046;&#25991;&#20214;&#12289;&#36064;&#29575;&#34920;</div>
-        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#27231;&#21046;&#21512;&#29702;&#24615;&#12289;&#25976;&#20540;&#24179;&#34913;</div>
+        <div class="kk">職責</div><div class="vv">草案審查、規格會議</div>
+        <div class="kk">產出</div><div class="vv accent-l">規格書、KPI評估</div>
+        <div class="kk">檢核</div><div class="vv accent-a">文案美術檢核、排程</div>
       </div>
     </div>
     <div class="panel panel-c a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--cyan);font-size:1.15rem">&#127912; &#32654;&#34899; Agent</div>
+      <div class="panel-title" style="color:var(--cyan);font-size:1.15rem">&#127912; 美術 Agent</div>
       <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">&#24037;&#20855;</div><div class="vv">&#22294;&#20687;&#29983;&#25104;&#12289;&#32032;&#26448;&#31649;&#29702;</div>
-        <div class="kk">&#29986;&#20986;</div><div class="vv accent-c">&#31526;&#34399;&#12289;&#32972;&#26223;&#12289;UI &#32032;&#26448;</div>
-        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#39080;&#26684;&#19968;&#33268;&#24615;&#12289;&#21697;&#36074;&#27161;&#28310;</div>
+        <div class="kk">職責</div><div class="vv">文案、美術與音效</div>
+        <div class="kk">產出</div><div class="vv accent-c">美術結果、音樂腳本</div>
+        <div class="kk">檢核</div><div class="vv accent-a">風格一致性、品質</div>
       </div>
     </div>
     <div class="panel panel-p a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--purple);font-size:1.15rem">&#127916; &#21205;&#30059; Agent</div>
+      <div class="panel-title" style="color:var(--purple);font-size:1.15rem">&#128187; Client Agent</div>
       <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">&#24037;&#20855;</div><div class="vv">&#21205;&#30059;&#29983;&#25104;&#12289;&#29305;&#25928;&#24341;&#25806;</div>
-        <div class="kk">&#29986;&#20986;</div><div class="vv accent-p">&#36942;&#22580;&#21205;&#30059;&#12289;&#29305;&#25928;&#27284;&#26696;</div>
-        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#27969;&#26274;&#24230;&#12289;&#34920;&#29694;&#21147;</div>
+        <div class="kk">職責</div><div class="vv">前端串接、Demo確認</div>
+        <div class="kk">產出</div><div class="vv accent-p">技術文件、測試單</div>
+        <div class="kk">檢核</div><div class="vv accent-a">版本調整、規範確認</div>
       </div>
     </div>
-    <div class="panel panel-a a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">&#127925; &#38899;&#25928; Agent</div>
+    <div class="panel panel-b a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--blue);font-size:1.15rem">&#128421; Server Agent</div>
       <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">&#24037;&#20855;</div><div class="vv">&#38899;&#25928;&#29983;&#25104;&#12289;&#37197;&#27138;&#24341;&#25806;</div>
-        <div class="kk">&#29986;&#20986;</div><div class="vv accent-a">&#20013;&#29518;&#38899;&#12289;&#32972;&#26223;&#27138;&#12289;&#29872;&#22659;&#38899;</div>
-        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#38899;&#36074;&#12289;&#24773;&#22659;&#36969;&#37197;</div>
-      </div>
-    </div>
-    <div class="panel panel-o a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--orange);font-size:1.15rem">&#128187; &#31243;&#24335; Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">&#24037;&#20855;</div><div class="vv">&#31243;&#24335;&#30908;&#29983;&#25104;&#12289;Exec</div>
-        <div class="kk">&#29986;&#20986;</div><div class="vv accent-o">&#36938;&#25138;&#37007;&#36655;&#12289;&#24341;&#25806;&#25972;&#21512;</div>
-        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#37007;&#36655;&#27491;&#30906;&#12289;&#25928;&#33021;&#31337;&#23450;</div>
+        <div class="kk">職責</div><div class="vv">架構設計、後端串接</div>
+        <div class="kk">產出</div><div class="vv accent-b">架構圖、送測完成</div>
+        <div class="kk">檢核</div><div class="vv accent-a">系統效能、技術評估</div>
       </div>
     </div>
     <div class="panel panel-r a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--rose);font-size:1.15rem">&#128270; QA Agent</div>
+      <div class="panel-title" style="color:var(--rose);font-size:1.15rem">&#128270; 品檢 Agent</div>
       <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">&#24037;&#20855;</div><div class="vv">&#28204;&#35430;&#26694;&#26550;&#12289;&#22238;&#27512;&#25475;&#25551;</div>
-        <div class="kk">&#29986;&#20986;</div><div class="vv accent-r">&#28204;&#35430;&#22577;&#21578;&#12289;&#35206;&#33995;&#29575;&#25976;&#25818;</div>
-        <div class="kk">&#27298;&#26680;</div><div class="vv accent-a">&#35206;&#33995;&#29575;&#12289;&#37002;&#30028;&#26781;&#20214;</div>
+        <div class="kk">職責</div><div class="vv">送測檢驗、Alpha/Beta</div>
+        <div class="kk">產出</div><div class="vv accent-r">測試說明書、報告</div>
+        <div class="kk">檢核</div><div class="vv accent-a">規格確認、Mantis</div>
+      </div>
+    </div>
+    <div class="panel panel-o a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--orange);font-size:1.15rem">&#127922; 機率 Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">職責</div><div class="vv">數值檢核、機率快測</div>
+        <div class="kk">產出</div><div class="vv accent-o">數值文件、快測報告</div>
+        <div class="kk">檢核</div><div class="vv accent-a">數值驗證、準確性</div>
+      </div>
+    </div>
+    <div class="panel panel-a a" style="padding:1.2rem">
+      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">&#128202; 數據 Agent</div>
+      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
+        <div class="kk">職責</div><div class="vv">需求評估、埋點驗證</div>
+        <div class="kk">產出</div><div class="vv accent-a">需求文件、串接結果</div>
+        <div class="kk">檢核</div><div class="vv accent-a">埋點正確性、核對</div>
       </div>
     </div>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 4 · TIGER PIPELINE ══════ -->
 <section class="slide" data-slide="4">
 <div class="inner" style="gap:1rem">
-  <div><span class="a eyebrow" style="color:var(--orange)">Tiger Pipeline</span><h2 class="a">&#127920; &#38283;&#30332;&#19968;&#27454;&#32769;&#34382;&#27231; &mdash; &#23436;&#25972;&#27969;&#31243;</h2>
-  <p class="a lead">&#19968;&#20491;&#25351;&#20196;&#35320;&#30332; Master Agent&#65292;&#33258;&#21205;&#35519;&#24230; 6 &#20491;&#32887;&#31278; Agent&#65292;&#27599;&#27493;&#37117;&#26377;&#20154;&#24037;&#27298;&#26680;</p></div>
+
+  <div><span class="a eyebrow" style="color:var(--orange)">Tiger Pipeline</span><h2 class="a">&#127920; 虎機全流程開發</h2>
+  <p class="a lead">一個指令啟動 Master Agent，自動調度 7 個職種 Agent，每步都有人工檢核</p></div>
 
   <div class="a pipe">
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#128203; &#20225;&#21123;<br>Agent</div><div class="pstep-desc">&#36064;&#29575;&#34920; &bull; &#22238;&#21512;&#27231;&#21046;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--lime);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06)">&#128203; 企劃<br>Agent</div><div class="pstep-desc">草案撰寫</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27231;&#21046;&#21512;&#29702;&#24615;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">規格排程</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#127912; &#32654;&#34899;<br>Agent</div><div class="pstep-desc">&#31526;&#34399; &bull; &#32972;&#26223; &bull; UI</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--cyan);border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.06)">&#127912; 美術<br>Agent</div><div class="pstep-desc">美術音效</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#39080;&#26684;&#19968;&#33268;&#24615;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">素材確認</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#127916; &#21205;&#30059;<br>Agent</div><div class="pstep-desc">&#25458;&#36600; &bull; &#20013;&#29518;&#29305;&#25928;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--purple);border-color:rgba(176,122,255,.3);background:rgba(176,122,255,.06)">&#128187; Client<br>Agent</div><div class="pstep-desc">前端串接</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27969;&#26274;&#24230; &bull; &#21697;&#36074;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">版本Demo</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06)">&#128421; Server<br>Agent</div><div class="pstep-desc">後端串接</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">架構評估</div></div>
   </div>
   <div class="a pipe">
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#127925; &#38899;&#25928;<br>Agent</div><div class="pstep-desc">&#25458;&#36600;&#38899; &bull; &#20013;&#29518;&#38899;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--orange);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.06)">&#127922; 機率<br>Agent</div><div class="pstep-desc">數值快測</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#38899;&#36074; &bull; &#36969;&#37197;&#24615;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">數值驗證</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#128187; &#31243;&#24335;<br>Agent</div><div class="pstep-desc">&#37007;&#36655; &bull; RNG &bull; &#25928;&#33021;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--amber);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.06)">&#128202; 數據<br>Agent</div><div class="pstep-desc">數據需求</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27491;&#30906;&#24615; &bull; &#31337;&#23450;&#24615;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">埋點驗證</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#128270; QA<br>Agent</div><div class="pstep-desc">&#36064;&#29575;&#39511;&#31639; &bull; &#22238;&#27512;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--rose);border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.06)">&#128270; 品檢<br>Agent</div><div class="pstep-desc">測試檢驗</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#35206;&#33995;&#29575; &bull; &#37002;&#30028;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">Alpha/Beta</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>&#20132;&#20184;</div><div class="pstep-desc">&#21830;&#29992;&#27700;&#28310;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>交付</div><div class="pstep-desc">完成送測</div></div>
   </div>
 
   <div class="a" style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
-    <span class="pill pill-c">&#129302; AI Agent &#33258;&#21205;&#34389;&#29702;</span>
-    <span class="pill pill-a">&#128064; &#20154;&#24037;&#27298;&#26680;&#38296;&#38272;</span>
-    <span style="font-size:1rem;color:var(--dim)">&#20849; <strong class="accent-a">6 &#36947;</strong>&#20154;&#24037;&#21697;&#36074;&#38364;&#21345;</span>
+    <span class="pill pill-c">&#129302; AI Agent 自動處理</span>
+    <span class="pill pill-a">&#128064; 人工檢核把關</span>
+    <span style="font-size:1rem;color:var(--dim)">共 <strong class="accent-a">7 道</strong>人工品質把關</span>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 5 · FISH PIPELINE ══════ -->
 <section class="slide" data-slide="5">
 <div class="inner" style="gap:1rem">
-  <div><span class="a eyebrow" style="color:var(--cyan)">Fish Pipeline</span><h2 class="a">&#127907; &#35069;&#20316;&#19968;&#27454;&#39770;&#27231;&#65295;&#26032;&#22686;&#39770;&#31278; &mdash; &#23436;&#25972;&#27969;&#31243;</h2>
-  <p class="a lead">&#21516;&#27171;&#26550;&#27083;&#65292;&#19981;&#21516;&#20839;&#23481; &mdash; &#27599;&#20491; Agent &#37341;&#23565;&#39770;&#27231;&#29305;&#24615;&#23458;&#35069;&#21270;</p></div>
+
+  <div><span class="a eyebrow" style="color:var(--cyan)">Fish Pipeline</span><h2 class="a">&#127907; 魚機全流程開發</h2>
+  <p class="a lead">同樣架構，不同內容 &mdash; 每個 Agent 針對魚機特性客製化</p></div>
 
   <div class="a pipe">
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#128203; &#20225;&#21123;<br>Agent</div><div class="pstep-desc">&#39770;&#31278; &bull; &#27494;&#22120; &bull; &#22580;&#26223;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--lime);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06)">&#128203; 企劃<br>Agent</div><div class="pstep-desc">草案撰寫</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#29609;&#27861;&#24179;&#34913;&#24615;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">規格排程</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#127912; &#32654;&#34899;<br>Agent</div><div class="pstep-desc">&#39770;&#31278;&#36896;&#22411; &bull; &#28023;&#24213;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--cyan);border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.06)">&#127912; 美術<br>Agent</div><div class="pstep-desc">美術音效</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#39080;&#26684;&#32113;&#19968;&#24615;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">素材確認</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#127916; &#21205;&#30059;<br>Agent</div><div class="pstep-desc">&#28216;&#21205; &bull; &#25429;&#29554; &bull; &#29190;&#28856;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--purple);border-color:rgba(176,122,255,.3);background:rgba(176,122,255,.06)">&#128187; Client<br>Agent</div><div class="pstep-desc">前端串接</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#33258;&#28982;&#24863; &bull; &#34920;&#29694;&#21147;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">版本Demo</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06)">&#128421; Server<br>Agent</div><div class="pstep-desc">後端串接</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">架構評估</div></div>
   </div>
   <div class="a pipe">
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#127925; &#38899;&#25928;<br>Agent</div><div class="pstep-desc">&#27700;&#32882; &bull; &#23556;&#25802; &bull; &#29190;&#28856;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--orange);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.06)">&#127922; 機率<br>Agent</div><div class="pstep-desc">數值快測</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#27784;&#28024;&#24863; &bull; &#31680;&#22863;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">數值驗證</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#128187; &#31243;&#24335;<br>Agent</div><div class="pstep-desc">&#29289;&#29702; &bull; &#30896;&#25758; &bull; &#27494;&#22120;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--amber);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.06)">&#128202; 數據<br>Agent</div><div class="pstep-desc">數據需求</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#25928;&#33021; &bull; &#30896;&#25758;&#31934;&#24230;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">埋點驗證</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai">&#128270; QA<br>Agent</div><div class="pstep-desc">&#24179;&#34913; &bull; &#22739;&#21147;&#28204;&#35430;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--rose);border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.06)">&#128270; 品檢<br>Agent</div><div class="pstep-desc">測試檢驗</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; &#20154;&#24037;<br>&#27298;&#26680;</div><div class="pstep-desc">&#20844;&#24179;&#24615; &bull; &#31337;&#23450;&#24615;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">Alpha/Beta</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>&#20132;&#20184;</div><div class="pstep-desc">&#21830;&#29992;&#27700;&#28310;</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>交付</div><div class="pstep-desc">完成送測</div></div>
   </div>
 
   <div class="a" style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
-    <span class="pill pill-c">&#129302; AI Agent &#33258;&#21205;&#34389;&#29702;</span>
-    <span class="pill pill-a">&#128064; &#20154;&#24037;&#27298;&#26680;&#38296;&#38272;</span>
-    <span style="font-size:1rem;color:var(--dim)">&#20849; <strong class="accent-a">6 &#36947;</strong>&#20154;&#24037;&#21697;&#36074;&#38364;&#21345;</span>
+    <span class="pill pill-c">&#129302; AI Agent 自動處理</span>
+    <span class="pill pill-a">&#128064; 人工檢核把關</span>
+    <span style="font-size:1rem;color:var(--dim)">共 <strong class="accent-a">7 道</strong>人工品質把關</span>
   </div>
+
 </div>
 </section>
 
@@ -652,7 +689,8 @@ h2 {
 <!-- ══════ 8 · TRAINING ══════ -->
 <section class="slide" data-slide="8">
 <div class="inner">
-  <div><span class="a eyebrow">Team Building</span><h2 class="a">組建團隊 — 各職種實際開發人員</h2>
+
+  <div><span class="a eyebrow">Team Building</span><h2 class="a">組建團隊 &mdash; 各職種實際開發人員</h2>
   <p class="a lead">第一支隊伍由<strong class="accent-a">各職種正在實際開發的人</strong>組成，教他們建置 Skill，將實際製程導入 AI，最後整合成 Agent</p></div>
 
   <div class="a pipe">
@@ -679,7 +717,7 @@ h2 {
     <div class="panel panel-p a">
       <div class="panel-title" style="color:var(--purple)">&#128260; 培育流程</div>
       <div class="panel-body">
-        &bull; 我 1-on-1 帶教：先 Demo 完整流程，再讓種子實作<br>
+        &bull; Agent主要架構師 1-on-1 帶教：先 Demo 完整流程，再讓種子實作<br>
         &bull; 每位種子在自己的<strong>真實工作</strong>中建置 Skill<br>
         &bull; 同步教導<strong>人工檢核點</strong>怎麼設計<br>
         &bull; 最終整合進 Agent，掛載至 Master Agent
@@ -692,54 +730,58 @@ h2 {
       <strong class="accent-a">關鍵：</strong>不是教他們「用 AI 工具」，是教他們<strong class="accent-c">把自己的製程變成 AI 可執行的 Skill</strong>，最後組裝成有權限控管的 Agent
     </span>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 9 · SCORING ══════ -->
 <section class="slide" data-slide="9">
 <div class="inner">
-  <div><span class="a eyebrow">Scoring Alignment</span><h2 class="a">&#31934;&#28310;&#21629;&#20013;&#22235;&#22823;&#35413;&#20998;&#32173;&#24230;</h2></div>
+
+  <div><span class="a eyebrow">Scoring Alignment</span><h2 class="a">精準命中四大評分維度</h2></div>
 
   <div style="display:flex;flex-direction:column;gap:.8rem">
     <div class="panel panel-a a" style="border-width:2px">
       <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
-        <div style="font-weight:700;color:var(--amber)">&#9670; &#20778;&#21270;&#25928;&#30410; 30%</div>
-        <div class="panel-body"><strong>12 &#36947;&#20154;&#24037;&#27298;&#26680; = &#23436;&#25972; Before/After &#25976;&#25818;</strong><br>&#27599;&#27425;&#36845;&#20195;&#30340;&#36890;&#36942;&#29575;&#12289;&#36864;&#22238;&#27425;&#25976;&#12289;&#20462;&#27491;&#26178;&#38291;&#65292;&#23458;&#35264;&#37327;&#21270; AI &#24118;&#20358;&#30340;&#25928;&#29575;&#25552;&#21319;</div>
+        <div style="font-weight:700;color:var(--amber)">&#9670; 優化效益 30%</div>
+        <div class="panel-body"><strong>14 道人工檢核 = 完整 Before/After 數據</strong><br>每次替代的通過率、退回次數、修改時間，客觀量化 AI 帶來的效率提升</div>
       </div>
     </div>
     <div class="panel panel-c a" style="border-width:2px">
       <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
-        <div style="font-weight:700;color:var(--cyan)">&#9670; AI &#25216;&#34899;&#25033;&#29992; 30%</div>
-        <div class="panel-body"><strong>2 Master &times; 6 &#32887;&#31278; Agent = &#20840;&#29983;&#21629;&#36913;&#26399;&#35206;&#33995;</strong><br>&#34382;&#27231; &amp; &#39770;&#27231;&#21508;&#19968;&#22871; Agent &#31649;&#32218;&#65292;&#20018;&#32879;&#20225;&#21123;&#21040; QA &#30340;&#23436;&#25972;&#36328;&#32887;&#33021;&#24037;&#20316;&#27969;</div>
+        <div style="font-weight:700;color:var(--cyan)">&#9670; AI 技術應用 30%</div>
+        <div class="panel-body"><strong>2 Master &times; 7 職種 Agent = 全生命週期覆蓋</strong><br>虎機 &amp; 魚機各一套 Agent 管線，串聯企劃到 QA 的完整跨職能工作流</div>
       </div>
     </div>
     <div class="panel panel-l a" style="border-width:2px">
       <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
-        <div style="font-weight:700;color:var(--lime)">&#9670; &#26041;&#26696;&#20849;&#29992;&#24615; 20%</div>
-        <div class="panel-body"><strong>Agent &#27169;&#32068;&#21270; + &#31278;&#23376;&#22521;&#32946;&#27231;&#21046; = &#21487;&#35079;&#35069;</strong><br>Agent &#26550;&#27083;&#12289;&#27402;&#38480;&#25511;&#31649;&#12289;&#27298;&#26680;&#26694;&#26550;&#21487;&#30452;&#25509;&#25512;&#24291;&#33267;&#20107;&#26989;&#34389;&#20854;&#20182;&#23560;&#26696;</div>
+        <div style="font-weight:700;color:var(--lime)">&#9670; 方案共用性 20%</div>
+        <div class="panel-body"><strong>Agent 模組化 + 種子培育機制 = 可複製</strong><br>Agent 架構、權限管控、檢核框架可直接推廣至事業群其他專案</div>
       </div>
     </div>
     <div class="panel panel-r a" style="border-width:2px">
       <div style="display:grid;grid-template-columns:11rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
-        <div style="font-weight:700;color:var(--rose)">&#9670; &#29986;&#21697;&#23436;&#25972;&#24230; 20%</div>
-        <div class="panel-body"><strong>&#20154;&#24037;&#27298;&#26680; = &#21830;&#29992;&#32026;&#21697;&#36074;&#20445;&#35657;</strong><br>&#19981;&#26159; AI &#40657;&#31665;&#29986;&#20986;&#65292;&#26159;&#32147;&#36942;&#38936;&#22495;&#23560;&#23478;&#23652;&#23652;&#25226;&#38364;&#30340;&#39640;&#27161;&#28310;&#25104;&#21697;</div>
+        <div style="font-weight:700;color:var(--rose)">&#9670; 產出完整度 20%</div>
+        <div class="panel-body"><strong>人工檢核 = 商用級品質保證</strong><br>不是 AI 盲盒產出，是經過領域專家層層把關的高標準成品</div>
       </div>
     </div>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 10 · TIMELINE ══════ -->
 <section class="slide" data-slide="10">
 <div class="inner">
-  <div><span class="a eyebrow">Phased Roadmap</span><h2 class="a">三階段發展藍圖 — 從單點自動化到全局調派</h2></div>
+
+  <div><span class="a eyebrow">Phased Roadmap</span><h2 class="a">三階段發展藍圖 &mdash; 從單點自動化到全局調派</h2></div>
 
   <div style="display:flex;flex-direction:column;gap:1.2rem;margin-top:1.5rem">
     <div class="panel panel-a a" style="border-left-width:4px;border-left-color:var(--cyan)">
       <div class="panel-title" style="color:var(--cyan);font-size:1.1rem">Phase 1：種子導入與單職種自動化</div>
       <div class="panel-body" style="font-size:1rem;line-height:1.6">
         &bull; 透過訪談選拔具備虎機/魚機開發經驗的種子人員。<br>
-        &bull; 由我建置 Agent 核心與工具（MCP/API），種子負責建置專屬 Skill。<br>
+        &bull; 由Agent主要架構師建置 Agent 核心與工具（MCP/API），種子負責建置專屬 Skill。<br>
         &bull; <strong>階段目標：</strong>各職種 Agent 能獨自完成各自的步驟流程，確立明確的階段與人工審核點。
       </div>
     </div>
@@ -748,87 +790,92 @@ h2 {
       <div class="panel-title" style="color:var(--purple);font-size:1.1rem">Phase 2：Skill 自主運行與文檔連動</div>
       <div class="panel-body" style="font-size:1rem;line-height:1.6">
         &bull; 建立完善的審核與批准機制。<br>
-        &bull; <strong>階段目標：</strong>各 Agent 在經過重要節點人工檢核後，能<strong>自行向下執行後續的 Skill</strong>。完成任務後，Agent 將自動更新 Redmine 專案文檔，實現流程與紀錄的無縫接軌。
+        &bull; <strong>階段目標：</strong>各 Agent 在經過重要節點人工檢核後，能<strong>自行向下執行後續的 Skill</strong>。完成任務後，Agent 將自動更新專案文檔，實現流程與紀錄的無縫接軌。
       </div>
     </div>
 
     <div class="panel panel-o a" style="border-left-width:4px;border-left-color:var(--orange)">
       <div class="panel-title" style="color:var(--orange);font-size:1.1rem">Phase 3：全局統籌與跨職種調派</div>
       <div class="panel-body" style="font-size:1rem;line-height:1.6">
-        &bull; 引入最高權限的 <strong>PM Agent / 總經理 Agent</strong> 作為指揮中樞。<br>
-        &bull; <strong>階段目標：</strong>由最高權限 Agent 解析大型需求，並向下調派任務給各職種 Agent，達成最終願景 — 人類只需進行戰略決策與關鍵檢核。
+        &bull; 引入最高權限的 <strong>PM Agent</strong> 作為指揮中樞。<br>
+        &bull; <strong>階段目標：</strong>由最高權限 Agent 解析大型需求，並向下調派任務給各職種 Agent，達成最終願景 &mdash; 人類只需進行戰略決策與關鍵檢核。
       </div>
     </div>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 11 · KEY INSIGHT ══════ -->
 <section class="slide" data-slide="11">
 <div class="inner" style="justify-content:center;gap:1.2rem">
+
   <div>
     <span class="a eyebrow">Key Insight</span>
-    <h2 class="a">&#33258;&#21205;&#21270;&#35352;&#25014; + &#31934;&#28310; Context</h2>
-    <p class="a lead">Agent &#19981;&#26159;&#19968;&#27425;&#24615;&#24037;&#20855;&#65292;&#26159;&#26371;&#33258;&#21205;&#32047;&#31309;&#35352;&#25014;&#30340;&#22296;&#38538;&#25104;&#21729;&#12290;&#27599;&#27425;&#20132;&#20184;&#30340;&#32147;&#39511;&#37117;&#26371;&#34987;&#35352;&#20303;&#65292;&#19979;&#27425;&#20570;&#24471;&#26356;&#22909;&#12290;</p>
+    <h2 class="a">自動化記憶 + 精準 Context</h2>
+    <p class="a lead"><strong class="accent-o">不是增加工作負荷，而是在提升效率的同時訓練 Agent。</strong><br>Agent 不是一次性工具，每一次的審核與修正，都在默默累積專案記憶，讓它下次做得更好。</p>
   </div>
 
   <div class="a g3" style="flex:unset">
     <div class="panel panel-a a">
-      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">Phase 0 &mdash; &#21021;&#22987;&#21270;&#65288;&#19978;&#32218;&#21069;&#65289;</div>
-      <div class="panel-body">&#21295;&#20837;&#27231;&#31278;&#30456;&#38364;&#30340;&#35373;&#35336;&#35215;&#31684;&#12289;&#22238;&#21512;&#35215;&#21063;&#12289;&#32654;&#34899;&#39080;&#26684;&#25351;&#21335; &rarr; &#21521;&#37327;&#21270;&#23384;&#20837;&#35352;&#25014;<br><span style="color:var(--dim)">&#21021;&#22987;&#30693;&#35672;&#19981;&#23436;&#25972;&#65292;&#20294;&#36275;&#20197;&#21855;&#21205;</span></div>
+      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">Phase 0 &mdash; 初始化（上線前）</div>
+      <div class="panel-body">匯入機檯相關的設計規格、迴合邏輯、美術風格指南 &rarr; 向量化存入記憶<br><span style="color:var(--dim)">初始認知不完全，但足以啟動</span></div>
     </div>
     <div class="panel panel-c a">
-      <div class="panel-title" style="color:var(--cyan);font-size:1.15rem">Phase 1 &mdash; &#31278;&#23376;&#24118;&#26032;&#20154;&#65288;&#31478;&#36093;&#26399;&#65289;</div>
-      <div class="panel-body">&#31278;&#23376;&#26085;&#24120;&#20351;&#29992;&#20013;&#25345;&#32396;&#35347;&#32244; Agent&#65292;&#35036;&#40778;&#21508;&#32887;&#31278;&#30340;&#38936;&#22495;&#30693;&#35672; &rarr; <strong class="accent-l">&#37002;&#29992;&#37002;&#35347;&#32244;</strong><br>&#27599;&#27425;&#36864;&#22238;&#12289;&#20462;&#27491;&#37117;&#35731; Agent &#26356;&#26234;&#24935;</div>
+      <div class="panel-title" style="color:var(--cyan);font-size:1.15rem">Phase 1 &mdash; 邊做邊學（陣痛期）</div>
+      <div class="panel-body">日常開發中直接使用 Agent 產出，將審核的退回與修正作為最佳教材 &rarr; <strong class="accent-l">邊用邊訓練</strong><br>用產能的提升來覆蓋訓練成本</div>
     </div>
     <div class="panel panel-l a">
-      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">Phase 2 &mdash; &#20840;&#35069;&#31243;&#33258;&#21205;&#21270;&#65288;&#31478;&#36093;&#24460;&#65289;</div>
-      <div class="panel-body">Agent &#24050;&#32047;&#31309;&#36275;&#22816;&#32147;&#39511;&#65292;&#26032;&#23560;&#26696;&#21482;&#38656;&#19979;&#25351;&#20196; &rarr; <strong class="accent-c">&#20840;&#33258;&#21205;&#29986;&#20986; + &#20154;&#24037;&#25226;&#38364;</strong></div>
+      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">Phase 2 &mdash; 高效產出（成熟後）</div>
+      <div class="panel-body">Agent 已累積足夠歷練，新專案只需下達指令 &rarr; <strong class="accent-c">自動產出 + 精準把關</strong><br>實現真正的流程自動化與品質保證</div>
     </div>
   </div>
+
 </div>
 </section>
 
 <!-- ══════ 12 · CLOSING ══════ -->
 <section class="slide" data-slide="12">
 <div class="inner" style="align-items:center;justify-content:center">
+
   <div class="a panel" style="text-align:center;padding:2.5rem 3rem;border-color:rgba(251,146,60,.2);background:linear-gradient(135deg,rgba(251,146,60,.05),rgba(34,211,238,.04))">
     <h2 class="a" style="background:linear-gradient(135deg,var(--orange),var(--amber),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:clamp(1.6rem,3vw,2.4rem)">
-      &#20840;&#35069;&#31243; AI &#33258;&#21205;&#21270;<br>&#27599;&#19968;&#27493;&#37117;&#26377;&#20154;&#22312;&#25226;&#38364;
+      全流程 AI 自動化<br>每一步都有人在把關
     </h2>
     <p class="a lead" style="text-align:center;margin:.8rem auto 0;max-width:50ch">
-      &#19981;&#26159;&#29992; AI &#21462;&#20195;&#20154;&#65292;&#26159;&#35731; AI &#36305;&#35069;&#31243;&#12289;&#35731;&#20154;&#31649;&#21697;&#36074;<br>
-      &#27599;&#20491;&#32887;&#31278;&#19968;&#20491;&#23560;&#23660; Agent&#65292;&#36879;&#36942; Gateway &#27402;&#38480;&#25511;&#31649;&#65292;&#30906;&#20445;&#23433;&#20840;&#21487;&#25511;<br>
-      <strong class="accent-a" style="font-size:1.3rem">&#19968;&#20491;&#26376; USD $100</strong>
+      不是用 AI 取代人，是讓 AI 跑流程、讓人管品質<br>
+      每個職種一個專屬 Agent，透過 Gateway 權限管控，確保安全可控<br>
+      <strong class="accent-a" style="font-size:1.3rem">一個月 USD $100</strong>
     </p>
   </div>
   <div class="a pipe" style="gap:.5rem;flex-wrap:wrap;justify-content:center">
     <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#127920; &#127907;</div>
       <div style="font-weight:800;font-size:1rem;color:var(--orange)">2 Master Agent</div>
-      <div style="font-size:.9rem;color:var(--dim)">&#34382;&#27231; + &#39770;&#27231;</div>
+      <div style="font-size:.9rem;color:var(--dim)">虎機 + 魚機</div>
     </div>
     <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#129302;</div>
-      <div style="font-weight:800;font-size:1rem;color:var(--cyan)">6 &#32887;&#31278; Agent</div>
-      <div style="font-size:.9rem;color:var(--dim)">&#20225;&#21123;&#21040; QA &#20840;&#35206;&#33995;</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--cyan)">7 職種 Agent</div>
+      <div style="font-size:.9rem;color:var(--dim)">企劃到 QA 全覆蓋</div>
     </div>
     <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#128064;</div>
-      <div style="font-weight:800;font-size:1rem;color:var(--amber)">12 &#36947;&#27298;&#26680;</div>
-      <div style="font-size:.9rem;color:var(--dim)">&#21697;&#36074;&#38296;&#38272;&#36941;&#24067;&#20840;&#31243;</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--amber)">14 道檢核</div>
+      <div style="font-size:.9rem;color:var(--dim)">品質把關防呆全程</div>
     </div>
     <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#9881;</div>
-      <div style="font-weight:800;font-size:1rem;color:var(--purple)">Gateway &#25511;&#31649;</div>
-      <div style="font-size:.9rem;color:var(--dim)">&#27402;&#38480; &bull; ACL &bull; &#38548;&#38626;</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--purple)">Gateway 管控</div>
+      <div style="font-size:.9rem;color:var(--dim)">權限 &bull; ACL &bull; 隔離</div>
     </div>
     <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#127793;</div>
-      <div style="font-weight:800;font-size:1rem;color:var(--lime)">6 &#20301;&#31278;&#23376;</div>
-      <div style="font-size:.9rem;color:var(--dim)">&#21508;&#32887;&#31278; AI &#20808;&#37586;</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--lime)">7 位種子</div>
+      <div style="font-size:.9rem;color:var(--dim)">各職種 AI 先鋒</div>
     </div>
   </div>
+
 </div>
 </section>
 
