@@ -732,43 +732,33 @@ h2 {
 <!-- ══════ 10 · TIMELINE ══════ -->
 <section class="slide" data-slide="10">
 <div class="inner">
-  <div><span class="a eyebrow">Execution</span><h2 class="a">&#22519;&#34892;&#35336;&#30059;&#33287;&#20132;&#20184;&#37324;&#31243;&#30865;</h2></div>
+  <div><span class="a eyebrow">Phased Roadmap</span><h2 class="a">三階段發展藍圖 — 從單點自動化到全局調派</h2></div>
 
-  <div class="a g2">
-    <div class="panel panel-a a" style="border-width:2px">
-      <div class="panel-title" style="color:var(--amber);font-size:1.2rem">CP1 &mdash; Week 6</div>
-      <div style="display:flex;flex-direction:column;gap:.35rem;margin-top:.5rem;font-size:1.05rem">
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> 6 &#32887;&#31278;&#31278;&#23376;&#36984;&#23450;&#23436;&#25104;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#31278;&#23376;&#22521;&#32946;&#23436;&#25104;&#65288;&#27599;&#20154;&#33267;&#23569; 2 &#20491; Agent&#65289;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#34382;&#27231; &amp; &#39770;&#27231; Master Agent &#26550;&#27083;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> Gateway &#27402;&#38480;&#25511;&#31649;&#26694;&#26550;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> &#33267;&#23569; 1 &#26781;&#23436;&#25972; Pipeline Demo</div>
+  <div style="display:flex;flex-direction:column;gap:1.2rem;margin-top:1.5rem">
+    <div class="panel panel-a a" style="border-left-width:4px;border-left-color:var(--cyan)">
+      <div class="panel-title" style="color:var(--cyan);font-size:1.1rem">Phase 1：種子導入與單職種自動化</div>
+      <div class="panel-body" style="font-size:1rem;line-height:1.6">
+        &bull; 透過訪談選拔具備虎機/魚機開發經驗的種子人員。<br>
+        &bull; 由我建置 Agent 核心與工具（MCP/API），種子負責建置專屬 Skill。<br>
+        &bull; <strong>階段目標：</strong>各職種 Agent 能獨自完成各自的步驟流程，確立明確的階段與人工審核點。
       </div>
     </div>
-    <div class="panel panel-c a" style="border-width:2px">
-      <div class="panel-title" style="color:var(--cyan);font-size:1.2rem">CP2 &mdash; Week 14</div>
-      <div style="display:flex;flex-direction:column;gap:.35rem;margin-top:.5rem;font-size:1.05rem">
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#34382;&#27231; Master + 6 Agent &#19978;&#32218;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#39770;&#27231; Master + 6 Agent &#19978;&#32218;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--lime)">&#10003;</span> &#31471;&#21040;&#31471; Demo &mdash; &#38617;&#36556;&#21508;&#36305;&#23436;&#25972;&#27969;&#31243;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> Before/After &#25104;&#25928;&#25976;&#25818;&#22577;&#21578;</div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="color:var(--amber)">&#128064;</span> &#24037;&#20855;&#28165;&#21934; &amp; &#20840;&#36556;&#36321;&#32000;&#37636;</div>
+    
+    <div class="panel panel-p a" style="border-left-width:4px;border-left-color:var(--purple)">
+      <div class="panel-title" style="color:var(--purple);font-size:1.1rem">Phase 2：Skill 自主運行與文檔連動</div>
+      <div class="panel-body" style="font-size:1rem;line-height:1.6">
+        &bull; 建立完善的審核與批准機制。<br>
+        &bull; <strong>階段目標：</strong>各 Agent 在經過重要節點人工檢核後，能<strong>自行向下執行後續的 Skill</strong>。完成任務後，Agent 將自動更新 Redmine 專案文檔，實現流程與紀錄的無縫接軌。
       </div>
     </div>
-  </div>
 
-  <div class="a pipe" style="gap:.3rem">
-    <div class="node a" style="border-color:rgba(74,222,128,.3);color:var(--lime);font-size:.95rem">W1-2<br>&#36984;&#31278;&#22521;&#32946;</div>
-    <div class="arrow">&rarr;</div>
-    <div class="node a" style="border-color:rgba(34,211,238,.3);color:var(--cyan);font-size:.95rem">W3-5<br>Agent &#24314;&#32622;</div>
-    <div class="arrow">&rarr;</div>
-    <div class="node a" style="border-color:rgba(251,191,36,.4);color:var(--amber);font-size:.95rem;background:rgba(251,191,36,.06)">W6<br>CP1</div>
-    <div class="arrow">&rarr;</div>
-    <div class="node a" style="border-color:rgba(251,146,60,.3);color:var(--orange);font-size:.95rem">W7-10<br>Master &#38283;&#30332;</div>
-    <div class="arrow">&rarr;</div>
-    <div class="node a" style="border-color:rgba(176,122,255,.3);color:var(--purple);font-size:.95rem">W11-13<br>&#25972;&#21512;&#20778;&#21270;</div>
-    <div class="arrow">&rarr;</div>
-    <div class="node a" style="border-color:rgba(34,211,238,.4);color:var(--cyan);font-size:.95rem;background:rgba(34,211,238,.06)">W14<br>CP2</div>
+    <div class="panel panel-o a" style="border-left-width:4px;border-left-color:var(--orange)">
+      <div class="panel-title" style="color:var(--orange);font-size:1.1rem">Phase 3：全局統籌與跨職種調派</div>
+      <div class="panel-body" style="font-size:1rem;line-height:1.6">
+        &bull; 引入最高權限的 <strong>PM Agent / 總經理 Agent</strong> 作為指揮中樞。<br>
+        &bull; <strong>階段目標：</strong>由最高權限 Agent 解析大型需求，並向下調派任務給各職種 Agent，達成最終願景 — 人類只需進行戰略決策與關鍵檢核。
+      </div>
+    </div>
   </div>
 </div>
 </section>
@@ -854,6 +844,40 @@ h2 {
 (function(){
   const S=document.querySelectorAll('.slide'), N=S.length;
   const bar=document.getElementById('progress'), dots=document.getElementById('dots'), pg=document.getElementById('pg');
+  let cur=0;
+  for(let i=0;i<N;i++){
+    const d=document.createElement('button');
+    d.className='dot'+(i?'':' on');
+    d.onclick=()=>go(i);
+    dots.appendChild(d);
+  }
+  function go(n){
+    if(n<0||n>=N) return;
+    S[cur].classList.remove('active');
+    dots.children[cur].classList.remove('on');
+    cur=n;
+    S[cur].classList.add('active');
+    dots.children[cur].classList.add('on');
+    bar.style.width=(cur/(N-1)*100)+'%';
+    pg.textContent=(cur+1)+' / '+N;
+  }
+  document.getElementById('nextBtn').onclick=()=>go(cur+1);
+  document.getElementById('prevBtn').onclick=()=>go(cur-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(cur+1)}
+    else if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1)}
+    else if(e.key==='Home'){e.preventDefault();go(0)}
+    else if(e.key==='End'){e.preventDefault();go(N-1)}
+  });
+  let tx=0;
+  document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
+  document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>50)d>0?go(cur+1):go(cur-1)});
+  go(0);
+})();
+</script>
+</body>
+</html>
+yId('dots'), pg=document.getElementById('pg');
   let cur=0;
   for(let i=0;i<N;i++){
     const d=document.createElement('button');
