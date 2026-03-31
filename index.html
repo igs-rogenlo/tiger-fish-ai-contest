@@ -316,10 +316,10 @@ h2 {
     <div class="arrow a">&rarr;</div>
     <div style="display:flex;flex-direction:column;gap:.5rem">
       <div class="node a" style="border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.06);padding:.6rem 1rem">
-        <div style="color:var(--orange);font-size:1rem;font-weight:700">&#127920; 虎機 Master Agent</div>
+        <div style="color:var(--orange);font-size:1rem;font-weight:700">&#127920; 虎機 PM Agent</div>
       </div>
       <div class="node a" style="border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.06);padding:.6rem 1rem">
-        <div style="color:var(--cyan);font-size:1rem;font-weight:700">&#127907; 魚機 Master Agent</div>
+        <div style="color:var(--cyan);font-size:1rem;font-weight:700">&#127907; 魚機 PM Agent</div>
       </div>
     </div>
     <div class="arrow a">&rarr;</div>
@@ -388,7 +388,7 @@ h2 {
 <section class="slide" data-slide="1">
 <div class="inner">
 
-  <div><span class="a eyebrow">Architecture</span><h2 class="a">Agent 架構圖 &mdash; 統籌 &rarr; Master &rarr; 職種</h2></div>
+  <div><span class="a eyebrow">Architecture</span><h2 class="a">Agent 架構圖 &mdash; 統籌 &rarr; PM &rarr; 職種</h2></div>
 
   <div class="a stack stack-fill">
     <div class="slab a" style="background:rgba(176,122,255,.04);border-color:rgba(176,122,255,.25)">
@@ -398,11 +398,11 @@ h2 {
     <div class="joiner a"></div>
     <div style="display:flex;gap:1.2rem;width:100%">
       <div class="slab a" style="flex:1;background:rgba(251,146,60,.04);border-color:rgba(251,146,60,.25)">
-        <div class="slab-label" style="color:var(--orange)">&#127920; 虎機 Master Agent</div>
+        <div class="slab-label" style="color:var(--orange)">&#127920; 虎機 PM Agent</div>
         <div class="slab-desc">「開發一款老虎機」&rarr; 自動調度 7 職種</div>
       </div>
       <div class="slab a" style="flex:1;background:rgba(34,211,238,.04);border-color:rgba(34,211,238,.25)">
-        <div class="slab-label" style="color:var(--cyan)">&#127907; 魚機 Master Agent</div>
+        <div class="slab-label" style="color:var(--cyan)">&#127907; 魚機 PM Agent</div>
         <div class="slab-desc">「製作一款魚機」&rarr; 自動調度 7 職種</div>
       </div>
     </div>
@@ -431,70 +431,53 @@ h2 {
 </section>
 
 <!-- ══════ 3 · PER-FUNCTION AGENTS ══════ -->
+<!-- ══════ 2 · ARCHITECTURE ══════ -->
 <section class="slide" data-slide="2">
-<div class="inner" style="gap:1rem">
+<div class="inner">
+  <div><span class="a eyebrow">Architecture</span><h2 class="a">Agent 三層架構 &mdash; 指揮 &rarr; 管控 &rarr; 執行</h2></div>
 
-  <div><span class="a eyebrow">Per-Function Agents</span><h2 class="a">7 職種 Agent 詳解 &mdash; 職責、產出、檢核點</h2></div>
+  <div class="a g3" style="grid-template-columns: 1fr; gap: 1.2rem; width: 100%;">
+    
+    <!-- 層級 1: 指揮層 -->
+    <div class="panel a" style="border-width: 2px; border-color: rgba(251,146,60,.4); background: rgba(251,146,60,.03); padding: 1.2rem;">
+      <div style="text-align:center;">
+        <div style="font-size:1rem; color:var(--orange); font-weight:800; margin-bottom:.3rem; font-family:var(--mono); letter-spacing:.1em;">1. ORCHESTRATION LAYER</div>
+        <div style="font-size:1.4rem; font-weight:900;">&#127919; PM Agent (指揮中樞)</div>
+        <div style="color:var(--dim); font-size:1rem; margin-top:.3rem;">解析專案需求、制定整體藍圖、自動向各職種發配任務與時程</div>
+      </div>
+    </div>
 
-  <div class="a g3" style="flex:unset">
-    <div class="panel panel-l a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--lime);font-size:1.15rem">&#128203; 企劃 Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">職責</div><div class="vv">草案/文案撰寫、規格會議</div>
-        <div class="kk">產出</div><div class="vv accent-l">規格書、KPI評估</div>
-        <div class="kk">檢核</div><div class="vv accent-a">文案美術檢核、排程</div>
+    <div class="a" style="text-align:center; color:var(--stroke); font-size:1.5rem; margin:-0.6rem 0;">&#8595;</div>
+
+    <!-- 層級 2: 管控層 -->
+    <div class="panel a" style="border-width: 2px; border-color: rgba(251,113,133,.4); background: rgba(251,113,133,.03); padding: 1.2rem;">
+      <div style="text-align:center;">
+        <div style="font-size:1rem; color:var(--rose); font-weight:800; margin-bottom:.3rem; font-family:var(--mono); letter-spacing:.1em;">2. SECURITY &amp; CONTROL LAYER</div>
+        <div style="font-size:1.4rem; font-weight:900;">&#9881; Gateway (權限管控)</div>
+        <div style="color:var(--dim); font-size:1rem; margin-top:.3rem;">Tool ACL &bull; Per-Agent 工具白名單 &bull; 指令審核 &bull; 嚴格隔離各職種資源</div>
       </div>
     </div>
-    <div class="panel panel-c a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--cyan);font-size:1.15rem">&#127912; 美術 Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">職責</div><div class="vv">美術設計與音樂音效</div>
-        <div class="kk">產出</div><div class="vv accent-c">美術結果、音樂腳本</div>
-        <div class="kk">檢核</div><div class="vv accent-a">風格一致性、品質</div>
+
+    <div class="a" style="text-align:center; color:var(--stroke); font-size:1.5rem; margin:-0.6rem 0;">&#8595;</div>
+
+    <!-- 層級 3: 執行層 -->
+    <div class="panel a" style="border-width: 2px; border-color: rgba(34,211,238,.4); background: rgba(34,211,238,.03); padding: 1.2rem;">
+      <div style="text-align:center;">
+        <div style="font-size:1rem; color:var(--cyan); font-weight:800; margin-bottom:.6rem; font-family:var(--mono); letter-spacing:.1em;">3. EXECUTION LAYER</div>
+        <div style="display:flex; justify-content:center; gap:.5rem; flex-wrap:wrap;">
+          <span class="pill pill-l">&#128203; 企劃 Agent</span>
+          <span class="pill pill-c">&#127912; 美術 Agent</span>
+          <span class="pill pill-p">&#128187; Client Agent</span>
+          <span class="pill pill-b">&#128421; Server Agent</span>
+          <span class="pill pill-r">&#128270; 品檢 Agent</span>
+          <span class="pill pill-o">&#127922; 機率 Agent</span>
+          <span class="pill pill-a">&#128202; 數據 Agent</span>
+        </div>
+        <div style="color:var(--dim); font-size:1rem; margin-top:.8rem;">7 大專屬職種 Agent 平行協作，透過人工檢核點 (Human Checkpoint) 保證產出品質</div>
       </div>
     </div>
-    <div class="panel panel-p a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--purple);font-size:1.15rem">&#128187; Client Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">職責</div><div class="vv">前端串接、Demo確認</div>
-        <div class="kk">產出</div><div class="vv accent-p">技術文件、測試單</div>
-        <div class="kk">檢核</div><div class="vv accent-a">版本調整、規範確認</div>
-      </div>
-    </div>
-    <div class="panel panel-b a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--blue);font-size:1.15rem">&#128421; Server Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">職責</div><div class="vv">架構設計、後端串接</div>
-        <div class="kk">產出</div><div class="vv accent-b">架構圖、送測完成</div>
-        <div class="kk">檢核</div><div class="vv accent-a">系統效能、技術評估</div>
-      </div>
-    </div>
-    <div class="panel panel-r a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--rose);font-size:1.15rem">&#128270; 品檢 Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">職責</div><div class="vv">送測檢驗、Alpha/Beta</div>
-        <div class="kk">產出</div><div class="vv accent-r">測試說明書、報告</div>
-        <div class="kk">檢核</div><div class="vv accent-a">規格確認、Mantis</div>
-      </div>
-    </div>
-    <div class="panel panel-o a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--orange);font-size:1.15rem">&#127922; 機率 Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">職責</div><div class="vv">數值檢核、機率快測</div>
-        <div class="kk">產出</div><div class="vv accent-o">數值文件、快測報告</div>
-        <div class="kk">檢核</div><div class="vv accent-a">數值驗證、準確性</div>
-      </div>
-    </div>
-    <div class="panel panel-a a" style="padding:1.2rem">
-      <div class="panel-title" style="color:var(--amber);font-size:1.15rem">&#128202; 數據 Agent</div>
-      <div class="kvt" style="font-size:.95rem;margin-top:.3rem">
-        <div class="kk">職責</div><div class="vv">需求評估、埋點驗證</div>
-        <div class="kk">產出</div><div class="vv accent-a">需求文件、串接結果</div>
-        <div class="kk">檢核</div><div class="vv accent-a">埋點正確性、核對</div>
-      </div>
-    </div>
+
   </div>
-
 </div>
 </section>
 
@@ -503,7 +486,7 @@ h2 {
 <div class="inner" style="gap:1rem">
 
   <div><span class="a eyebrow" style="color:var(--orange)">Tiger Pipeline</span><h2 class="a">&#127920; 虎機全流程開發</h2>
-  <p class="a lead">一個指令啟動 Master Agent，自動調度 7 個職種 Agent，每步都有人工檢核</p></div>
+  <p class="a lead">一個指令啟動 PM Agent，自動調度 7 個職種 Agent，每步都有人工檢核</p></div>
 
   <div class="a pipe">
     <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--lime);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06)">&#128203; 企劃<br>Agent</div><div class="pstep-desc">草案撰寫</div></div>
@@ -702,7 +685,7 @@ h2 {
     <div class="arrow">&rarr;</div>
     <div class="node a" style="border-color:rgba(176,122,255,.3);color:var(--purple)">&#9315; 整合成<br>各職種 Agent</div>
     <div class="arrow">&rarr;</div>
-    <div class="node a" style="border-color:rgba(251,146,60,.3);color:var(--orange)">&#9316; 掛載至<br>Master Agent</div>
+    <div class="node a" style="border-color:rgba(251,146,60,.3);color:var(--orange)">&#9316; 掛載至<br>PM Agent</div>
   </div>
 
   <div class="a g2">
@@ -720,7 +703,7 @@ h2 {
         &bull; Agent主要架構師 1-on-1 帶教：先 Demo 完整流程，再讓種子實作<br>
         &bull; 每位種子在自己的<strong>真實工作</strong>中建置 Skill<br>
         &bull; 同步教導<strong>人工檢核點</strong>怎麼設計<br>
-        &bull; 最終整合進 Agent，掛載至 Master Agent
+        &bull; 最終整合進 Agent，掛載至 PM Agent
       </div>
     </div>
   </div>
@@ -744,7 +727,7 @@ h2 {
     <div class="panel panel-a a" style="border-width:2px">
       <div style="display:grid;grid-template-columns:13rem 1fr;gap:.5rem;align-items:start;font-size:1.1rem">
         <div style="font-weight:700;color:var(--amber)">&#9670; AI技術應用深度與廣度</div>
-        <div class="panel-body"><strong>2 Master &times; 7 職種 Agent = 全生命週期覆蓋</strong><br>跨製程深耕：虎機與魚機各一套完整 Agent 管線，串聯企劃到 QA 完整工作流</div>
+        <div class="panel-body"><strong>2 PM &times; 7 職種 Agent = 全生命週期覆蓋</strong><br>跨製程深耕：虎機與魚機各一套完整 Agent 管線，串聯企劃到 QA 完整工作流</div>
       </div>
     </div>
     <div class="panel panel-c a" style="border-width:2px">
@@ -849,7 +832,7 @@ h2 {
   <div class="a pipe" style="gap:.5rem;flex-wrap:wrap;justify-content:center">
     <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
       <div style="font-size:1.3rem">&#127920; &#127907;</div>
-      <div style="font-weight:800;font-size:1rem;color:var(--orange)">2 Master Agent</div>
+      <div style="font-weight:800;font-size:1rem;color:var(--orange)">2 PM Agent</div>
       <div style="font-size:.9rem;color:var(--dim)">虎機 + 魚機</div>
     </div>
     <div class="panel a" style="text-align:center;padding:1rem 1.2rem;min-width:8.5rem">
