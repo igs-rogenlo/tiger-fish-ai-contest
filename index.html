@@ -389,41 +389,56 @@ h2 {
 <section class="slide" data-slide="2">
 <div class="inner" style="gap:1rem">
 
-  <div><span class="a eyebrow" style="color:var(--orange)">Pipeline</span><h2 class="a">&#127920; 虎機全生命週期</h2></div>
+  <div><span class="a eyebrow" style="color:var(--orange)">Redmine Pipeline</span><h2 class="a">&#127920; 虎機製程 &mdash; 對應 Redmine 實際流程</h2></div>
 
+  <!-- Phase 1: 草案審查 -->
   <div class="a pipe">
-    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--lime);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06)">&#127916; 編導<br>Agent</div><div class="pstep-desc">草案玩法</div></div>
+    <div class="pstep a"><div class="pstep-box" style="color:var(--amber);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08);font-weight:700;font-size:.9rem;border-radius:8px;padding:.4rem .6rem;width:100%;text-align:center">1<br>草案審查</div><div class="pstep-desc" style="font-size:.8rem">規格書 &bull; 競品分析</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">規格定版</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--lime);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06)">&#127916; 編導<br>Agent</div><div class="pstep-desc" style="font-size:.8rem">規格書 &bull; 競品</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--cyan);border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.06)">&#127912; 美術<br>Agent</div><div class="pstep-desc">美術設計</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc" style="font-size:.8rem">草案審查</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--rose);border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.06)">&#127925; 音效<br>Agent</div><div class="pstep-desc">音樂音效</div></div>
+    <!-- Phase 2: 技術評估 -->
+    <div class="pstep a"><div class="pstep-box" style="color:var(--amber);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08);font-weight:700;font-size:.9rem;border-radius:8px;padding:.4rem .6rem;width:100%;text-align:center">2<br>技術評估</div><div class="pstep-desc" style="font-size:.8rem">技術評估文件</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">素材確認</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--purple);border-color:rgba(176,122,255,.3);background:rgba(176,122,255,.06)">&#128187; Client<br>Agent</div><div class="pstep-desc" style="font-size:.8rem">技術文件</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06)">&#128421; Server<br>Agent</div><div class="pstep-desc" style="font-size:.8rem">技術文件</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--purple);border-color:rgba(176,122,255,.3);background:rgba(176,122,255,.06)">&#128187; Client<br>Agent</div><div class="pstep-desc">前端實作</div></div>
-    <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06)">&#128421; Server<br>Agent</div><div class="pstep-desc">後端串接</div></div>
-    <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">架構審核</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc" style="font-size:.8rem">技術審核</div></div>
   </div>
+
+  <!-- Phase 3: 原型製作 -->
   <div class="a pipe">
-    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--orange);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.06)">&#127922; 機率<br>Agent</div><div class="pstep-desc">數值快測</div></div>
+    <div class="pstep a"><div class="pstep-box" style="color:var(--amber);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08);font-weight:700;font-size:.9rem;border-radius:8px;padding:.4rem .6rem;width:100%;text-align:center">3<br>原型製作</div><div class="pstep-desc" style="font-size:.8rem">多 Agent 平行</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--rose);border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.06)">&#128270; 品檢<br>Agent</div><div class="pstep-desc">測試檢驗</div></div>
+    <div style="display:flex;flex-direction:column;gap:.3rem">
+      <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--cyan);border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.06);font-size:.85rem">&#127912; 美術 &bull; 文案檢核</div></div>
+      <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--rose);border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.06);font-size:.85rem">&#127925; 音效製作</div></div>
+      <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--orange);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.06);font-size:.85rem">&#127922; 機率數值文件</div></div>
+      <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--purple);border-color:rgba(176,122,255,.3);background:rgba(176,122,255,.06);font-size:.85rem">&#128187; 流程圖 &bull; 單元測試</div></div>
+      <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06);font-size:.85rem">&#128421; 架構圖 &bull; 自檢單</div></div>
+    </div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">版本Demo</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc" style="font-size:.8rem">素材 &bull; 版本</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>上線</div><div class="pstep-desc">產品出港</div></div>
+    <!-- Phase 4: 原型展示 -->
+    <div class="pstep a"><div class="pstep-box" style="color:var(--amber);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08);font-weight:700;font-size:.9rem;border-radius:8px;padding:.4rem .6rem;width:100%;text-align:center">4<br>原型展示</div><div class="pstep-desc" style="font-size:.8rem">Demo &bull; 回饋調整</div></div>
     <div class="arrow">&rarr;</div>
-    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc">優化決策</div></div>
+    <div class="pstep a"><div class="pstep-box pstep-hc">&#128064; 人工<br>檢核</div><div class="pstep-desc" style="font-size:.8rem">Demo 回饋</div></div>
+    <div class="arrow">&rarr;</div>
+    <!-- Phase 5: 品檢測試 -->
+    <div class="pstep a"><div class="pstep-box" style="color:var(--amber);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08);font-weight:700;font-size:.9rem;border-radius:8px;padding:.4rem .6rem;width:100%;text-align:center">5<br>品檢測試</div><div class="pstep-desc" style="font-size:.8rem">測項 &bull; 壓測 &bull; 備份</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ai" style="color:var(--rose);border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.06)">&#128270; 品檢<br>Agent</div><div class="pstep-desc" style="font-size:.8rem">測試 &bull; 數據驗證<br>機率快測 &bull; 壓測</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="pstep a"><div class="pstep-box pstep-ok">&#9989;<br>交付</div><div class="pstep-desc" style="font-size:.8rem">上線</div></div>
   </div>
 
   <div class="a" style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
-    <span class="pill pill-c">&#129302; AI Agent 自動處理</span>
-    <span class="pill pill-a">&#128064; 人工檢核把關</span>
-    <span style="font-size:1rem;color:var(--dim)">從<strong class="accent-l">草案</strong>到<strong class="accent-a">上線後反饋</strong>的全生命週期覆蓋</span>
+    <span class="pill pill-c">&#129302; AI Agent</span>
+    <span class="pill pill-a">&#128064; 人工檢核</span>
+    <span class="pill" style="background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.3);color:var(--amber)">1-5 對應 Redmine 製程</span>
   </div>
 
 </div>
